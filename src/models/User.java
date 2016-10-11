@@ -1,6 +1,8 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,7 +23,8 @@ public class User {
     protected String img;
     protected Date creationDate;
     protected String phoneNumber;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.EXCEPTION)
     private Address address;
 
     public int getId() {

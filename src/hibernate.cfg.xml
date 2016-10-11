@@ -15,5 +15,6 @@
         <mapping class="models.Rencontre"/>
         <mapping class="models.Stade"/>
         <mapping class="models.Comment"/>
+        <mapping class="models.StadeImage"/>
     </session-factory>
 </hibernate-configuration>

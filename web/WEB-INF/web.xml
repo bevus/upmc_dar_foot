@@ -5,10 +5,6 @@
          version="3.1">
 
     <servlet>
-        <servlet-name>Test</servlet-name>
-        <servlet-class>servlets.Test</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>SingUp</servlet-name>
         <servlet-class>servlets.SingUp</servlet-class>
     </servlet>
@@ -21,10 +17,6 @@
         <servlet-class>servlets.Logout</servlet-class>
     </servlet>
 
-    <servlet-mapping>
-        <servlet-name>Test</servlet-name>
-        <url-pattern>/test</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SingUp</servlet-name>
         <url-pattern>/singup</url-pattern>

@@ -1,5 +1,8 @@
 package models;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -13,16 +16,15 @@ public class Rencontre {
     private int id;
     private int nbJoueurs;
     private Date dateDebut;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.EXCEPTION)
     private Stade stade;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.EXCEPTION)
     private User organizer;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.EXCEPTION)
     private List<User> players;
-    @OneToMany(
-            mappedBy = "rencontre"
-    )
-    private List<Comment> comments;
 
     public int getId() {
         return id;
@@ -78,12 +80,4 @@ public class Rencontre {
         return this;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public Rencontre setComments(List<Comment> comments) {
-        this.comments = comments;
-        return this;
-    }
 }

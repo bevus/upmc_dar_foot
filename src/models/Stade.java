@@ -1,6 +1,10 @@
 package models;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by khelifa on 08/10/2016.
@@ -14,6 +18,13 @@ public class Stade {
     private int codePostal;
     private double latitude;
     private double longitude;
+    private int note;
+    @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private List<Comment> comments;
+    @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
+    private List<StadeImage> images;
 
     public int getId() {
         return id;
@@ -61,5 +72,29 @@ public class Stade {
 
     public void setCodePostal(int codePostal) {
         this.codePostal = codePostal;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public int getNote() {
+        return note;
+    }
+
+    public void setNote(int note) {
+        this.note = note;
+    }
+
+    public List<StadeImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<StadeImage> images) {
+        this.images = images;
     }
 }

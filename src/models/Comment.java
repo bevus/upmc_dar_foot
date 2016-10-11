@@ -1,5 +1,8 @@
 package models;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,19 +15,12 @@ public class Comment {
     protected int id;
     protected Date dateComment;
     protected String textComment;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.EXCEPTION)
     protected User author;
-    @ManyToOne
-    protected Rencontre rencontre;
-
-    public Rencontre getRencontre() {
-        return rencontre;
-    }
-
-    public Comment setRencontre(Rencontre rencontre) {
-        this.rencontre = rencontre;
-        return this;
-    }
+    @NotFound(action = NotFoundAction.EXCEPTION)
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Stade stade;
 
     public int getId() {
         return id;
@@ -60,5 +56,13 @@ public class Comment {
     public Comment setAuthor(User author) {
         this.author = author;
         return this;
+    }
+
+    public Stade getStade() {
+        return stade;
+    }
+
+    public void setStade(Stade stade) {
+        this.stade = stade;
     }
 }
