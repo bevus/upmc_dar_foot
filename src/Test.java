@@ -12,27 +12,45 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 
 /**
  * Created by Hacene on 08/10/2016.
  */
 public class Test {
+    public static final String API_KEY = "d651f5d56cfe0880876e540f4a805bdc";
+    public static final int NB_DAYS = 16;
+
     public static void main(String[] args) throws Exception {
-        ArrayNode villes = getVilles("93");
-        for (JsonNode ville : villes){
-            System.out.println(ville.toString());
+        String lon = "2.287592000000018";
+        String lat = "48.862725";
+        System.out.println(getWeatherData(lat, lon, NB_DAYS, API_KEY));
+    }
+
+    public static String getWeatherData(String lat, String lon, int nbDays,String apiKey) throws Exception{
+        String url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" +
+                lat + "&lon=" + lon + "&cnt=" + nbDays + "&mode=json&units=metric&lang=fr&appid="+apiKey;
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = getNode(url, mapper);
+        JsonNode days = root.get("list");
+        ObjectNode response = mapper.createObjectNode();
+        ArrayNode daysResponse = response.putArray("days");
+        for (JsonNode node : days){
+            ObjectNode day = daysResponse.addObject();
+            day.put("dayT", node.get("temp").get("day").asText());
+            day.put("nightT", node.get("temp").get("night").asText());
+            day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
+            day.put("humidity", node.get("humidity").asText());
+            day.put("description", node.get("weather").get(0).get("description").asText());
         }
+        return response.toString();
     }
 
     public static ArrayNode getVilles(String query) throws Exception{
         // retourn un array de {codePostal, nom}
-        URL url = new URL("https://data.iledefrance.fr/api/records/1.0/search/?dataset=les-communes-dile-de-france-au-01-janvier-2016-geofla-ign&q="+query+"&rows=100&pretty_print=true");
-        URLConnection connection= url.openConnection();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String urlString = "https://data.iledefrance.fr/api/records/1.0/search/?dataset=les-communes-dile-de-france-au-01-janvier-20" + NB_DAYS + "-geofla-ign&q=" +query+"&rows=100&pretty_print=true";
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonResponse = mapper.createObjectNode();
-        JsonNode records = mapper.readTree(bufferedReader).get("records");
+        JsonNode records = getNode(urlString, mapper).get("records");
         ArrayNode elements = jsonResponse.putArray("elements");
 
         for (JsonNode node : records){
@@ -43,6 +61,12 @@ public class Test {
             elements.add(element);
         }
         return elements;
+    }
+    public static JsonNode getNode(String query, ObjectMapper mapper) throws Exception{
+        URL url = new URL(query);
+        URLConnection connection = url.openConnection();
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        return mapper.readTree(bufferedReader);
     }
     public static void populate(Session session, Date date){
         // addresses
