@@ -16,7 +16,7 @@ public class User {
     protected int id;
     protected String firstName;
     protected String lastName;
-    @Column(unique = true, nullable = false)
+    @Column(unique = false, nullable = false)
     protected String email;
     @JsonIgnore
     protected String password;

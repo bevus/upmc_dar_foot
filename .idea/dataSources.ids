@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - darfoot@localhost" uuid="47ebc041-79e4-4f3c-94d8-8377555047a4">
+    <database-info product="MySQL" version="5.7.10-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.5">
+      <schema id="1" name="darfoot"/>
+      <table id="2" parent="1" name="address"/>
+      <table id="3" parent="1" name="comment"/>
+      <table id="4" parent="1" name="hibernate_sequence"/>
+      <table id="5" parent="1" name="rencontre"/>
+      <table id="6" parent="1" name="rencontre_user"/>
+      <table id="7" parent="1" name="stade"/>
+      <table id="8" parent="1" name="stadeimage"/>
+      <table id="9" parent="1" name="user"/>
+      <column id="10" parent="2" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="11" parent="2" name="city">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="12" parent="2" name="number">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="13" parent="2" name="posteCode">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="14" parent="2" name="street">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <key id="15" parent="2" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="16" parent="3" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="17" parent="3" name="dateComment">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="18" parent="3" name="textComment">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="19" parent="3" name="author_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="20" parent="3" name="stade_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="21" parent="3" name="FK712uxdpmvm979vdsga92726h4">
+        <columns>stade_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="22" parent="3" name="FKmve6jmvinowvmroe9om9bake1">
+        <columns>author_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="23" parent="3" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="24" parent="3" name="FK712uxdpmvm979vdsga92726h4">
+        <columns>stade_id</columns>
+        <ref-key>~.stade.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="25" parent="3" name="FKmve6jmvinowvmroe9om9bake1">
+        <columns>author_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="26" parent="4" name="next_val">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="27" parent="5" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="28" parent="5" name="dateDebut">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="29" parent="5" name="nbJoueurs">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="30" parent="5" name="organizer_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="31" parent="5" name="stade_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="32" parent="5" name="FKe7phvsdrqiy177jyrw02n28jk">
+        <columns>organizer_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="33" parent="5" name="FKpcojr45yw0mvcwx6fxwnfn0xn">
+        <columns>stade_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="34" parent="5" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="35" parent="5" name="FKe7phvsdrqiy177jyrw02n28jk">
+        <columns>organizer_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="36" parent="5" name="FKpcojr45yw0mvcwx6fxwnfn0xn">
+        <columns>stade_id</columns>
+        <ref-key>~.stade.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="37" parent="6" name="Rencontre_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="38" parent="6" name="players_id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="39" parent="6" name="FKbgq82jytfuohen91ee2pick4x">
+        <columns>players_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="40" parent="6" name="FKklgom0wvwmfn9sfegx30gnh2g">
+        <columns>Rencontre_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <foreign-key id="41" parent="6" name="FKbgq82jytfuohen91ee2pick4x">
+        <columns>players_id</columns>
+        <ref-key>~.user.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="42" parent="6" name="FKklgom0wvwmfn9sfegx30gnh2g">
+        <columns>Rencontre_id</columns>
+        <ref-key>~.rencontre.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="43" parent="7" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="44" parent="7" name="codePostal">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="45" parent="7" name="commune">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="46" parent="7" name="latitude">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="47" parent="7" name="longitude">
+        <mandatory>1</mandatory>
+        <data-type>double</data-type>
+      </column>
+      <column id="48" parent="7" name="nom">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="49" parent="7" name="note">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="50" parent="7" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="51" parent="8" name="url">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="52" parent="8" name="stade_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="53" parent="8" name="FKg54amoc90vgmmng8dpkq3o57t">
+        <columns>stade_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <key id="54" parent="8" name="PRIMARY">
+        <columns>url</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="55" parent="8" name="FKg54amoc90vgmmng8dpkq3o57t">
+        <columns>stade_id</columns>
+        <ref-key>~.stade.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="56" parent="9" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="57" parent="9" name="creationDate">
+        <data-type>datetime</data-type>
+      </column>
+      <column id="58" parent="9" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="59" parent="9" name="firstName">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="60" parent="9" name="img">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="61" parent="9" name="lastName">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="62" parent="9" name="password">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="63" parent="9" name="phoneNumber">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="64" parent="9" name="address_id">
+        <data-type>int(11)</data-type>
+      </column>
+      <index id="65" parent="9" name="FKlq0qkm58rh351bb84y4o5c447">
+        <columns>address_id</columns>
+        <desc-columns></desc-columns>
+      </index>
+      <index id="66" parent="9" name="UK_e6gkqunxajvyxl5uctpl2vl2p">
+        <columns>email</columns>
+        <desc-columns></desc-columns>
+        <unique>1</unique>
+      </index>
+      <key id="67" parent="9" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <key id="68" parent="9" name="UK_e6gkqunxajvyxl5uctpl2vl2p">
+        <columns>email</columns>
+        <underlying-index>UK_e6gkqunxajvyxl5uctpl2vl2p</underlying-index>
+      </key>
+      <foreign-key id="69" parent="9" name="FKlq0qkm58rh351bb84y4o5c447">
+        <columns>address_id</columns>
+        <ref-key>~.address.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+    </database-model>
+  </data-source>
+  <data-source name="MySQL - test@localhost [2]" uuid="a42e7f91-78c9-4cad-a72c-89d145172710">
+    <database-info product="MySQL" version="5.7.10-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.5">
+      <schema id="1" name="test"/>
+      <table id="2" parent="1" name="hibernate_sequence"/>
+      <table id="3" parent="1" name="user"/>
+      <column id="4" parent="2" name="next_val">
+        <data-type>bigint(20)</data-type>
+      </column>
+      <column id="5" parent="3" name="userId">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="6" parent="3" name="adresse">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="7" parent="3" name="email">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="8" parent="3" name="firstName">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="9" parent="3" name="lastName">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="10" parent="3" name="password">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="11" parent="3" name="img">
+        <data-type>varchar(255)</data-type>
+      </column>
+      <key id="12" parent="3" name="PRIMARY">
+        <columns>userId</columns>
+        <primary>1</primary>
+      </key>
+    </database-model>
+  </data-source>
+</component>

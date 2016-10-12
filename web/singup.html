@@ -4,137 +4,154 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="Ressources/css/bootstrap.min.css">
     <title>Singup</title>
+    <style>
+
+    </style>
 </head>
-<body>
-
-<hr>
-<form class="form-horizontal" id="login_form">
-    <fieldset>
-        <!-- Form Name -->
-        <legend>Connexion</legend>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="login_email">adresse mail</label>
-            <div class="col-md-5">
-                <input id="login_email" name="login_email" type="email" placeholder="placeholder" class="form-control input-md" required="">
-                <span class="help-block alert-danger"></span>
+<body style="padding-bottom: 60px;">
+<!--login modal-->
+<div id="loginModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Se Connecter</h4>
             </div>
+            <form class="form-horizontal" id="login_form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="login_email">adresse mail</label>
+                        <div class="col-md-5">
+                            <input id="login_email" name="login_email" type="email" placeholder="placeholder" class="form-control input-md" required="">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="login_password">mot de passe</label>
+                        <div class="col-md-5">
+                            <input id="login_password" name="login_password" type="password" placeholder="placeholder" class="form-control input-md" required="">
+                            <span id="login_error" class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">fermer</button>
+                    <button id="login_submit" name="submitSingup" class="btn btn-primary">Connexion</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+<!--end login modal-->
+<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+    <div class="container">
+        <a href="" class="navbar-brand">Foot</a>
+        <a href="" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn pull-right">Se Connecter</a>
+    </div>
+</nav>
+<div class="container">
+    <div class="row ">
+        <div class="col-md-6">
 
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="login_password">mot de passe</label>
-            <div class="col-md-5">
-                <input id="login_password" name="login_password" type="password" placeholder="placeholder" class="form-control input-md" required="">
-                <span id="login_error" class="help-block alert-danger"></span>
-            </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="submitSingup"></label>
-            <div class="col-md-4">
-                <button id="login_submit" name="submitSingup" class="btn btn-primary">Connexion</button>
-            </div>
+        <div class="col-md-6">
+            <form id="singUp" class="form-horizontal" method="post" action="/singup">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend>Inscription</legend>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="firstName">Nom</label>
+                        <div class="col-md-9">
+                            <input id="firstName" name="firstName" type="text" placeholder="votre nom" class="form-control input-md" required="">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="lastName">Prénom</label>
+                        <div class="col-md-9">
+                            <input id="lastName" name="lastName" type="text" placeholder="votre prénom" class="form-control input-md" required="">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="email">E-mail</label>
+                        <div class="col-md-9">
+                            <input id="email" name="email" type="email" placeholder="votre adresse mail" class="form-control input-md" required="">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="password">Mot de passe</label>
+                        <div class="col-md-9">
+                            <input id="password" name="password" type="password" placeholder="mot de passe" class="form-control input-md" required="">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="confirmPassword">Confirmation</label>
+                        <div class="col-md-9">
+                            <input id="confirmPassword" name="confirmPassword" type="password" placeholder="confirmez votre mot de passe" class="form-control input-md" required="">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="submitSingup"></label>
+                        <div class="col-md-9">
+                            <button id="submitSingup" name="submitSingup" class="btn btn-primary">S'inscrir</button>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
         </div>
-    </fieldset>
-</form>
-<hr>
-<form id="singUp" class="form-horizontal" method="post" action="/singup">
+    </div>
 
-    <fieldset>
+    <script src="Ressources/js/jquery-3.1.1.js"></script>
+    <script src="Ressources/js/bootstrap.min.js"></script>
+    <script>
+        $(function(){
+            // singup up on submit
+            $('#singUp').submit(function(e){
+                e.preventDefault();
+                $('#submitSingup').addClass("disabled");
+                $.post('/singup', $(this).serialize(), function(response){
+                    if(response.ok){
+                        alert("redirection");
+                    }else{
+                        $('#submitSingup').removeClass("disabled");
+                        $.each(response.errors, function(i, v){
+                            $('#'+i).next().text(v);
+                        });
+                    }
+                }, 'json');
+            });
 
-        <!-- Form Name -->
-        <legend>Inscription</legend>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="firstName">Nom</label>
-            <div class="col-md-4">
-                <input id="firstName" name="firstName" type="text" placeholder="votre nom" class="form-control input-md" required="">
-                <span class="help-block alert-danger"></span>
-            </div>
-        </div>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="lastName">Prénom</label>
-            <div class="col-md-4">
-                <input id="lastName" name="lastName" type="text" placeholder="votre prénom" class="form-control input-md" required="">
-                <span class="help-block alert-danger"></span>
-            </div>
-        </div>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="email">E-mail</label>
-            <div class="col-md-4">
-                <input id="email" name="email" type="email" placeholder="votre adresse mail" class="form-control input-md" required="">
-                <span class="help-block alert-danger"></span>
-            </div>
-        </div>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="password">Mot de passe</label>
-            <div class="col-md-4">
-                <input id="password" name="password" type="password" placeholder="mot de passe" class="form-control input-md" required="">
-                <span class="help-block alert-danger"></span>
-            </div>
-        </div>
-
-        <!-- Text input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="confirmPassword">Confirmation</label>
-            <div class="col-md-4">
-                <input id="confirmPassword" name="confirmPassword" type="password" placeholder="confirmez votre mot de passe" class="form-control input-md" required="">
-                <span class="help-block alert-danger"></span>
-            </div>
-        </div>
-        <!-- Button -->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="submitSingup"></label>
-            <div class="col-md-4">
-                <button id="submitSingup" name="submitSingup" class="btn btn-primary">S'inscrir</button>
-            </div>
-        </div>
-
-    </fieldset>
-</form>
-
-<script src="Ressources/js/jquery-3.1.1.js"></script>
-<script src="Ressources/js/bootstrap.min.js"></script>
-<script>
-    $(function(){
-        // singup up on submit
-        $('#singUp').submit(function(e){
-            e.preventDefault();
-            $('#submitSingup').addClass("disabled");
-            $.post('/singup', $(this).serialize(), function(response){
-                if(response.ok){
-                    alert("redirection");
-                }else{
-                    $('#submitSingup').removeClass("disabled");
-                    $.each(response.errors, function(i, v){
-                        $('#'+i).next().text(v);
-                    });
-                }
-            }, 'json');
+            // login on submit
+            $('#login_form').submit(function(e){
+                e.preventDefault();
+                $('#login_submit').addClass('disabled');
+                $.post('/login', $(this).serialize(), function (response) {
+                    if(response.ok){
+                        alert("connexion ok");
+                    }else{
+                        $('#login_submit').removeClass('disabled');
+                        $('#login_error').text("email ou mote de passe incorect");
+                    }
+                } , 'json');
+            });
         });
-
-        // login on submit
-        $('#login_form').submit(function(e){
-            e.preventDefault();
-            $('#login_submit').addClass('disabled');
-            $.post('/login', $(this).serialize(), function (response) {
-                if(response.ok){
-                    alert("connexion ok");
-                }else{
-                    $('#login_submit').removeClass('disabled');
-                    $('#login_error').text("email ou mote de passe incorect");
-                }
-            } , 'json');
-        });
-    });
-</script>
+    </script>
+</div>
 </body>
 </html>

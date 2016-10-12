@@ -9,6 +9,11 @@
         <servlet-class>servlets.SingUp</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>ListeRencontre</servlet-name>
+        <servlet-class>servlets.ListeRencontre</servlet-class>
+    </servlet>
+
+    <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>servlets.Login</servlet-class>
     </servlet>
@@ -28,6 +33,10 @@
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListeRencontre</servlet-name>
+        <url-pattern>/list</url-pattern>
     </servlet-mapping>
 
     <listener>

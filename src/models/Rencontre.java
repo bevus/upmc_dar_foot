@@ -14,6 +14,7 @@ import java.util.List;
 public class Rencontre {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String description;
     private int nbJoueurs;
     private Date dateDebut;
     @ManyToOne(cascade = CascadeType.ALL)
@@ -25,6 +26,15 @@ public class Rencontre {
     @ManyToMany(cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.EXCEPTION)
     private List<User> players;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Rencontre setDescription(String description) {
+        this.description = description;
+        return this;
+    }
 
     public int getId() {
         return id;
