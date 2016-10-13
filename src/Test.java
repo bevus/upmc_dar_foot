@@ -3,6 +3,7 @@ import org.hibernate.Session;
 import utils.HelperFunctions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -10,15 +11,9 @@ import java.util.Date;
  */
 public class Test {
 
-    public static final int NB_DAYS = 16;
-
     public static void main(String[] args) throws Exception {
-        String lon = "2.287592000000018";
-        String lat = "48.862725";
-        String nbDays = "16";
-        System.out.println(HelperFunctions.getWeatherData(lat, lon, nbDays));
-    }
 
+    }
 
     public static void populate(Session session, Date date){
         // addresses

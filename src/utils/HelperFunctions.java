@@ -11,11 +11,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Hacene on 08/10/2016.
  */
 public class HelperFunctions {
+    public static final String[] daysOfWeek = {"DIM", "LUN","MAR", "MER", "JEU", "VEN", "SAM"};
     public static String getSHA1(String s)  {
         if(s == null)
             return "";
@@ -48,13 +51,19 @@ public class HelperFunctions {
         ObjectNode city = response.putObject("city");
         city.put("name", root.get("city").get("name").asText());
         ArrayNode daysResponse = response.putArray("days");
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+
         for (JsonNode node : days){
             ObjectNode day = daysResponse.addObject();
+            day.put("name", daysOfWeek[cal.get(Calendar.DAY_OF_WEEK) - 1]);
             day.put("dayT", node.get("temp").get("day").asText());
             day.put("nightT", node.get("temp").get("night").asText());
             day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
             day.put("humidity", node.get("humidity").asText());
             day.put("description", node.get("weather").get(0).get("description").asText());
+            cal.add(Calendar.DATE, 1);
         }
         return response;
     }

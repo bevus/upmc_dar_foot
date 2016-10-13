@@ -4,12 +4,24 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="Ressources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Ressources/css/style.css">
 </head>
 <body>
 <footer>
+    <nav class="navbar navbar-default navbar-static-top navbar-inverse">
+        <div class="container">
+            <a href="" class="navbar-brand">Foot</a>
+            <a href="" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn pull-right">Se Connecter</a>
+        </div>
+    </nav>
     <div class="container">
-        <h3>Prévisions météo sur 5 jours à <span id="cityName"></span></h3>
-        <div id="days" class="row">
+        <div class="row">
+            <div class="col-md-6 blackCard">
+                <h3>Prévisions météo sur 6 jours à <span id="cityName"></span></h3>
+                <hr>
+                <div id="days" class="row">
+                </div>
+            </div>
         </div>
     </div>
 </footer>
@@ -22,13 +34,14 @@
                 {
                     lat : 48.963476,
                     lon : 2.3473539999999957,
-                    nbDays : 16
+                    nbDays : 6
                 },
                 function(data){
                     if(!data.error){
                         $.each(data.days, function(i, day){
                             $("#days").append('' +
-                                    '<div class="col-md-1 text-center">' +
+                                    '<div class="col-md-2 text-center">' +
+                                        '<p>' + day.name + '</p>' +
                                         ' <img src="' + day.icon + '" alt="' + day.description + '"> ' +
                                         '<p><b>' + day.dayT + '°</b></p>' +
                                         '<p> ' + day.nightT + '°</p>' +

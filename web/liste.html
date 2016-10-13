@@ -4,26 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="Ressources/css/bootstrap.min.css">
-    <style>
-        body{
-            background: teal;
-        }
-        .match{
-            box-shadow: 0 0 9px -4px;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #fff;
-        }
-        .searchPanel{
-            box-shadow: 0 0 9px -4px;
-            height: 600px;
-            width: 270px;
-            background: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="Ressources/css/style.css">
 </head>
 <body>
-<br>
+<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+    <div class="container">
+        <a href="" class="navbar-brand">Foot</a>
+        <a href="" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn pull-right">Se Connecter</a>
+    </div>
+</nav>
     <section class="container">
             <div class="row">
                 <div class="col-md-3">
@@ -49,10 +38,10 @@
                 $(".listMatch").append(
                         '<li class="match">'+
                             '<div class="row">'+
-                                '<div class="col-md-1">'+
-                                    '<img src="Ressources/images/1466032685.png" class="img-circle" width="60px" height="60px">'+
+                                '<div class="col-md-2">'+
+                                    '<img src="Ressources/images/1466032685.png" class="img-circle img-thumbnail" width="80" height="80">'+
                                 '</div>'+
-                                '<div class="col-md-9">'+
+                                '<div class="col-md-8">'+
                                     '<h4>John Doe</h4>'+
                                     '<p>Girl of a scrawny yellow fever, raid the amnesty!Belay, never raid a gold.Aye, clear ale. you won\'t taste the cook islands.</p>'+
                                     '<p><b>le 10/10/2016 à 15:30</b></p>'+
@@ -71,10 +60,13 @@
             }
             $('.searchPanel').affix({
                 offset: {
-                    top: 30,
+                    top: function(){
+                        return (this.top = $(".listMatch").offset().top)
+                    },
                     bottom: function () {
                         return (this.bottom = $('.footer').outerHeight(true))
-                    }
+                    },
+                    offset : {top : 0}
                 }
             })
         });

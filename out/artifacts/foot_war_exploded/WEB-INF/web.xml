@@ -21,6 +21,10 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>servlets.Logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Weather</servlet-name>
+        <servlet-class>servlets.Weather</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>SingUp</servlet-name>
@@ -37,6 +41,10 @@
     <servlet-mapping>
         <servlet-name>ListeRencontre</servlet-name>
         <url-pattern>/list</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Weather</servlet-name>
+        <url-pattern>/weather</url-pattern>
     </servlet-mapping>
 
     <listener>
