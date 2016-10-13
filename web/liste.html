@@ -34,30 +34,41 @@
     <script src="Ressources/js/bootstrap.min.js"></script>
     <script>
         $(function(){
-            for(var i = 0; i < 20; i++){
-                $(".listMatch").append(
-                        '<li class="match">'+
-                            '<div class="row">'+
-                                '<div class="col-md-2">'+
-                                    '<img src="Ressources/images/1466032685.png" class="img-circle img-thumbnail" width="80" height="80">'+
-                                '</div>'+
-                                '<div class="col-md-8">'+
-                                    '<h4>John Doe</h4>'+
-                                    '<p>Girl of a scrawny yellow fever, raid the amnesty!Belay, never raid a gold.Aye, clear ale. you won\'t taste the cook islands.</p>'+
-                                    '<p><b>le 10/10/2016 à 15:30</b></p>'+
-                                '</div>'+
-                                    '<div class="col-md-2" style="text-align: right">'+
-                                    '<h3>8/10</h3>'+
-                                    '<b>à Villetaneuse</b>'+
-                                '</div>'+
-                            '</div>'+
-                            '<div class="row">'+
-                                '<div class="col-md-12">'+
-                                    '<a href="" class="btn btn-primary pull-right">détails</a>'+
-                                '</div>'+
-                            '</div>'+
-                        '</li>')
-            }
+            $.get(
+                    '/list',
+                    {
+
+                    },
+                    function(data){
+                        if(data.rencontres){
+                            $.each(data.rencontres, function(i, rencontre){
+                                $(".listMatch").append(
+                                        '<li class="match">'+
+                                            '<div class="row">'+
+                                                '<div class="col-md-2">'+
+                                                    '<img src="Ressources/images/' + rencontre.organisateur.img + '" class="img-circle img-thumbnail" width="80" height="80">'+
+                                                '</div>'+
+                                                '<div class="col-md-8">'+
+                                                    '<h4>' + rencontre.organisateur.prenom + ' ' + rencontre.organisateur.nom + '</h4>'+
+                                                    '<p>' + rencontre.description + '</p>' +
+                                                    '<p><b>' + rencontre.dateHeure + '</b></p>' +
+                                                '</div>'+
+                                                '<div class="col-md-2" style="text-align: right">'+
+                                                    '<h3 class="' + ((rencontre.nbJoueurCurr <= rencontre.nbJoueurTotal)? "text-success" : "text-danger") + '">' + rencontre.nbJoueurCurr + '/' + rencontre.nbJoueurTotal +'</h3>'+
+                                                    '<b>à ' + rencontre.ville + '</b>'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="row">'+
+                                                '<div class="col-md-12">'+
+                                                    '<a href="rencontre.html?id=' + rencontre.id + '" class="btn btn-primary pull-right">détails</a>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</li>')
+                            });
+                        }
+                    },
+                    'json'
+            );
             $('.searchPanel').affix({
                 offset: {
                     top: function(){

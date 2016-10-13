@@ -5,11 +5,5 @@
       <secret-storage>master_key</secret-storage>
       <user-name>root</user-name>
     </data-source>
-    <data-source name="MySQL - test@localhost [2]" uuid="a42e7f91-78c9-4cad-a72c-89d145172710">
-      <secret-storage>master_key</secret-storage>
-      <user-name>root</user-name>
-      <schema-pattern>test.*</schema-pattern>
-      <default-schemas>test.*</default-schemas>
-    </data-source>
   </component>
 </project>

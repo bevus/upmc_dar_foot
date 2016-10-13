@@ -4,26 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="Ressources/css/bootstrap.min.css">
-    <style>
-        body{
-            background: teal;
-        }
-        .match{
-            box-shadow: 0 0 9px -4px;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #fff;
-        }
-        .searchPanel{
-            box-shadow: 0 0 9px -4px;
-            height: 600px;
-            width: 270px;
-            background: #fff;
-        }
-    </style>
+    <link rel="stylesheet" href="Ressources/css/style.css">
 </head>
 <body>
-<br>
+<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+    <div class="container">
+        <a href="" class="navbar-brand">Foot</a>
+        <a href="" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn pull-right">Se Connecter</a>
+    </div>
+</nav>
     <section class="container">
             <div class="row">
                 <div class="col-md-3">
@@ -45,36 +34,50 @@
     <script src="Ressources/js/bootstrap.min.js"></script>
     <script>
         $(function(){
-            for(var i = 0; i < 20; i++){
-                $(".listMatch").append(
-                        '<li class="match">'+
-                            '<div class="row">'+
-                                '<div class="col-md-1">'+
-                                    '<img src="Ressources/images/1466032685.png" class="img-circle" width="60px" height="60px">'+
-                                '</div>'+
-                                '<div class="col-md-9">'+
-                                    '<h4>John Doe</h4>'+
-                                    '<p>Girl of a scrawny yellow fever, raid the amnesty!Belay, never raid a gold.Aye, clear ale. you won\'t taste the cook islands.</p>'+
-                                    '<p><b>le 10/10/2016 à 15:30</b></p>'+
-                                '</div>'+
-                                    '<div class="col-md-2" style="text-align: right">'+
-                                    '<h3>8/10</h3>'+
-                                    '<b>à Villetaneuse</b>'+
-                                '</div>'+
-                            '</div>'+
-                            '<div class="row">'+
-                                '<div class="col-md-12">'+
-                                    '<a href="" class="btn btn-primary pull-right">détails</a>'+
-                                '</div>'+
-                            '</div>'+
-                        '</li>')
-            }
+            $.get(
+                    '/list',
+                    {
+
+                    },
+                    function(data){
+                        if(data.rencontres){
+                            $.each(data.rencontres, function(i, rencontre){
+                                $(".listMatch").append(
+                                        '<li class="match">'+
+                                            '<div class="row">'+
+                                                '<div class="col-md-2">'+
+                                                    '<img src="Ressources/images/' + rencontre.organisateur.img + '" class="img-circle img-thumbnail" width="80" height="80">'+
+                                                '</div>'+
+                                                '<div class="col-md-8">'+
+                                                    '<h4>' + rencontre.organisateur.prenom + ' ' + rencontre.organisateur.nom + '</h4>'+
+                                                    '<p>' + rencontre.description + '</p>' +
+                                                    '<p><b>' + rencontre.dateHeure + '</b></p>' +
+                                                '</div>'+
+                                                '<div class="col-md-2" style="text-align: right">'+
+                                                    '<h3 class="' + ((rencontre.nbJoueurCurr <= rencontre.nbJoueurTotal)? "text-success" : "text-danger") + '">' + rencontre.nbJoueurCurr + '/' + rencontre.nbJoueurTotal +'</h3>'+
+                                                    '<b>à ' + rencontre.ville + '</b>'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="row">'+
+                                                '<div class="col-md-12">'+
+                                                    '<a href="rencontre.html?id=' + rencontre.id + '" class="btn btn-primary pull-right">détails</a>'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</li>')
+                            });
+                        }
+                    },
+                    'json'
+            );
             $('.searchPanel').affix({
                 offset: {
-                    top: 30,
+                    top: function(){
+                        return (this.top = $(".listMatch").offset().top)
+                    },
                     bottom: function () {
                         return (this.bottom = $('.footer').outerHeight(true))
-                    }
+                    },
+                    offset : {top : 0}
                 }
             })
         });

@@ -8,6 +8,7 @@ legend{
 .blackCard{
     background: rgba(0, 0, 0, 0.6);
     padding: 10px 20px;
+    margin: 10px 10px;
     color: white;
 }
 .help-block{
@@ -32,4 +33,16 @@ legend{
 .affix{
     position: fixed;
     top : 1px;
+}
+.dayWeather {
+    text-align: center;
+    margin: 10px 10px 10px 10px;
+    padding: 0 4px;
+    border-radius: 5px;
+    float: left;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.dayWeather:hover{
+    background-color: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
 }
