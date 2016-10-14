@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -20,6 +21,7 @@ public class Comment {
     protected User author;
     @NotFound(action = NotFoundAction.EXCEPTION)
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Stade stade;
 
     public int getId() {

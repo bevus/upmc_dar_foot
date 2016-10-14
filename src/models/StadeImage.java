@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -14,6 +15,7 @@ public class StadeImage {
     private String url;
     @ManyToOne(cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.EXCEPTION)
+    @JsonIgnore
     private Stade stade;
 
     public Stade getStade() {
