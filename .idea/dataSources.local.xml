@@ -2,14 +2,13 @@
 <project version="4">
   <component name="dataSourceStorageLocal">
     <data-source name="MySQL - darfoot@localhost" uuid="47ebc041-79e4-4f3c-94d8-8377555047a4">
+      <database-info product="MySQL" version="5.6.17" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
       <secret-storage>master_key</secret-storage>
       <user-name>root</user-name>
-    </data-source>
-    <data-source name="MySQL - test@localhost [2]" uuid="a42e7f91-78c9-4cad-a72c-89d145172710">
-      <secret-storage>master_key</secret-storage>
-      <user-name>root</user-name>
-      <schema-pattern>test.*</schema-pattern>
-      <default-schemas>test.*</default-schemas>
     </data-source>
   </component>
 </project>
