@@ -29,7 +29,15 @@
         <servlet-name>DetailRencontre</servlet-name>
         <servlet-class>servlets.DetailRencontre</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StadeCommentSubmit</servlet-name>
+        <servlet-class>servlets.StadeCommentSubmit</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>StadeCommentSubmit</servlet-name>
+        <url-pattern>/stadeCommentSubmit</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SingUp</servlet-name>
         <url-pattern>/singup</url-pattern>

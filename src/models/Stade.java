@@ -22,6 +22,7 @@ public class Stade {
     private int note;
     @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
+    @OrderBy("dateComment desc")
     private List<Comment> comments;
     @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)

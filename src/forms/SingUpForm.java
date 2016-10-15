@@ -4,6 +4,7 @@ import models.User;
 import org.hibernate.SessionFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * Created by Hacene on 08/10/2016.
@@ -19,6 +20,7 @@ public class SingUpForm extends Form {
         user.setLastName(getField("lastName", request));
         user.setEmail(getField("email", request));
         user.setPassword(getField("password", request));
+        user.setCreationDate(new Date());
 
         try{
             checkName(user.getFirstName());

@@ -23,9 +23,8 @@ public class Rencontre {
     @ManyToOne(cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.EXCEPTION)
     private User organizer;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @NotFound(action = NotFoundAction.EXCEPTION)
-    private List<User> players;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rencontre")
+    private List<RencontreUser> players;
 
     public String getDescription() {
         return description;
@@ -81,13 +80,12 @@ public class Rencontre {
         return this;
     }
 
-    public List<User> getPlayers() {
+    public List<RencontreUser> getPlayers() {
         return players;
     }
 
-    public Rencontre setPlayers(List<User> players) {
+    public Rencontre setPlayers(List<RencontreUser> players) {
         this.players = players;
         return this;
     }
-
 }

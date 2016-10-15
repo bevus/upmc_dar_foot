@@ -1,4 +1,5 @@
 package forms;
+import models.Stade;
 import models.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -16,7 +17,7 @@ import java.util.Map;
 public abstract class Form {
     public String result;
     public Map<String,String> error = new HashMap<>();
-    protected SessionFactory factory = null;
+    public SessionFactory factory = null;
     public static int NAME_MIN_SIZE = 2;
     public static int NAME_MAX_SIZE = 60;
     public static int COMMENT_MAX_SIZE = 255;
@@ -78,6 +79,31 @@ public abstract class Form {
                     setParameter("email", email).setParameter("password", password).uniqueResult();
             session.close();
             return user;
+        }
+    }
+    public static void checkStadeComment(String comment) throws Exception {
+        if(comment == null){
+            throw new Exception("commentaire vide");
+        }else{
+            if(comment.length() > COMMENT_MAX_SIZE){
+                throw new Exception("commentaire trop long, maximum "+COMMENT_MAX_SIZE);
+            }
+        }
+    }
+    public static void checkIdStade(String id, Session session) throws Exception{
+        if(id == null){
+            throw new Exception("stade inconnu");
+        }else{
+            int intId;
+            try{
+                intId = Integer.parseInt(id);
+                Stade stade = session.get(Stade.class, intId);
+                if(stade == null){
+                    throw new Exception("stade inconnu");
+                }
+            }catch (NumberFormatException e){
+                throw new Exception("stade inconnu");
+            }
         }
     }
 }
