@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Organiser un match</title>
+    <link rel="stylesheet" href="Ressources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Ressources/css/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="blackCard">
+        <form class="form-horizontal" action="/organise" method="post">
+            <fieldset>
+
+                <!-- Form Name -->
+                <legend><a href="index.html">Organiser un match</a></legend>
+
+                <div class="form-group">
+                    <div class="col-md-4">
+                        <div id="map" style="width: 100%; height: 200px" ></div>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+
+                <!-- Select Multiple -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="dep">Département</label>
+                    <div class="col-md-4">
+                        <select id="dep" name="dep" class="form-control">
+                            <option value="75">75</option>
+                            <option value="77">77</option>
+                            <option value="78">78</option>
+                            <option value="91">91</option>
+                            <option value="92">92</option>
+                            <option value="93">93</option>
+                            <option value="94">94</option>
+                            <option value="95">95</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- Text input-->
+               <div class="form-group">
+                   <label class="col-md-4 control-label" for="stade">Stade</label>
+                   <div class="col-md-4">
+                       <textarea id="stade" name="stade" type="text" placeholder="Choisissez un stade en cliquant sur un marker dans la map" class="form-control input-md" required=""></textarea>
+                       <span class="help-block"></span>
+                   </div>
+               </div>
+
+
+
+                <!-- Text input
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="userId">userId</label>
+                    <div class="col-md-4">
+                        <input id="userId" name="userId" type="text" placeholder="userId" class="form-control input-md" required="">
+                        <span class="help-block">help</span>
+                    </div>
+                </div>-->
+
+                <!-- Text input-->
+
+                <input id="stadeId" name="stadeId" type="hidden" placeholder="stadeId" class="form-control input-md" required="">
+
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="nbJoueurs">Nombre de joueurs par equipe</label>
+                    <div class="col-md-4">
+                        <input id="nbJoueurs" name="nbJoueurs" type="text" placeholder="ex 5, 11" class="form-control input-md" required="">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <!-- Text input
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="ville">Ville</label>
+                    <div class="col-md-4">
+                        <input id="ville" name="ville" type="text" placeholder="Ville" class="form-control input-md" required="">
+                        <span class="help-block"></span>
+                    </div>
+                </div>-->
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="date">Date du Match</label>
+                    <div class="col-md-4">
+                        <input id="date" name="date" type="text" placeholder="aaaa/mm/jj" class="form-control input-md" required="">
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <!-- Select Multiple -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="time">Heure du match</label>
+                    <div class="col-md-4">
+                        <select id="time" name="time" class="form-control">
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="12:00">12:00</option>
+                            <option value="13:00">13:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                            <option value="19:00">19:00</option>
+                            <option value="20:00">20:00</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="descrption">Descrption du Match</label>
+                    <div class="col-md-4">
+                        <textarea id="descrption" name="descrption" type="text" placeholder="Phrase pour decrire la rencontre" class="form-control input-md" required="" ></textarea>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+
+                <!--div.row>ul>li*5>div>p>-->
+                <!-- Button -->
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="submit"></label>
+                    <div class="col-md-4">
+                        <button id="submit" name="submit" class="btn btn-primary">Organiser</button>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+</div>
+<script src="Ressources/js/jquery-3.1.1.js"></script>
+<script src="Ressources/js/bootstrap.min.js"></script>
+<script>
+    var user;
+    var stades;
+    var markerSelectionner;
+
+    $("#dep").change(function () {
+        var myLatLng = {lat: 48.75, lng: 2.19};
+
+        // Create a map object and specify the DOM element for display.
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            scrollwheel: false,
+            zoom: 8
+        });
+        $("#stade").val("");
+       // console.log("############################ "+parseInt($("#dep").val())*1000);
+        $.get("/stades?posteCode="+parseInt($("#dep").val())*1000, {},function (rep) {
+            if(rep) stades = rep;
+            // console.log(stades);
+            for (var i=0;i<stades.length; i++){
+                // Create a marker and set its position.
+                myLatLng.lat=stades[i].latitude ;
+                myLatLng.lng=stades[i].longitude;
+                marker= new google.maps.Marker({
+                    map: map,
+                    position: myLatLng,
+                    title: stades[i].id +"#"+stades[i].nom+" "+stades[i].commune+" "+stades[i].codePostal
+                });
+
+                marker.addListener('click', function() {
+                    this.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+                    map.setCenter(this.getPosition());
+                    // console.log(this);
+                    if(markerSelectionner){
+                        markerSelectionner.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
+                    }
+                    markerSelectionner=this;
+                    // console.log(this.title.split("#"));
+                    $("#stadeId").val(this.title.split("#")[0]);
+                    $("#stade").val(this.title.split("#")[1]);
+                });
+            }
+
+        },"json");
+    });
+
+    function initMap() {
+        $.get("/userConnected",{},function (rep) {
+                    if(rep) {
+                        user=rep;
+
+                        var depa = (Math.floor(parseInt(user.address.posteCode)/1000));
+                        console.log(depa);
+                       $("#dep option[value='"+depa+"']").prop('selected',true);
+                    }
+                    else {
+                        alert("Connexion requise");
+                        return;
+                    }
+                    console.log(user);
+                    var myLatLng = {lat: 48.75, lng: 2.19};
+
+                    // Create a map object and specify the DOM element for display.
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        center: myLatLng,
+                        scrollwheel: false,
+                        zoom: 8
+                    });
+
+                    $.get("/stades?posteCode="+parseInt($("#dep").val())*1000, {},function (rep) {
+                        if(rep) stades = rep;
+                        // console.log(stades);
+                        for (var i=0;i<stades.length; i++){
+                            // Create a marker and set its position.
+                            myLatLng.lat=stades[i].latitude ;
+                            myLatLng.lng=stades[i].longitude;
+                            marker= new google.maps.Marker({
+                                map: map,
+                                position: myLatLng,
+                                title: stades[i].id +"#"+stades[i].nom+" "+stades[i].commune+" "+stades[i].codePostal
+                            });
+
+                            marker.addListener('click', function() {
+                                this.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
+                                map.setCenter(this.getPosition());
+                                // console.log(this);
+                                if(markerSelectionner){
+                                    markerSelectionner.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
+                                }
+                                markerSelectionner=this;
+                                // console.log(this.title.split("#"));
+                                $("#stadeId").val(this.title.split("#")[0]);
+                                $("#stade").val(this.title.split("#")[1]);
+                            });
+                        }
+
+                    },"json");
+
+
+                },"json"
+
+        );
+
+
+
+
+
+
+
+    }
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC68IjFMeoAdNE2n7CS5I9cCXHj1Q6NleI&callback=initMap"
+        async defer>
+
+</script>
+<script>
+
+</script>
+</body>
+</html>

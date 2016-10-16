@@ -38,9 +38,11 @@ public class Test extends HttpServlet {
 //
 //        session.save(user);
 //        transaction.commit();
+//populate(sessionFactory.openSession(),new Date());
+
 
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        //populate(sessionFactory.openSession(),new Date());
+
         Date now = new Date();
 
         for(int i =1; i< 11; i++){

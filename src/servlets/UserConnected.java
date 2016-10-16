@@ -1,9 +1,7 @@
 package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import init.Init;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import models.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,20 +10,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Hacene on 13/10/2016.
+ * Created by khelifa on 15/10/2016.
  */
-public class DetailRencontre extends HttpServlet {
+public class UserConnected extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
-        Session session = factory.openSession();
-        DetailRencontre rencontre = session.get(DetailRencontre.class, 11);
-        ObjectMapper mapper = new ObjectMapper();
+        User user = (User) request.getSession().getAttribute("user");
+        ObjectMapper om = new ObjectMapper();
         response.setContentType("text/json");
-        session.close();
-        response.getWriter().print(mapper.writeValueAsString(rencontre));
+        response.getWriter().print(om.writeValueAsString(user));
     }
 }

@@ -23,14 +23,6 @@
         <servlet-name>Logout</servlet-name>
         <servlet-class>servlets.Logout</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>Weather</servlet-name>
-        <servlet-class>servlets.Weather</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DetailRencontre</servlet-name>
-        <servlet-class>servlets.DetailRencontre</servlet-class>
-    </servlet>
 
     <servlet>
         <servlet-name>OrganiserMatch</servlet-name>
@@ -50,6 +42,23 @@
         <servlet-name>DetailRencontre</servlet-name>
         <servlet-class>servlets.DetailRencontre</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserConnected</servlet-name>
+        <servlet-class>servlets.UserConnected</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Stades</servlet-name>
+        <servlet-class>servlets.Stades</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Stades</servlet-name>
+        <url-pattern>/stades</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserConnected</servlet-name>
+        <url-pattern>/userConnected</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>OrganiserMatch</servlet-name>
@@ -79,14 +88,6 @@
     <servlet-mapping>
         <servlet-name>ListeRencontre</servlet-name>
         <url-pattern>/list</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Weather</servlet-name>
-        <url-pattern>/weather</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DetailRencontre</servlet-name>
-        <url-pattern>/detailRencontre</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>

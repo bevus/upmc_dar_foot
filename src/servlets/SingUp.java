@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Hacene on 07/10/2016.
@@ -24,6 +25,7 @@ public class SingUp extends HttpServlet {
         SessionFactory sessionFactory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
         SingUpForm form = new SingUpForm(sessionFactory);
         User user = form.validate(request);
+
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonResponse = mapper.createObjectNode();
         if(user != null){
