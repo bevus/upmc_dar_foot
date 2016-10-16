@@ -13,6 +13,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/forms/Form.class" afterPath="$PROJECT_DIR$/out/production/foot/forms/Form.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/forms/SingUpForm.class" afterPath="$PROJECT_DIR$/out/production/foot/forms/SingUpForm.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/servlets/SingUp.class" afterPath="$PROJECT_DIR$/out/production/foot/servlets/SingUp.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="foot.iws" />
@@ -66,8 +67,8 @@
       <file leaf-file-name="JoinGameForm.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/forms/JoinGameForm.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="41" column="40" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
+            <state relative-caret-position="465">
+              <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -173,7 +174,6 @@
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/47ebc041-79e4-4f3c-94d8-8377555047a4/console.sql" />
         <option value="$PROJECT_DIR$/src/models/Match.java" />
         <option value="$PROJECT_DIR$/src/servlets/ListeRencontre.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/web/WEB-INF/rencontre.html" />
         <option value="$PROJECT_DIR$/src/servlets/Weather.java" />
         <option value="$PROJECT_DIR$/web/singup.html" />
@@ -201,6 +201,7 @@
         <option value="$PROJECT_DIR$/src/servlets/DetailRencontre.java" />
         <option value="$PROJECT_DIR$/src/forms/JoinGameForm.java" />
         <option value="$PROJECT_DIR$/web/rencontre.html" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -1239,7 +1240,7 @@
       <workItem from="1476520268379" duration="24372000" />
       <workItem from="1476545021093" duration="15025000" />
       <workItem from="1476606455382" duration="673000" />
-      <workItem from="1476610848961" duration="12861000" />
+      <workItem from="1476610848961" duration="12969000" />
     </task>
     <task id="LOCAL-00001" summary="added git ignore&#10;main &#10;weather api">
       <created>1476304125053</created>
@@ -1290,11 +1291,18 @@
       <option name="project" value="LOCAL" />
       <updated>1476624086826</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="page detail rencontre&#10;    gestion des equipes&#10;    controle des equipes (ne pas participer deux fois dans la meme equipe)&#10;    // todo image stade !&#10;    // todo gestion des session pour savoir quelle rencontre afficher">
+      <created>1476624158007</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1476624158007</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="177952000" />
+    <option name="totallyTimeSpent" value="178060000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1330,7 +1338,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43961352" sideWeight="0.49394855" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18835099" sideWeight="0.5499182" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18683812" sideWeight="0.45008183" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18683812" sideWeight="0.45008183" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18835099" sideWeight="0.54664487" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -1488,13 +1496,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="4" column="26340" selection-start-line="4" selection-start-column="26340" selection-end-line="4" selection-end-column="26340" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1864,10 +1865,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/forms/JoinGameForm.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="41" column="40" selection-start-line="41" selection-start-column="40" selection-end-line="41" selection-end-column="40" />
+        <state relative-caret-position="465">
+          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
