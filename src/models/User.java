@@ -6,6 +6,7 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Hacene on 06/10/2016.
@@ -14,18 +15,30 @@ import java.util.Date;
 public class User {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     protected int id;
-    protected String firstName;
-    protected String lastName;
-    @Column(unique = false, nullable = false)
+    private String firstName;
+    private String lastName;
+    @Column(unique = true, nullable = false)
     protected String email;
     @JsonIgnore
     protected String password;
-    protected String img;
-    protected Date creationDate;
-    protected String phoneNumber;
+    private String img;
+    private Date creationDate;
+    private String phoneNumber;
     @OneToOne(cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.EXCEPTION)
     private Address address;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
+    @JsonIgnore
+    private List<RencontreUser> rencontreUsers;
+
+    public List<RencontreUser> getRencontreUsers() {
+        return rencontreUsers;
+    }
+
+    public User setRencontreUsers(List<RencontreUser> rencontreUsers) {
+        this.rencontreUsers = rencontreUsers;
+        return this;
+    }
 
     public int getId() {
         return id;

@@ -2,6 +2,7 @@ package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import init.Init;
+import models.Rencontre;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -22,10 +23,11 @@ public class DetailRencontre extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
         Session session = factory.openSession();
-        DetailRencontre rencontre = session.get(DetailRencontre.class, 11);
+        Rencontre rencontre = session.get(Rencontre.class, 1);
         ObjectMapper mapper = new ObjectMapper();
         response.setContentType("text/json");
         session.close();
         response.getWriter().print(mapper.writeValueAsString(rencontre));
+        session.close();
     }
 }
