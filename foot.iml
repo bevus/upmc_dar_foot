@@ -32,5 +32,6 @@
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 9.0.0.M10" level="application_server_libraries" />
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.40-bin" level="project" />
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
+    <orderEntry type="library" name="JQuery" level="application" />
   </component>
 </module>

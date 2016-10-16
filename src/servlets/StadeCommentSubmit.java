@@ -26,11 +26,6 @@ public class StadeCommentSubmit extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonResponse = mapper.createObjectNode();
         if(comment != null){
-            Session session = factory.openSession();
-            session.beginTransaction();
-            session.save(comment);
-            session.getTransaction().commit();
-            session.close();
             response.getWriter().print(mapper.writeValueAsString(comment));
         }else{
             ObjectNode errors = jsonResponse.putObject("errors");

@@ -38,14 +38,14 @@
                 <hr>
                 <div class="row text-center">
                     <div class="col-md-5">
-                        <a id="teamABtn" href="" class="btn btn-sm "></a>
+                        <a id="teamABtn" data-id="" data-team="A" href="" class="team btn btn-sm "></a>
                         <hr>
                         <div id="playersA">
 
                         </div>
                     </div>
                     <div class="col-md-5 col-md-offset-2">
-                        <a id="teamBBtn" href="" class="btn btn-sm "></a>
+                        <a id="teamBBtn" data-id="" data-team="B" href="" class="team btn btn-sm "></a>
                         <hr>
                         <div id="playersB">
 
@@ -133,6 +133,22 @@
                 );
             }
         });
+        // choisir une equipe
+        $(".team").click(function (e) {
+            e.preventDefault();
+            if(!$(this).hasClass("closed")){
+                var params = {
+                    team : $(this).attr("data-team"),
+                    rencontreId : $(this).attr("data-id")
+                };
+                $.post(
+                        '/detailRencontre',
+                        params,
+                        joinGame,
+                        'json'
+                );
+            }
+        });
     });
     // todo gestion des equipes
     // todo controle des equipes (ne pas participer deux fois dans la meme equipe)
@@ -152,6 +168,7 @@
             $("#matchDate").text(getDate(rencontre.dateDebut));
             $("#playersNumber").text(rencontre.players.length + "/" + (rencontre.nbJoueurs * 2)).addClass((rencontre.players.length < (rencontre.nbJoueurs * 2  ))? "text-success" : "text-danger");
             $("#stadiumCity").text(rencontre.stade.commune);
+            $(".team").attr("data-id", rencontre.id);
             var players = rencontre.players;
             var teamACount = 0;
             var teamBCount = 0;
@@ -164,17 +181,17 @@
                     teamBCount++;
                     team = $("#playersB");
                 }
-                team.append("<p>"+ player.player.firstName + " " + player.player.lastName +"</p>")
+                team.append(addPlayer(player));
             });
             if(teamACount < rencontre.nbJoueurs){
                 $("#teamABtn").text("jouer en équipe A").addClass("btn-primary");
             }else{
-                $("#teamABtn").text("équipe A complète").addClass("btn-warning disabled");
+                $("#teamABtn").text("équipe A complète").addClass("btn-warning disabled closed");
             }
             if(teamBCount < rencontre.nbJoueurs){
                 $("#teamBBtn").text("jouer en équipe B").addClass("btn-success");
             }else{
-                $("#teamBBtn").text("équipe B complète").addClass("btn-warning disabled");
+                $("#teamBBtn").text("équipe B complète").addClass("btn-warning disabled closed");
             }
 
             stade = rencontre.stade;
@@ -228,7 +245,7 @@
      */
     function getDate(timestamp) {
         var date = new Date(timestamp);
-        return "Le "+date.getDate()+"/"+(date.getMonth() - 1)+"/"+date.getFullYear()+" à "+date.getHours()+":"+date.getMinutes()
+        return "Le "+date.getDate()+"/"+(date.getMonth() + 1)+"/"+date.getFullYear()+" à "+date.getHours()+":"+date.getMinutes()
     }
     /**
      * utilisée dans : rencontre.html
@@ -255,6 +272,33 @@
                         '</div>' +
                     '</div>' +
                 '</div>';
+    }
+    /**
+     * utilisée dans : rencontre.html
+     * getion des equipe (callback recquete ajax choix equipe)
+     */
+    function joinGame(data) {
+        if(data.error){
+            modalBody = "<p class='alert alert-danger'>";
+            $.each(data, function (key, value) {
+                if(key != "error"){
+                    modalBody += value + "<br/>";
+                }
+            });
+            modalBody += "</p>";
+            showModal("", modalBody);
+        }else{
+            var team;
+            console.log(data.team);
+            if (data.team == "A") {
+                team = $("#playersA");
+            } else if (data.team == "B") {
+                team = $("#playersB");
+            }
+            team.append(addPlayer(data, "newPlayer"));
+            $("newPlayer").hide().slideDown(400);
+            $(".team").slideUp(200);
+        }
     }
     /**
      * utilisée dans : rencontre.html
@@ -294,6 +338,22 @@
                 },
                 'json'
         )
+    }
+    function addPlayer(player, cls) {
+        return "<p class='" + cls + "'>" + player.player.firstName + " " + player.player.lastName + "</p>";
+    }
+    /**
+     * ajoute une modal a la page et l'afficher
+     * @param title
+     * @param body
+     */
+    function showModal(title, body) {
+        if(!document.getElementById("messageModal")){
+            $("body").append('<div class="modal fade" id="messageModal"><div class="modal-dialog"><div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> <h4 class="modal-title"></h4> </div> <div class="modal-body"> </div> <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">fermer</button></div></div></div></div>');
+        }
+        $("#messageModal").find(".modal-title").html("").append(title);
+        $("#messageModal").find(".modal-body").html("").append(body);
+        $('#messageModal').modal('show');
     }
 </script>
 </body>
