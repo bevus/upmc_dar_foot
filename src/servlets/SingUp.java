@@ -27,16 +27,6 @@ public class SingUp extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonResponse = mapper.createObjectNode();
         if(user != null){
-            // create user
-            // encrypt password
-            user.setPassword(HelperFunctions.getSHA1(user.getPassword()));
-            // persist user
-            Session session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
-            session.close();
-
             jsonResponse.put("ok", true);
         }else{
             jsonResponse.put("ok", false);

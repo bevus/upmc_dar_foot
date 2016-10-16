@@ -40,6 +40,9 @@ public class StadeCommentForm extends Form{
         }
         if(error.isEmpty()){
             comment.setStade(session.get(Stade.class, Integer.parseInt(idStade)));
+            session.beginTransaction();
+            session.save(comment);
+            session.getTransaction().commit();
             session.close();
             return comment;
         }else{
