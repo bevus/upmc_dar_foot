@@ -1,6 +1,8 @@
 package servlets;
 
+import forms.Form;
 import models.Rencontre;
+import models.RencontreUser;
 import models.Stade;
 import models.User;
 import org.hibernate.HibernateException;
@@ -32,8 +34,6 @@ public class OrganiserMatch extends HttpServlet {
        //request.getSession().setAttribute("user",session.get(User.class,9));
 
         User organisateur = (User) request.getSession().getAttribute("user");
-
-       //int userId = Integer.parseInt(request.getParameter("userId"));
        // int userId = Integer.parseInt(request.getParameter("userId"));
         int stadeId = Integer.parseInt(request.getParameter("stadeId"));
         int nbJoueurs = Integer.parseInt(request.getParameter("nbJoueurs"));
@@ -70,12 +70,19 @@ public class OrganiserMatch extends HttpServlet {
             rencontre.setOrganizer(organisateur);
             rencontre.setDateDebut(date);
             rencontre.setNbJoueurs(nbJoueurs);
-            List<User> players = new ArrayList<>();
-            players.add(organisateur);
+            List<RencontreUser> players = new ArrayList<>();
+            RencontreUser rencontreUser = new RencontreUser();
+            rencontreUser.setPlayer(organisateur);
+            rencontreUser.setRencontre(rencontre);
+            rencontreUser.setDateCreation(new Date());
+            rencontreUser.setTeam(Form.TEAM_A);
+            players.add(rencontreUser);
+
             rencontre.setPlayers(players);
             rencontre.setDescription(description);
             session.save(rencontre);
             tx.commit();
+
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();

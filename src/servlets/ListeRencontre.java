@@ -46,7 +46,7 @@ public class ListeRencontre extends HttpServlet {
         List<Rencontre> rencontresQ  = search(session,request.getParameter("ville"), request.getParameter("organisateur"),
                 request.getParameter("date"), request.getParameter("nbJoueur"), request.getParameter("participant"),
                 request.getParameter("description"));
-       // List<Rencontre> rencontresQ = session.createQuery(q).setParameter("parti",request.getParameter("participant")).setFirstResult(start).setMaxResults(MAX_RESULTS).list();
+        // List<Rencontre> rencontresQ = session.createQuery(q).setParameter("parti",request.getParameter("participant")).setFirstResult(start).setMaxResults(MAX_RESULTS).list();
 
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy à HH:mm");
 
@@ -122,7 +122,7 @@ public class ListeRencontre extends HttpServlet {
 
         return rencontres;
     }
-
+/*
     private List<Rencontre> searchOld(Session session,String ville, String organisateur, String date, String nbJoueur,
                                       String participant, String description) {
 
@@ -171,6 +171,8 @@ public class ListeRencontre extends HttpServlet {
 //                    /*and parti in r.players*/
 //        }
 
-        return rencontres;
-    }
+    //return rencontres;
+
+//}
+
 }

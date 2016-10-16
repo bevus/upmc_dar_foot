@@ -128,9 +128,9 @@ public class Test extends HttpServlet {
 
         rencontre.setStade(stade);
         rencontre.setPlayers(new ArrayList<>());
-        rencontre.getPlayers().add(hacene);
-        rencontre.getPlayers().add(zahir);
-        rencontre.getPlayers().add(khelifa);
+//        rencontre.getPlayers().add(hacene);
+//        rencontre.getPlayers().add(zahir);
+//        rencontre.getPlayers().add(khelifa);
 
         session.beginTransaction();
         session.save(comment1);
