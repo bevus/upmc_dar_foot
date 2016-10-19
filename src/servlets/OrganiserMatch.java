@@ -5,6 +5,7 @@ import models.Rencontre;
 import models.RencontreUser;
 import models.Stade;
 import models.User;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -34,7 +35,6 @@ public class OrganiserMatch extends HttpServlet {
        //request.getSession().setAttribute("user",session.get(User.class,9));
 
         User organisateur = (User) request.getSession().getAttribute("user");
-       // int userId = Integer.parseInt(request.getParameter("userId"));
         int stadeId = Integer.parseInt(request.getParameter("stadeId"));
         int nbJoueurs = Integer.parseInt(request.getParameter("nbJoueurs"));
 
@@ -44,9 +44,9 @@ public class OrganiserMatch extends HttpServlet {
         startDateString = startDateString.replace('/','-');
         startTimeString = startTimeString+":00";
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-
         Date date=null;
         String error="";
+        //StringEscapeUtils.escapeHtml4()
 
         try {
 

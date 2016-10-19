@@ -143,7 +143,7 @@
                 $.post('/login', $(this).serialize(), function (response) {
                     if(response.ok){
                         //alert("connexion ok");
-                        window.location="organiserMatch.html";
+                        window.location="/organiserMatch.html";
                     }else{
                         $('#login_submit').removeClass('disabled');
                         $('#login_error').text("email ou mote de passe incorect");

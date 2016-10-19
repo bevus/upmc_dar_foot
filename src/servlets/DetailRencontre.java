@@ -46,7 +46,6 @@ public class DetailRencontre extends HttpServlet {
         Rencontre rencontre = session.get(Rencontre.class, 1);
         ObjectMapper mapper = new ObjectMapper();
         response.setContentType("text/json");
-        session.close();
         response.getWriter().print(mapper.writeValueAsString(rencontre));
         session.close();
     }

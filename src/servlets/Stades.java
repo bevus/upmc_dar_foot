@@ -29,9 +29,10 @@ public class Stades extends HttpServlet {
         Session session = factory.openSession();
         List<Stades> stadesList = session.createQuery("from Stade where floor(codePostal/1000)=:posteCode").setParameter("posteCode",((Integer.parseInt(request.getParameter("posteCode")))/1000)).list();
 
-        session.close();
+
         response.setContentType("text/json");
         response.getWriter().print(mapper.writeValueAsString(stadesList));
+        session.close();
 
     }
 }

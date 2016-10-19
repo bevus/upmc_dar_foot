@@ -16,8 +16,8 @@
                 <legend><a href="index.html">Organiser un match</a></legend>
 
                 <div class="form-group">
-                    <div class="col-md-4">
-                        <div id="map" style="width: 100%; height: 200px" ></div>
+                    <div class="col-md-12">
+                        <div id="map" style="width: 100%; height: 400px" ></div>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
         var map = new google.maps.Map(document.getElementById('map'), {
             center: myLatLng,
             scrollwheel: false,
-            zoom: 8
+            zoom: 9
         });
         $("#stade").val("");
        // console.log("############################ "+parseInt($("#dep").val())*1000);
@@ -206,7 +206,7 @@
                     var map = new google.maps.Map(document.getElementById('map'), {
                         center: myLatLng,
                         scrollwheel: false,
-                        zoom: 8
+                        zoom: 9
                     });
 
                     $.get("/stades?posteCode="+parseInt($("#dep").val())*1000, {},function (rep) {
@@ -235,20 +235,9 @@
                                 $("#stade").val(this.title.split("#")[1]);
                             });
                         }
-
                     },"json");
-
-
                 },"json"
-
         );
-
-
-
-
-
-
-
     }
 
 </script>
