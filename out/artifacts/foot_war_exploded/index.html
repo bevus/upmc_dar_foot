@@ -1,3 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="Ressources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="Ressources/css/style.css">
+    <title>Singup</title>
+
+</head>
+<body>
+<!--login modal-->
+<div id="loginModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Se Connecter</h4>
+            </div>
+            <form class="form-horizontal" id="login_form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="login_email">adresse mail</label>
+                        <div class="col-md-5">
+                            <input id="login_email" name="login_email" type="email" placeholder="placeholder" class="form-control input-md" required="">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="login_password">mot de passe</label>
+                        <div class="col-md-5">
+                            <input id="login_password" name="login_password" type="password" placeholder="placeholder" class="form-control input-md" required="">
+                            <span id="login_error" class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">fermer</button>
+                    <button id="login_submit" name="submitSingup" class="btn btn-primary">Connexion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--end login modal-->
+<nav class="navbar navbar-default navbar-static-top navbar-inverse">
+    <div class="container">
+        <a href="" class="navbar-brand">Foot</a>
+        <a href="" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn pull-right">Se Connecter</a>
+    </div>
+</nav>
 <div class="container">
     <div class="row ">
         <div class="col-md-6">
