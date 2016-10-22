@@ -19,6 +19,8 @@ public class Logout extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonResponse = mapper.createObjectNode();
         jsonResponse.put("ok", true);
+        response.setContentType("text/html");
+        response.getWriter().print(jsonResponse.toString());
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

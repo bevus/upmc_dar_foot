@@ -3,6 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <!--<filter>-->
+        <!--<filter-name>PageWrapper</filter-name>-->
+        <!--<filter-class>filters.PageWrapper</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>PageWrapper</filter-name>-->
+        <!--<url-pattern>*.html</url-pattern>-->
+    <!--</filter-mapping>-->
 
     <servlet>
         <servlet-name>SingUp</servlet-name>
@@ -52,6 +60,10 @@
         <servlet-name>Stades</servlet-name>
         <servlet-class>servlets.Stades</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>WrapHtml</servlet-name>
+        <servlet-class>servlets.WrapHtml</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>Stades</servlet-name>
@@ -99,6 +111,10 @@
     <servlet-mapping>
         <servlet-name>DetailRencontre</servlet-name>
         <url-pattern>/detailRencontre</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WrapHtml</servlet-name>
+        <url-pattern>*.html</url-pattern>
     </servlet-mapping>
 
     <listener>

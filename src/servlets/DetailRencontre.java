@@ -2,6 +2,7 @@ package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import forms.Form;
 import forms.JoinGameForm;
 import init.Init;
 import models.Rencontre;
@@ -42,12 +43,15 @@ public class DetailRencontre extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
-        Session session = factory.openSession();
-        Rencontre rencontre = session.get(Rencontre.class, 1);
-        ObjectMapper mapper = new ObjectMapper();
         response.setContentType("text/json");
-        session.close();
-        response.getWriter().print(mapper.writeValueAsString(rencontre));
-        session.close();
+        try{
+            Session session = factory.openSession();
+            Rencontre rencontre = Form.checkIdRencontre(Form.getField("id", request), session);
+            ObjectMapper mapper = new ObjectMapper();
+            response.getWriter().print(mapper.writeValueAsString(rencontre));
+            session.close();
+        }catch (Exception e){
+            response.getWriter().print("{'error' : " + e.getMessage() + "}");
+        }
     }
 }

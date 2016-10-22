@@ -33,5 +33,6 @@
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.40-bin" level="project" />
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
     <orderEntry type="library" name="JQuery" level="application" />
+    <orderEntry type="library" name="org.apache.commons:commons-lang3:3.5" level="project" />
   </component>
 </module>

@@ -1,86 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="Ressources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="Ressources/css/style.css">
-</head>
-<body>
-<nav class="navbar navbar-default navbar-static-top navbar-inverse">
-    <div class="container">
-        <a href="" class="navbar-brand">Foot</a>
-        <a href="" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn pull-right">Se Connecter</a>
-    </div>
-</nav>
-    <section class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="searchPanel">
-                        <!--search params-->
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <ul class="listMatch list-unstyled">
-
-                    </ul>
-                </div>
+<section class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="searchPanel">
+                <!--search params-->
             </div>
-    </section>
-    <footer>
+        </div>
+        <div class="col-md-9">
+            <ul class="listMatch list-unstyled">
 
-    </footer>
-    <script src="Ressources/js/jquery-3.1.1.js"></script>
-    <script src="Ressources/js/bootstrap.min.js"></script>
-    <script>
-        $(function(){
-            $.get(
-                    '/list',
-                    {
-
-                    },
-                    function(data){
-                        if(data.rencontres){
-                            $.each(data.rencontres, function(i, rencontre){
-                                $(".listMatch").append(
-                                        '<li class="match">'+
-                                            '<div class="row">'+
-                                                '<div class="col-md-2">'+
-                                                    '<img src="Ressources/images/' + rencontre.organisateur.img + '" class="img-circle img-thumbnail" width="80" height="80">'+
-                                                '</div>'+
-                                                '<div class="col-md-8">'+
-                                                    '<h4>' + rencontre.organisateur.prenom + ' ' + rencontre.organisateur.nom + '</h4>'+
-                                                    '<p>' + rencontre.description + '</p>' +
-                                                    '<p><b>' + rencontre.dateHeure + '</b></p>' +
-                                                '</div>'+
-                                                '<div class="col-md-2" style="text-align: right">'+
-                                                    '<h3 class="' + ((rencontre.nbJoueurCurr <= rencontre.nbJoueurTotal)? "text-success" : "text-danger") + '">' + rencontre.nbJoueurCurr + '/' + rencontre.nbJoueurTotal +'</h3>'+
-                                                    '<b>à ' + rencontre.ville + '</b>'+
-                                                '</div>'+
-                                            '</div>'+
-                                            '<div class="row">'+
-                                                '<div class="col-md-12">'+
-                                                    '<a href="rencontre.html?id=' + rencontre.id + '" class="btn btn-primary pull-right">détails</a>'+
-                                                '</div>'+
-                                            '</div>'+
-                                        '</li>')
-                            });
-                        }
-                    },
-                    'json'
-            );
-            $('.searchPanel').affix({
-                offset: {
-                    top: function(){
-                        return (this.top = $(".listMatch").offset().top)
-                    },
-                    bottom: function () {
-                        return (this.bottom = $('.footer').outerHeight(true))
-                    },
-                    offset : {top : 0}
-                }
-            })
-        });
-    </script>
-</body>
-</html>
+            </ul>
+        </div>
+    </div>
+</section>
+<script>
+    $(function(){
+        $.get(
+                '/list',
+                {},
+                function(data){
+                    if(data.rencontres){
+                        $.each(data.rencontres, function(i, rencontre){
+                            $(".listMatch").append(
+                                    '<li class="match">'+
+                                    '<div class="row">'+
+                                    '<div class="col-md-2">'+
+                                    '<img src="Ressources/images/' + rencontre.organisateur.img + '" class="img-circle img-thumbnail" width="80" height="80">'+
+                                    '</div>'+
+                                    '<div class="col-md-8">'+
+                                    '<h4>' + rencontre.organisateur.prenom + ' ' + rencontre.organisateur.nom + '</h4>'+
+                                    '<p>' + rencontre.description + '</p>' +
+                                    '<p><b>' + rencontre.dateHeure + '</b></p>' +
+                                    '</div>'+
+                                    '<div class="col-md-2" style="text-align: right">'+
+                                    '<h3 class="' + ((rencontre.nbJoueurCurr <= rencontre.nbJoueurTotal)? "text-success" : "text-danger") + '">' + rencontre.nbJoueurCurr + '/' + rencontre.nbJoueurTotal +'</h3>'+
+                                    '<b>à ' + rencontre.ville + '</b>'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '<div class="row">'+
+                                    '<div class="col-md-12">'+
+                                    '<a href="rencontre.html?id=' + rencontre.id + '" class="btn btn-primary pull-right">détails</a>'+
+                                    '</div>'+
+                                    '</div>'+
+                                    '</li>')
+                        });
+                    }
+                },
+                'json'
+        );
+        $('.searchPanel').affix({
+            offset: {
+                top: function(){
+                    return (this.top = $(".listMatch").offset().top)
+                },
+                bottom: function () {
+                    return (this.bottom = $('.footer').outerHeight(true))
+                },
+                offset : {top : 0}
+            }
+        })
+    });
+</script>

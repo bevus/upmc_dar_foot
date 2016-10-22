@@ -1,0 +1,21 @@
+{
+  "name": "js",
+  "homepage": "https://github.com/bevus/upmc_dar_foot",
+  "authors": [
+    "bevus <hacene.kedjar@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43",
+    "bootstrap": "^3.3.7"
+  }
+}

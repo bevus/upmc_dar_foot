@@ -1,19 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="Ressources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="Ressources/css/style.css">
-</head>
-<body>
-<footer>
-    <nav class="navbar navbar-default navbar-static-top navbar-inverse">
-        <div class="container">
-            <a href="" class="navbar-brand">Foot</a>
-            <a href="" data-toggle="modal" data-target="#loginModal" class="btn btn-primary navbar-btn pull-right">Se Connecter</a>
-        </div>
-    </nav>
+
+<section class="content">
     <div class="container">
         <div class="row">
             <div class="col-md-6 blackCard">
@@ -106,49 +92,62 @@
             </div>
         </div>
     </div>
-</footer>
-<script src="Ressources/js/jquery-3.1.1.js"></script>
-<script src="Ressources/js/bootstrap.min.js"></script>
+</section>
 <script>
     var map;
     var rencontre = null;
     var stade = null;
+    var params = window.location.href.split('?');
+    var id;
     $(function(){
         // mettre à jour la page
-        $.get(
-                "/detailRencontre",
-                {},
-                updateViewRencontre,
-                'json'
-        );
-        // ajour d'un nouveau commentaire sur un stade
-        $("#submitComment").click(function (e) {
-            e.preventDefault();
-            if($("#textComment").val()){
-                $.post(
-                        '/stadeCommentSubmit',
-                        $("#commentForm").serialize(),
-                        handleSubmitComment,
-                        "json"
-                );
+        if(params.length > 1){
+            var tmp = params[1].split('=');
+            if(tmp.length == 2){
+                id = tmp[1];
             }
-        });
-        // choisir une equipe
-        $(".team").click(function (e) {
-            e.preventDefault();
-            if(!$(this).hasClass("closed")){
-                var params = {
-                    team : $(this).attr("data-team"),
-                    rencontreId : $(this).attr("data-id")
-                };
-                $.post(
-                        '/detailRencontre',
-                        params,
-                        joinGame,
-                        'json'
-                );
-            }
-        });
+        }
+        if(id && id.length){
+            $.get(
+                    "/detailRencontre",
+                    {
+                        id : id
+                    },
+                    updateViewRencontre,
+                    'json'
+            );
+            // ajour d'un nouveau commentaire sur un stade
+            $("#submitComment").click(function (e) {
+                e.preventDefault();
+                if($("#textComment").val()){
+                    $.post(
+                            '/stadeCommentSubmit',
+                            $("#commentForm").serialize(),
+                            handleSubmitComment,
+                            "json"
+                    );
+                }
+            });
+            // choisir une equipe
+            $(".team").click(function (e) {
+                e.preventDefault();
+                if(!$(this).hasClass("closed")){
+                    var params = {
+                        team : $(this).attr("data-team"),
+                        rencontreId : $(this).attr("data-id")
+                    };
+                    $.post(
+                            '/detailRencontre',
+                            params,
+                            joinGame,
+                            'json'
+                    );
+                }
+            });
+        }else{
+            $(".content").html("");
+            showModal('', '<p class="alert alert-danger">aucune rencontre séléctionée</p>')
+        }
     });
     // todo gestion des equipes
     // todo controle des equipes (ne pas participer deux fois dans la meme equipe)
@@ -160,7 +159,7 @@
      * @param data
      */
     function updateViewRencontre(data) {
-        if(data){
+        if(!data.error){
             rencontre = data;
             $("#imgOrganiser").attr("src", "Ressources/images/"+rencontre.organizer.img);
             $("#fullNameOrganizer").text(rencontre.organizer.firstName + ' ' + rencontre.organizer.lastName);
@@ -202,6 +201,8 @@
             $("#idStade").val(stade.id);
             loadWeatherData(stade.latitude, stade.longitude, 16, $("#days"));
             $("body").append('<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyw6uBdlxvjGFSCXauLkcoPdwIwaJehSE&callback=initMap"/>');
+        }else{
+            showModal("", '<p class="alert alert-danger">' + data.error + '</p>')
         }
     }
     /**
@@ -255,22 +256,22 @@
      */
     function addComment(comment) {
         return '<div class="col-md-12 comment"> ' +
-                    '<div class = "col-md-1 text-center"> ' +
-                        '<img src = "/Ressources/images/' + comment.author.img + '" class="img-circle img-thumbnail" alt="">' +
-                    '</div>' +
-                    '<div class = "col-md-11">' +
-                        '<div class = "row">' +
-                            '<div class = "col-md-12">' +
-                                '<b class="pull-right">' + getDate(comment.dateComment) + '</b>' +
-                                '<h4>' + comment.author.firstName + ' ' + comment.author.lastName + '</h4>' +
-                            '</div > ' +
-                        '</div>' +
-                        '<div class="row">' +
-                            '<div class="col-md-12">' +
-                                '<p>' + comment.textComment + '</p>' +
-                                '<hr >' +
-                        '</div>' +
-                    '</div>' +
+                '<div class = "col-md-1 text-center"> ' +
+                '<img src = "/Ressources/images/' + comment.author.img + '" class="img-circle img-thumbnail" alt="">' +
+                '</div>' +
+                '<div class = "col-md-11">' +
+                '<div class = "row">' +
+                '<div class = "col-md-12">' +
+                '<b class="pull-right">' + getDate(comment.dateComment) + '</b>' +
+                '<h4>' + comment.author.firstName + ' ' + comment.author.lastName + '</h4>' +
+                '</div > ' +
+                '</div>' +
+                '<div class="row">' +
+                '<div class="col-md-12">' +
+                '<p>' + comment.textComment + '</p>' +
+                '<hr >' +
+                '</div>' +
+                '</div>' +
                 '</div>';
     }
     /**
@@ -356,5 +357,3 @@
         $('#messageModal').modal('show');
     }
 </script>
-</body>
-</html>

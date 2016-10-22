@@ -11,6 +11,7 @@
           <element id="library" level="project" name="Hibernate 5.2.2-5.2.2" />
           <element id="library" level="project" name="mysql-connector-java-5.1.40-bin" />
           <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" />
+          <element id="library" level="project" name="org.apache.commons:commons-lang3:3.5" />
         </element>
       </element>
     </root>
