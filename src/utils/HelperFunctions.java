@@ -109,118 +109,120 @@ public class HelperFunctions {
     }
 
     public static String header(User user){
-        String html =
-                "<!DOCTYPE html>\n" +
-                "<html lang=\"en\">\n" +
-                "<head>\n" +
-                "    <meta charset=\"UTF-8\">\n" +
-                "    <link rel=\"stylesheet\" href=\"Ressources/js/bower_components/bootstrap/dist/css/bootstrap.min.css\">\n" +
-                "    <link rel=\"stylesheet\" href=\"Ressources/css/style.css\">\n" +
-                "    <script src=\"Ressources/js/bower_components/jquery/dist/jquery.min.js\"></script>\n" +
-                "    <script src=\"Ressources/js/bower_components/bootstrap/dist/js/bootstrap.min.js\"></script>"+
-                "    <title>SignUp</title>\n" +
-                "\n" +
-                "</head>\n" +
-                "<body>";
+        StringBuilder html = new StringBuilder();
+                html.append(
+                "<!DOCTYPE html>\n" ).append(
+                "<html lang=\"en\">\n" ).append(
+                "<head>\n" ).append(
+                "    <meta charset=\"UTF-8\">\n" ).append(
+                "    <link rel=\"stylesheet\" href=\"Ressources/js/bower_components/bootstrap/dist/css/bootstrap.min.css\">\n" ).append(
+                "    <link rel=\"stylesheet\" href=\"Ressources/css/style.css\">\n" ).append(
+                "    <script src=\"Ressources/js/bower_components/jquery/dist/jquery.min.js\"></script>\n" ).append(
+                "    <script src=\"Ressources/js/bower_components/bootstrap/dist/js/bootstrap.min.js\"></script>").append(
+                "    <title>SignUp</title>\n" ).append(
+                "\n" ).append(
+                "</head>\n" ).append(
+                "<body>");
             if(user == null){
-                html+= "<nav class=\"navbar navbar-default navbar-static-top\">\n" +
-                        "    <div class=\"container\">\n" +
-                        "        <a href=\"index.html\" class=\"navbar-brand\">Foot</a>\n" +
-                        "        <ul class=\"nav navbar-nav\">\n" +
-                        "            <li><a href=\"\" data-toggle=\"modal\" data-target=\"#loginModal\">organiser un match</a></li>\n" +
-                        "            <li><a href=\"/liste.html\">trouver un match</a></li>\n" +
-                        "        </ul>\n" +
-                        "        <a href=\"\" data-toggle=\"modal\" data-target=\"#loginModal\" class=\"btn btn-primary navbar-btn pull-right\">Se Connecter</a>\n" +
-                        "    </div>\n" +
-                        "</nav>";
-                html+= "<div id=\"loginModal\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\">\n" +
-                        "    <div class=\"modal-dialog\" role=\"document\">\n" +
-                        "        <div class=\"modal-content\">\n" +
-                        "            <div class=\"modal-header\">\n" +
-                        "                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n" +
-                        "                <h4 class=\"modal-title\">Se Connecter</h4>\n" +
-                        "            </div>\n" +
-                        "            <form class=\"form-horizontal\" id=\"login_form\">\n" +
-                        "                <div class=\"modal-body\">\n" +
-                        "                    <div class=\"form-group\">\n" +
-                        "                        <label class=\"col-md-4 control-label\" for=\"login_email\">adresse mail</label>\n" +
-                        "                        <div class=\"col-md-5\">\n" +
-                        "                            <input id=\"login_email\" name=\"login_email\" type=\"email\" placeholder=\"placeholder\" class=\"form-control input-md\" required=\"\">\n" +
-                        "                            <span class=\"help-block alert-danger\"></span>\n" +
-                        "                        </div>\n" +
-                        "                    </div>\n" +
-                        "\n" +
-                        "                    <div class=\"form-group\">\n" +
-                        "                        <label class=\"col-md-4 control-label\" for=\"login_password\">mot de passe</label>\n" +
-                        "                        <div class=\"col-md-5\">\n" +
-                        "                            <input id=\"login_password\" name=\"login_password\" type=\"password\" placeholder=\"placeholder\" class=\"form-control input-md\" required=\"\">\n" +
-                        "                            <span id=\"login_error\" class=\"help-block alert-danger\"></span>\n" +
-                        "                        </div>\n" +
-                        "                    </div>\n" +
-                        "                </div>\n" +
-                        "                <div class=\"modal-footer\">\n" +
-                        "                    <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">fermer</button>\n" +
-                        "                    <button id=\"login_submit\" name=\"submitSingup\" class=\"btn btn-primary\">Connexion</button>\n" +
-                        "                </div>\n" +
-                        "            </form>\n" +
-                        "        </div>\n" +
-                        "    </div>\n" +
-                        "</div>";
-                html += "<script>" +
-                        "       $(function(){" +
-                        "           $('#login_form').submit(function(e){\n" +
-                        "                e.preventDefault();\n" +
-                        "                $('#login_submit').addClass('disabled');\n" +
-                        "                $.post('/login', $(this).serialize(), function (response) {\n" +
-                        "                    if(response.ok){\n" +
-                                                 "var element = $(e.target);\n" +
-                                "                if(element.attr(\"href\")){\n" +
-                                "                    window.location.replace(element.attr(\"href\"));\n" +
-                                "                }else{\n" +
-                                "                    window.location.reload();\n" +
-                                "                }" +
-                        "                    }else{\n" +
-                        "                        $('#login_submit').removeClass('disabled');\n" +
-                        "                        $('#login_error').text(\"email ou mote de passe incorect\");\n" +
-                        "                    }\n" +
-                        "                } , 'json');\n" +
-                        "            });" +
-                        "       });"+
-                        "</script>";
+                html.append("<nav class=\"navbar navbar-default navbar-static-top\">\n" ).append(
+                        "    <div class=\"container\">\n" ).append(
+                        "        <a href=\"index.html\" class=\"navbar-brand\">Foot</a>\n" ).append(
+                        "        <ul class=\"nav navbar-nav\">\n" ).append(
+                        "            <li><a href=\"\" data-toggle=\"modal\" data-target=\"#loginModal\">organiser un match</a></li>\n" ).append(
+                        "            <li><a href=\"/liste.html\">trouver un match</a></li>\n" ).append(
+                        "        </ul>\n" ).append(
+                        "        <a href=\"\" data-toggle=\"modal\" data-target=\"#loginModal\" class=\"btn btn-primary navbar-btn pull-right\">Se Connecter</a>\n" ).append(
+                        "    </div>\n" ).append(
+                        "</nav>");
+                html.append( "<div id=\"loginModal\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\">\n" ).append(
+                        "    <div class=\"modal-dialog\" role=\"document\">\n" ).append(
+                        "        <div class=\"modal-content\">\n" ).append(
+                        "            <div class=\"modal-header\">\n" ).append(
+                        "                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n" ).append(
+                        "                <h4 class=\"modal-title\">Se Connecter</h4>\n" ).append(
+                        "            </div>\n" ).append(
+                        "            <form class=\"form-horizontal\" id=\"login_form\">\n" ).append(
+                        "                <div class=\"modal-body\">\n" ).append(
+                        "                    <div class=\"form-group\">\n" ).append(
+                        "                        <label class=\"col-md-4 control-label\" for=\"login_email\">adresse mail</label>\n" ).append(
+                        "                        <div class=\"col-md-5\">\n" ).append(
+                        "                            <input id=\"login_email\" name=\"login_email\" type=\"email\" placeholder=\"placeholder\" class=\"form-control input-md\" required=\"\">\n" ).append(
+                        "                            <span class=\"help-block alert-danger\"></span>\n" ).append(
+                        "                        </div>\n" ).append(
+                        "                    </div>\n" ).append(
+                        "\n" ).append(
+                        "                    <div class=\"form-group\">\n" ).append(
+                        "                        <label class=\"col-md-4 control-label\" for=\"login_password\">mot de passe</label>\n" ).append(
+                        "                        <div class=\"col-md-5\">\n" ).append(
+                        "                            <input id=\"login_password\" name=\"login_password\" type=\"password\" placeholder=\"placeholder\" class=\"form-control input-md\" required=\"\">\n" ).append(
+                        "                            <span id=\"login_error\" class=\"help-block alert-danger\"></span>\n" ).append(
+                        "                        </div>\n" ).append(
+                        "                    </div>\n" ).append(
+                        "                </div>\n" ).append(
+                        "                <div class=\"modal-footer\">\n" ).append(
+                        "                    <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">fermer</button>\n" ).append(
+                        "                    <button id=\"login_submit\" name=\"submitSingup\" class=\"btn btn-primary\">Connexion</button>\n" ).append(
+                        "                </div>\n" ).append(
+                        "            </form>\n" ).append(
+                        "        </div>\n" ).append(
+                        "    </div>\n" ).append(
+                        "</div>");
+                html.append( "<script>" ).append(
+                        "       $(function(){" ).append(
+                        "           $('#login_form').submit(function(e){\n" ).append(
+                        "                e.preventDefault();\n" ).append(
+                        "                $('#login_submit').addClass('disabled');\n" ).append(
+                        "                $.post('/login', $(this).serialize(), function (response) {\n" ).append(
+                        "                    if(response.ok){\n" ).append(
+                                                 "var element = $(e.target);\n" ).append(
+                                "                if(element.attr(\"href\")){\n" ).append(
+                                "                    window.location.replace(element.attr(\"href\"));\n" ).append(
+                                "                }else{\n" ).append(
+                                "                    window.location.reload();\n" ).append(
+                                "                }" ).append(
+                        "                    }else{\n" ).append(
+                        "                        $('#login_submit').removeClass('disabled');\n" ).append(
+                        "                        $('#login_error').text(\"email ou mot de passe incorect\");\n" ).append(
+                        "                    }\n" ).append(
+                        "                } , 'json');\n" ).append(
+                        "            });" ).append(
+                        "       });").append(
+                        "</script>");
             }else{
-                html += "<nav class=\"navbar navbar-default navbar-static-top\">\n" +
-                        "    <div class=\"container\">\n" +
-                        "        <a href=\"/index.html\" class=\"navbar-brand\">Foot</a>\n" +
-                        "        <ul class=\"nav navbar-nav\">\n" +
-                        "            <li><a href=\"/organiserMatch.html\">organiser un match</a></li>\n" +
-                        "            <li><a href=\"/liste.html\">trouver un match</a></li>\n" +
-                        "        </ul>\n" +
-                        "        <ul class=\" list-unstyled navbar-right\">\n" +
-                        "            <li>\n" +
-                        "                <img style=\"position: relative;top: 5px;\" src=\"/Ressources/images/" + user.getImg() + "\" width=\"40\" height=\"40\" class=\"dropdown-toggle img-thumbnail img-circle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" +
-                        "                <ul class=\"dropdown-menu\">\n" +
-                        "                    <li><a href=\"#\">éditer mon profil</a></li>\n" +
-                        "                    <li role=\"separator\" class=\"divider\"></li>\n" +
-                        "                    <li><a href=\"\" id=\"logout\">se deconecter</a></li>\n" +
-                        "                </ul>\n" +
-                        "            </li>\n" +
-                        "        </ul>\n" +
-                        "    </div>\n" +
-                        "</nav>" +
+                // connected
+                html.append( "<nav class=\"navbar navbar-default navbar-static-top\">\n" ).append(
+                        "    <div class=\"container\">\n" ).append(
+                        "        <a href=\"/index.html\" class=\"navbar-brand\">Foot</a>\n" ).append(
+                        "        <ul class=\"nav navbar-nav\">\n" ).append(
+                        "            <li><a href=\"/organiserMatch.html\">organiser un match</a></li>\n" ).append(
+                        "            <li><a href=\"/liste.html\">trouver un match</a></li>\n" ).append(
+                        "        </ul>\n" ).append(
+                        "        <ul class=\" list-unstyled navbar-right\">\n" ).append(
+                        "            <li>\n" ).append(
+                        "                <img style=\"position: relative;top: 5px;\" src=\"/Ressources/images/" ).append( user.getImg() ).append( "\" width=\"40\" height=\"40\" class=\"dropdown-toggle img-thumbnail img-circle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" ).append(
+                        "                <ul class=\"dropdown-menu\">\n" ).append(
+                        "                    <li><a href=\"/updateProfile.html\">éditer mon profil</a></li>\n" ).append(
+                        "                    <li role=\"separator\" class=\"divider\"></li>\n" ).append(
+                        "                    <li><a href=\"\" id=\"logout\">se deconecter</a></li>\n" ).append(
+                        "                </ul>\n" ).append(
+                        "            </li>\n" ).append(
+                        "        </ul>\n" ).append(
+                        "    </div>\n" ).append(
+                        "</nav>" ).append(
                         "<script>\n"
-                        +"$(function () {\n" +
-                        "        $(\"#logout\").click(function (e) {\n" +
-                        "            e.preventDefault();\n" +
-                        "            $.post('/logout', {}, function (data) {\n" +
-                        "                if(data.ok){\n" +
-                        "                    window.location.href = \"/\";\n" +
-                        "                }\n" +
-                        "            }, 'json');\n" +
-                        "        });\n" +
-                        "    });"+
-                        "</script>";
+                        ).append("$(function () {\n" ).append(
+                        "        $(\"#logout\").click(function (e) {\n" ).append(
+                        "            e.preventDefault();\n" ).append(
+                        "            $.post('/logout', {}, function (data) {\n" ).append(
+                        "                if(data.ok){\n" ).append(
+                        "                    window.location.href = \"/\";\n" ).append(
+                        "                }\n" ).append(
+                        "            }, 'json');\n" ).append(
+                        "        });\n" ).append(
+                        "    });").append(
+                        "</script>");
             }
-        return html;
+        return html.toString();
     }
     public static String footer(){
         String html = "";

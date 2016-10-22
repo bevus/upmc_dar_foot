@@ -50,7 +50,7 @@ public abstract class Form {
 
     public static void checkPassword(String password, String cPassword) throws Exception {
         if(password == null || cPassword == null){
-            throw new Exception("mot de passe vide");
+                    throw new Exception("mot de passe vide");
         }else if(!password.equals(cPassword)){
             throw new Exception("les deux mots de passes ne correspondent pas");
         }

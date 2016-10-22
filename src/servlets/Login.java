@@ -3,10 +3,8 @@ package servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import forms.Form;
-import forms.SingUpForm;
 import init.Init;
 import models.User;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import utils.HelperFunctions;
 
@@ -15,8 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by Hacene on 08/10/2016.

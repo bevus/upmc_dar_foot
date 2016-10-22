@@ -3,18 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
-    <!--<filter>-->
-        <!--<filter-name>PageWrapper</filter-name>-->
-        <!--<filter-class>filters.PageWrapper</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>PageWrapper</filter-name>-->
-        <!--<url-pattern>*.html</url-pattern>-->
-    <!--</filter-mapping>-->
+    <filter>
+        <filter-name>CharEncodingFilter</filter-name>
+        <filter-class>filters.CharEncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <servlet>
-        <servlet-name>SingUp</servlet-name>
-        <servlet-class>servlets.SingUp</servlet-class>
+        <servlet-name>SignUp</servlet-name>
+        <servlet-class>servlets.SignUp</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ListeRencontre</servlet-name>
@@ -64,6 +64,21 @@
         <servlet-name>WrapHtml</servlet-name>
         <servlet-class>servlets.WrapHtml</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateUser</servlet-name>
+        <servlet-class>servlets.UpdateUser</servlet-class>
+        <init-param>
+            <param-name>chemin</param-name>
+            <param-value>C:\Users\acer\Documents\github\upmc_dar_foot\web\Ressources\images\</param-value>
+        </init-param>
+        <multipart-config>
+            <location>c:/</location>
+            <max-file-size>10485760</max-file-size> <!-- 10 Mo -->
+            <max-request-size>52428800</max-request-size> <!-- 5 x 10 Mo -->
+            <file-size-threshold>1048576</file-size-threshold> <!-- 1 Mo -->
+        </multipart-config>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>Stades</servlet-name>
@@ -89,8 +104,8 @@
         <url-pattern>/stadeCommentSubmit</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SingUp</servlet-name>
-        <url-pattern>/singup</url-pattern>
+        <servlet-name>SignUp</servlet-name>
+        <url-pattern>/signup</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -116,8 +131,19 @@
         <servlet-name>WrapHtml</servlet-name>
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateUser</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
 
     <listener>
         <listener-class>init.Init</listener-class>
     </listener>
+
+    <locale-encoding-mapping-list>
+        <locale-encoding-mapping>
+            <locale>*</locale>
+            <encoding>UTF_8</encoding>
+        </locale-encoding-mapping>
+    </locale-encoding-mapping-list>
 </web-app>

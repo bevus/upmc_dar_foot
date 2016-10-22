@@ -1,0 +1,154 @@
+<div class="container">
+    <form id="update" method="post" action="/update" enctype="multipart/form-data" class="form-horizontal blackCard">
+            <fieldset>
+                <!-- Form Name -->
+                <legend>Update your Profile</legend>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <img id="profilePicture" style="cursor: pointer" src="" class="img-circle img-thumbnail" width="90" height="90" >
+                    </div>
+                </div>
+                <br>
+                <input style="display:none"  id="img" name="img" class="input-file" type="file">
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="firstName">Nom</label>
+                    <div class="col-md-4">
+                        <input id="firstName" name="firstName" type="text" placeholder="Votre nom" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="lastName">Prénom</label>
+                    <div class="col-md-4">
+                        <input id="lastName" name="lastName" type="text" placeholder="Votre prénom" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Password input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="password">Nouveau Mot de passe</label>
+                    <div class="col-md-4">
+                        <input id="password" name="password" type="password" placeholder="Nouveau mot de pass" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Password input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="confirmPassword">Confirmer Mot de passe </label>
+                    <div class="col-md-4">
+                        <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Saisir a nouveau" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Prepended text-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="phoneNumber">Numero de Telephone</label>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">+33</span>
+                            <input id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Votre numéro" type="tel">
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="number">numero</label>
+                    <div class="col-md-4">
+                        <input id="number" name="number" type="number" placeholder="numero" class="form-control input-md">
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="street">Rue</label>
+                    <div class="col-md-4">
+                        <input id="street" name="street" type="text" placeholder="nom de la rue" class="form-control input-md">
+
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="posteCode">Code postal</label>
+                    <div class="col-md-4">
+                        <input id="posteCode" name="posteCode" type="number" placeholder="votre code postal" class="form-control input-md">
+
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="city">Ville</label>
+                    <div class="col-md-4">
+                        <input id="city" name="city" type="text" placeholder="Votre ville" class="form-control input-md">
+
+                    </div>
+                </div>
+
+                <!-- Button -->
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="miseajour"></label>
+                    <div class="col-md-4">
+                        <button id="miseajour" name="miseajour" class="btn btn-primary">Mettre à jour</button>
+                    </div>
+                </div>
+            </fieldset>
+    </form>
+</div>
+
+<script>
+    var user;
+    $(function () {
+        $.get('/userConnected', {}, function (data) {
+            if(data){
+                user = data;
+                $.each(data, function (key, val) {
+                    if(key != "img"){
+                        $("#"+key).val(val);
+                    }
+                    if(key == 'address'){
+                        $.each(data.address, function (k, v) {
+                            $("#"+k).val(v);
+                        })
+                    }
+                });
+                $("#profilePicture").attr("src", "/Ressources/images/" + user.img);
+            }
+        }, 'json');
+        $('#update').submit(function (e) {
+            var photoo =$('#pictureUser').val();
+            e.preventDefault();
+            $.ajax({
+                url: '/update',
+                type: 'POST',
+                data: new FormData(this),
+                processData: false,
+                dataType: "json",
+                contentType: false
+            }).done( function(response){
+                if (response.ok) {
+
+                    $('#city').val(response.photo);
+                    $('#firstName').val();
+                }
+                if(response.photo != ""){
+                    $('#profileImage').attr("src",'/Ressources/images/' + response.photo);
+
+                }
+            });
+
+
+        });
+
+        $('#profileImage').click(function () {
+            $("#pictureUser").trigger('click');
+        });
+
+
+
+    });
+</script>

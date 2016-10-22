@@ -2,28 +2,25 @@ package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import forms.SingUpForm;
+import forms.SignUpForm;
 import init.Init;
 import models.User;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import utils.HelperFunctions;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * Created by Hacene on 07/10/2016.
  */
 
-public class SingUp extends HttpServlet {
+public class SignUp extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SessionFactory sessionFactory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
-        SingUpForm form = new SingUpForm(sessionFactory);
+        SignUpForm form = new SignUpForm(sessionFactory);
         User user = form.validate(request);
 
         ObjectMapper mapper = new ObjectMapper();

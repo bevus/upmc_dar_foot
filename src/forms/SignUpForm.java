@@ -11,9 +11,9 @@ import java.util.Date;
 /**
  * Created by Hacene on 08/10/2016.
  */
-public class SingUpForm extends Form {
+public class SignUpForm extends Form {
     public static final String DEFAULT_USER_PIC = "1.png";
-    public SingUpForm(SessionFactory factory) {
+    public SignUpForm(SessionFactory factory) {
         super(factory);
     }
 
