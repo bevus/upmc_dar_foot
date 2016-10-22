@@ -167,7 +167,7 @@ public class ListeRencontre extends HttpServlet {
 //
 //            rencontres = session.createQuery("from Rencontre r where r.stade.commune=:ville and" +
 //                    " (r.organizer.firstName like :organisateur or r.organizer.lastName like :organisateur or r.organizer.email like :organisateur) and " +
-//                    " r.nbJoueurs=:nbJoueuer").setParameter("ville", ville).setParameter("nbJoueuer", Integer.parseInt(nbJoueur)).setFirstResult(start).setMaxResults(MAX_RESULTS).list();
+//                    " r.nbJoueurs=:nbJoueuer").setParameter("ville", vi   lle).setParameter("nbJoueuer", Integer.parseInt(nbJoueur)).setFirstResult(start).setMaxResults(MAX_RESULTS).list();
 //                    /*and parti in r.players*/
 //        }
 
