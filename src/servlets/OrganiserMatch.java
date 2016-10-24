@@ -45,7 +45,7 @@ public class OrganiserMatch extends HttpServlet {
                 errors.put(key, gameForm.error.get(key));
             }
         }
-        response.setContentType("text/json");
+        response.setContentType("text/json; charset=utf-8");
         response.getWriter().print(json.toString());
     }
 

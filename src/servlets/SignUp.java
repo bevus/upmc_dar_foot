@@ -35,6 +35,7 @@ public class SignUp extends HttpServlet {
             }
             jsonResponse.set("errors", errors);
         }
+        response.setContentType("text/json; charset=utf-8");
         response.getWriter().print(jsonResponse.toString());
     }
 

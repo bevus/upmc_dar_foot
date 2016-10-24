@@ -28,7 +28,7 @@ public class DetailRencontre extends HttpServlet {
         JoinGameForm form = new JoinGameForm(factory);
         RencontreUser rencontreUser = form.validate(request, user);
 
-        response.setContentType("text/json");
+        response.setContentType("text/json; charset=utf-8");
         if(rencontreUser != null){
             response.getWriter().print(mapper.writeValueAsString(rencontreUser));
         }else{

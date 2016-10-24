@@ -99,4 +99,15 @@ public class Stade {
     public void setImages(List<StadeImage> images) {
         this.images = images;
     }
+
+    @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
+    private List<Meteo> meteos;
+
+    public List<Meteo> getMeteos() {
+        return meteos;
+    }
+
+    public void setMeteos(List<Meteo> meteos) {
+        this.meteos = meteos;
+    }
 }

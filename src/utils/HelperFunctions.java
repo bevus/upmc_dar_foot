@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Meteo;
+import models.Stade;
 import models.User;
 
 import java.io.BufferedReader;
@@ -14,6 +16,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -61,6 +64,7 @@ public class HelperFunctions {
         for (JsonNode node : days){
             ObjectNode day = daysResponse.addObject();
             day.put("name", daysOfWeek[cal.get(Calendar.DAY_OF_WEEK) - 1]);
+            day.put("date", cal.getTime().getTime());
             day.put("dayT", node.get("temp").get("day").asText());
             day.put("nightT", node.get("temp").get("night").asText());
             day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
@@ -69,6 +73,23 @@ public class HelperFunctions {
             cal.add(Calendar.DATE, 1);
         }
         return response;
+    }
+
+    public static ArrayList<Meteo> jsonToMeteo(ObjectNode node, Stade stade){
+        ArrayList<Meteo> meteos = new ArrayList<>();
+        for(JsonNode day : (ArrayNode)node.get("days")){
+            Meteo meteo = new Meteo();
+            meteo.setStade(stade);
+            meteo.setDayName(day.get("name").asText());
+            meteo.setDayT((int)Double.parseDouble(day.get("dayT").asText()));
+            meteo.setNightT((int)Double.parseDouble(day.get("nightT").asText()));
+            meteo.setHumidity(Integer.parseInt(day.get("humidity").asText()));
+            meteo.setDescription(day.get("description").asText());
+            meteo.setIcon(day.get("icon").asText());
+            meteo.setDayDate(new Date(Long.parseLong(day.get("date").asText())));
+            meteos.add(meteo);
+        }
+        return meteos;
     }
 
     /**
@@ -201,9 +222,9 @@ public class HelperFunctions {
                         "            <li>\n" ).append(
                         "                <img style=\"position: relative;top: 5px;\" src=\"/Ressources/images/" ).append( user.getImg() ).append( "\" width=\"40\" height=\"40\" class=\"dropdown-toggle img-thumbnail img-circle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" ).append(
                         "                <ul class=\"dropdown-menu\">\n" ).append(
-                        "                    <li><a href=\"/updateProfile.html\">éditer mon profil</a></li>\n" ).append(
+                        "                    <li><a href=\"/updateProfile.html\"><span class=\"glyphicon glyphicon-cog\"></span> Mon profil</a></li>\n" ).append(
                         "                    <li role=\"separator\" class=\"divider\"></li>\n" ).append(
-                        "                    <li><a href=\"\" id=\"logout\">se deconecter</a></li>\n" ).append(
+                        "                    <li><a href=\"\" id=\"logout\"><span class=\"glyphicon glyphicon-log-out\"></span> D&eacute;connexion</a></li>\n" ).append(
                         "                </ul>\n" ).append(
                         "            </li>\n" ).append(
                         "        </ul>\n" ).append(

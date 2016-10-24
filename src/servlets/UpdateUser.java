@@ -31,7 +31,7 @@ public class UpdateUser extends HttpServlet {
 
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        response.setContentType("text/json; charset=utf-8");
         String chemin =this.getServletConfig().getInitParameter(CHEMIN);
 
         User user =(User) request.getSession().getAttribute("user");

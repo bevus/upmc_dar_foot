@@ -36,7 +36,7 @@ public class Weather extends HttpServlet {
         }else{
             responseJson.put("error", "pas de latitude ou langitude");
         }
-        response.setContentType("text/json");
+        response.setContentType("text/json; charset=utf-8");
         response.getWriter().print(responseJson.toString());
     }
 }

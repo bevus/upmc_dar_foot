@@ -17,5 +17,6 @@
         <mapping class="models.Comment"/>
         <mapping class="models.StadeImage"/>
         <mapping class="models.RencontreUser"/>
+        <mapping class="models.Meteo"/>
     </session-factory>
 </hibernate-configuration>

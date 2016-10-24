@@ -38,7 +38,7 @@ public class Stades extends HttpServlet {
             stade.put("commune", s.getCommune());
             stade.put("zipCode", s.getCodePostal());
         }
-        response.setContentType("text/json");
+        response.setContentType("text/json; charset=utf-8");
         response.getWriter().print(json.toString());
         session.close();
     }

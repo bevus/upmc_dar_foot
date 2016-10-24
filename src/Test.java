@@ -67,6 +67,13 @@ public class Test {
         stade.setLongitude(1.57235);
         stade.setNom("STADE AURÉLIEN BAZIN");
         stade.setNote(0);
+
+        // meteo
+        try {
+            stade.setMeteos(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(stade.getLatitude()+"", stade.getLongitude()+"", "16"), stade));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //comments
         Comment comment1 = new Comment();
         comment1.setStade(stade);
@@ -98,7 +105,6 @@ public class Test {
         Date date = new Date();
         for(int i = 0; i < 5; i++){
             Rencontre rencontre = new Rencontre();
-
             rencontre.setDescription("Arrr! Pieces o' hunger are forever old.Yuck, undead dubloon. you won't pull the fortress.Arg, heavy-hearted reef.");
             rencontre.setDateDebut(new Date(date.getTime() + i * (3600 * 1000 * 24)));
             rencontre.setNbJoueurs(10);

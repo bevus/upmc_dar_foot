@@ -73,7 +73,7 @@ public class ListeRencontre extends HttpServlet {
         }
 
         jsonResponse.put("Q",Q);
-        response.setContentType("text/json");
+        response.setContentType("text/json; charset=utf-8");
         session.close();
         response.getWriter().print(jsonResponse.toString());
     }

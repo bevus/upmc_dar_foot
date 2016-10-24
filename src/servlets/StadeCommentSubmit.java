@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class StadeCommentSubmit extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/json");
+        response.setContentType("text/json; charset=utf-8");
         SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
         StadeCommentForm commentForm = new StadeCommentForm(factory);
         Comment comment = commentForm.validate(request);

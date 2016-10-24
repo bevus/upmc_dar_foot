@@ -19,7 +19,7 @@ public class Logout extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonResponse = mapper.createObjectNode();
         jsonResponse.put("ok", true);
-        response.setContentType("text/html");
+        response.setContentType("text/json; charset=utf-8");
         response.getWriter().print(jsonResponse.toString());
     }
 
