@@ -22,12 +22,14 @@ public class WrapHtml extends HttpServlet {
         if(fileName.equals("/"))
             fileName = "/index.html";
         try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(request.getServletContext().getRealPath(fileName))))) {
-            response.getWriter().println(HelperFunctions.header((User)request.getSession().getAttribute("user")));
+            response.getWriter().println(HelperFunctions.header(HelperFunctions.getPageTitle(fileName), (User)request.getSession().getAttribute("user")));
             response.getWriter().print(HelperFunctions.getContent(reader));
             response.getWriter().println(HelperFunctions.footer());
         }catch (FileNotFoundException e){
             try(BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(request.getServletContext().getRealPath("/404.html"))))){
+                response.getWriter().println(HelperFunctions.header(HelperFunctions.getPageTitle(fileName), (User)request.getSession().getAttribute("user")));
                 response.getWriter().print(HelperFunctions.getContent(reader));
+                response.getWriter().println(HelperFunctions.footer());
             }catch (Exception ignored){
             }
         }

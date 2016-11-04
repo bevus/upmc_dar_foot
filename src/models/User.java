@@ -30,6 +30,12 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player")
     @JsonIgnore
     private List<RencontreUser> rencontreUsers;
+    @ManyToMany(mappedBy = "stadeUpvoters")
+    @JsonIgnore
+    private List<Stade> upvotedStads;
+    @ManyToMany(mappedBy = "upvoters")
+    @JsonIgnore
+    private List<Comment> upvotedComments;
 
     public List<RencontreUser> getRencontreUsers() {
         return rencontreUsers;
@@ -118,5 +124,21 @@ public class User {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public List<Comment> getUpvotedComments() {
+        return upvotedComments;
+    }
+
+    public void setUpvotedComments(List<Comment> upvotedComments) {
+        this.upvotedComments = upvotedComments;
+    }
+
+    public List<Stade> getUpvotedStads() {
+        return upvotedStads;
+    }
+
+    public void setUpvotedStads(List<Stade> upvotedStads) {
+        this.upvotedStads = upvotedStads;
     }
 }

@@ -1,15 +1,14 @@
 package forms;
 
-import models.Rencontre;
-import models.RencontreUser;
-import models.Stade;
-import models.User;
+import models.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import utils.HelperFunctions;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Hacene on 17/10/2016.
@@ -53,6 +52,17 @@ public class ScheduleGameForm extends Form {
             rencontreUser.setTeam(TEAM_A);
             rencontre.setPlayers(new ArrayList<>());
             rencontre.getPlayers().add(rencontreUser);
+            try {
+                rencontre.getStade().setMeteos(HelperFunctions.jsonToMeteo(
+                        HelperFunctions.getWeatherData(rencontre.getStade().getLatitude()+"", rencontre.getStade().getLongitude()+"", "16")
+                , rencontre.getStade()));
+            } catch (Exception e) {
+                List<Meteo> meteos = new ArrayList<>();
+                Meteo m = new Meteo();
+                m.setStade(rencontre.getStade());
+                meteos.add(m);
+                rencontre.getStade().setMeteos(meteos);
+            }
             session.beginTransaction();
             session.save(rencontre);
             session.getTransaction().commit();

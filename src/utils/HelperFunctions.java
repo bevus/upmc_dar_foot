@@ -1,5 +1,6 @@
 package utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -8,12 +9,12 @@ import models.Meteo;
 import models.Stade;
 import models.User;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Writer;
+import javax.servlet.http.Part;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -65,8 +66,8 @@ public class HelperFunctions {
             ObjectNode day = daysResponse.addObject();
             day.put("name", daysOfWeek[cal.get(Calendar.DAY_OF_WEEK) - 1]);
             day.put("date", cal.getTime().getTime());
-            day.put("dayT", node.get("temp").get("day").asText());
-            day.put("nightT", node.get("temp").get("night").asText());
+            day.put("dayT", (int)Double.parseDouble(node.get("temp").get("day").asText()));
+            day.put("nightT", (int)Double.parseDouble(node.get("temp").get("night").asText()));
             day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
             day.put("humidity", node.get("humidity").asText());
             day.put("description", node.get("weather").get(0).get("description").asText());
@@ -128,19 +129,36 @@ public class HelperFunctions {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         return mapper.readTree(bufferedReader);
     }
-
-    public static String header(User user){
+    public static String getPageTitle(String url){
+        switch (url){
+            case "/404.html":
+                return "Page Introuvable";
+            case "/liste.html":
+                return "Rencontres";
+            case "/organiserMatch.html":
+                return "Organiser un match";
+            case "/rencontre.html":
+                return "Match";
+            case "updateProfile.html":
+                return "Profile";
+            default:
+                return "Foot";
+        }
+    }
+    public static String header(String title, User user){
+        ObjectMapper mapper = new ObjectMapper();
         StringBuilder html = new StringBuilder();
                 html.append(
-                "<!DOCTYPE html>\n" ).append(
-                "<html lang=\"en\">\n" ).append(
-                "<head>\n" ).append(
-                "    <meta charset=\"UTF-8\">\n" ).append(
-                "    <link rel=\"stylesheet\" href=\"Ressources/js/bower_components/bootstrap/dist/css/bootstrap.min.css\">\n" ).append(
-                "    <link rel=\"stylesheet\" href=\"Ressources/css/style.css\">\n" ).append(
-                "    <script src=\"Ressources/js/bower_components/jquery/dist/jquery.min.js\"></script>\n" ).append(
-                "    <script src=\"Ressources/js/bower_components/bootstrap/dist/js/bootstrap.min.js\"></script>").append(
-                "    <title>SignUp</title>\n" ).append(
+                        "<!DOCTYPE html>\n").append(
+                        "<html lang=\"en\">\n").append(
+                        "<head>\n").append(
+                        "    <meta charset=\"UTF-8\">\n").append(
+                        "    <link rel=\"stylesheet\" href=\"Ressources/js/bower_components/bootstrap/dist/css/bootstrap.min.css\">\n").append(
+                        "    <link rel=\"stylesheet\" href=\"Ressources/js/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css\">\n").append(
+                        "    <link rel=\"stylesheet\" href=\"Ressources/css/style.css\">\n").append(
+                        "    <script src=\"Ressources/js/bower_components/jquery/dist/jquery.min.js\"></script>\n").append(
+                        "    <script src=\"Ressources/js/bower_components/bootstrap/dist/js/bootstrap.min.js\"></script>").append(
+                        "    <script src=\"Ressources/js/functions.js\"></script>").append("<title>").append(title).append("</title>\n").append(
                 "\n" ).append(
                 "</head>\n" ).append(
                 "<body>");
@@ -188,7 +206,7 @@ public class HelperFunctions {
                         "        </div>\n" ).append(
                         "    </div>\n" ).append(
                         "</div>");
-                html.append( "<script>" ).append(
+                html.append( "<script> user = undefined;").append(
                         "       $(function(){" ).append(
                         "           $('#login_form').submit(function(e){\n" ).append(
                         "                e.preventDefault();\n" ).append(
@@ -211,37 +229,41 @@ public class HelperFunctions {
                         "</script>");
             }else{
                 // connected
-                html.append( "<nav class=\"navbar navbar-default navbar-static-top\">\n" ).append(
-                        "    <div class=\"container\">\n" ).append(
-                        "        <a href=\"/index.html\" class=\"navbar-brand\">Foot</a>\n" ).append(
-                        "        <ul class=\"nav navbar-nav\">\n" ).append(
-                        "            <li><a href=\"/organiserMatch.html\">organiser un match</a></li>\n" ).append(
-                        "            <li><a href=\"/liste.html\">trouver un match</a></li>\n" ).append(
-                        "        </ul>\n" ).append(
-                        "        <ul class=\" list-unstyled navbar-right\">\n" ).append(
-                        "            <li>\n" ).append(
-                        "                <img style=\"position: relative;top: 5px;\" src=\"/Ressources/images/" ).append( user.getImg() ).append( "\" width=\"40\" height=\"40\" class=\"dropdown-toggle img-thumbnail img-circle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" ).append(
-                        "                <ul class=\"dropdown-menu\">\n" ).append(
-                        "                    <li><a href=\"/updateProfile.html\"><span class=\"glyphicon glyphicon-cog\"></span> Mon profil</a></li>\n" ).append(
-                        "                    <li role=\"separator\" class=\"divider\"></li>\n" ).append(
-                        "                    <li><a href=\"\" id=\"logout\"><span class=\"glyphicon glyphicon-log-out\"></span> D&eacute;connexion</a></li>\n" ).append(
-                        "                </ul>\n" ).append(
-                        "            </li>\n" ).append(
-                        "        </ul>\n" ).append(
-                        "    </div>\n" ).append(
-                        "</nav>" ).append(
-                        "<script>\n"
-                        ).append("$(function () {\n" ).append(
-                        "        $(\"#logout\").click(function (e) {\n" ).append(
-                        "            e.preventDefault();\n" ).append(
-                        "            $.post('/logout', {}, function (data) {\n" ).append(
-                        "                if(data.ok){\n" ).append(
-                        "                    window.location.href = \"/\";\n" ).append(
-                        "                }\n" ).append(
-                        "            }, 'json');\n" ).append(
-                        "        });\n" ).append(
-                        "    });").append(
-                        "</script>");
+                try {
+                    html.append( "<nav class=\"navbar navbar-default navbar-static-top\">\n" ).append(
+                            "    <div class=\"container\">\n" ).append(
+                            "        <a href=\"/index.html\" class=\"navbar-brand\">Foot</a>\n" ).append(
+                            "        <ul class=\"nav navbar-nav\">\n" ).append(
+                            "            <li><a href=\"/organiserMatch.html\">organiser un match</a></li>\n" ).append(
+                            "            <li><a href=\"/liste.html\">trouver un match</a></li>\n" ).append(
+                            "        </ul>\n" ).append(
+                            "        <ul class=\" list-unstyled navbar-right\">\n" ).append(
+                            "            <li>\n" ).append(
+                            "                <img style=\"position: relative;top: 5px;\" src=\"/Ressources/images/" ).append( user.getImg() ).append( "\" width=\"40\" height=\"40\" class=\"dropdown-toggle img-thumbnail img-circle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" ).append(
+                            "                <ul class=\"dropdown-menu\">\n" ).append(
+                            "                    <li><a href=\"/updateProfile.html\"><span class=\"glyphicon glyphicon-cog\"></span> Mon profil</a></li>\n" ).append(
+                            "                    <li role=\"separator\" class=\"divider\"></li>\n" ).append(
+                            "                    <li><a href=\"\" id=\"logout\"><span class=\"glyphicon glyphicon-log-out\"></span> D&eacute;connexion</a></li>\n" ).append(
+                            "                </ul>\n" ).append(
+                            "            </li>\n" ).append(
+                            "        </ul>\n" ).append(
+                            "    </div>\n" ).append(
+                            "</nav>" ).append(
+                            "<script>\n").append("user = ").append(mapper.writeValueAsString(user)).append(";\n"
+                            ).append("$(function () {\n" ).append(
+                            "        $(\"#logout\").click(function (e) {\n" ).append(
+                            "            e.preventDefault();\n" ).append(
+                            "            $.post('/logout', {}, function (data) {\n" ).append(
+                            "                if(data.ok){\n" ).append(
+                            "                    window.location.href = \"/\";\n" ).append(
+                            "                }\n" ).append(
+                            "            }, 'json');\n" ).append(
+                            "        });\n" ).append(
+                            "    });").append(
+                            "</script>");
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
             }
         return html.toString();
     }
@@ -257,5 +279,8 @@ public class HelperFunctions {
             content += line + "\n";
         }
         return content;
+    }
+    private void writeFile(Part part, String fileName ) throws IOException {
+        Files.copy(part.getInputStream(), Paths.get(fileName));
     }
 }

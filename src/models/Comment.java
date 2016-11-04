@@ -6,12 +6,13 @@ import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Hacene on 08/10/2016.
  */
 @Entity
-public class Comment {
+public class Comment implements Comparable<Comment> {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     protected int id;
     protected Date dateComment;
@@ -23,6 +24,8 @@ public class Comment {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private Stade stade;
+    @ManyToMany
+    private List<User> upvoters;
 
     public int getId() {
         return id;
@@ -66,5 +69,18 @@ public class Comment {
 
     public void setStade(Stade stade) {
         this.stade = stade;
+    }
+
+    public List<User> getUpvoters() {
+        return upvoters;
+    }
+
+    public void setUpvoters(List<User> upvoters) {
+        this.upvoters = upvoters;
+    }
+
+    @Override
+    public int compareTo(Comment o) {
+        return this.getUpvoters().size() - o.getUpvoters().size();
     }
 }

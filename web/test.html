@@ -1,150 +1,59 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="Ressources/js/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="Ressources/js/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
-    <link rel="stylesheet" href="Ressources/css/style.css">
-    <title>Test</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <!-- Latest compiled and minified CSS & JS -->
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" media="screen" href="Ressources/js/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="Ressources/js/bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="Ressources/js/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <title>Document</title>
 </head>
 <body>
-<div class="container">
-    <span class="glyphicon glyphicon-pencil"></span>
-    <span class="glyphicon glyphicon-log-out"></span>
-</div>
-<script src="Ressources/js/bower_components/jquery/dist/jquery.min.js"></script>
-<script src="Ressources/js/bower_components/moment/moment.js"></script>
-<script src="Ressources/js/bower_components/moment/locale/fr.js"></script>
-<script src="Ressources/js/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="Ressources/js/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyw6uBdlxvjGFSCXauLkcoPdwIwaJehSE&callback=initMap">
-</script>-->
-<script src="Ressources/js/markerclusterer.js"></script>
+    <div class='question'>
+        <p><span class='questionNumber'>1.1</span><span class='questionText'>text</span></p>
+
+        
+    </div>
+    <div>
+        <h4 class="text-info">1.1 All of those disconnections will be lost in faiths like metamorphosis in procedures</h4>
+        <div class="radio">
+        	<label>
+        		<input type="radio" name="name" id="inputID" value="" checked="checked">
+        		1
+        	</label>
+            <label>
+        		<input type="radio" name="name" id="inputID" value="" checked="checked">
+        		1
+        	</label>
+            <label>
+        		<input type="radio" name="name" id="inputID" value="" checked="checked">
+        		1
+        	</label>
+        </div>
+    </div>
+    <div>
+        <h4 class="text-info">1.2 All of those disconnections will be lost in faiths like metamorphosis in procedures</h4>
+        <div class="checkbox">
+        	<label>
+        		<input type="checkbox" value="1" id="12">
+        		1
+        	</label>
+            <label>
+        		<input type="checkbox" value="1" id="12">
+        		1
+        	</label>
+            <label>
+        		<input type="checkbox" value="1" id="12">
+        		1
+        	</label>
+        </div>
+    </div>
+    <div>
+        <h4 class="text-info">1.2 All of those disconnections will be lost in faiths like metamorphosis in procedures</h4>
+        <textarea name="45" id="545" cols="30" rows="10"></textarea>
+    </div>
 
 
 </body>
 </html>
-<script>
-var user;
-var stades;
-var markerSelectionner;
-
-$("#dep").change(function () {
-var myLatLng = {lat: 48.75, lng: 2.19};
-
-// Create a map object and specify the DOM element for display.
-var map = new google.maps.Map(document.getElementById('map'), {
-center: myLatLng,
-scrollwheel: false,
-zoom: 8
-});
-$("#stade").val("");
-// console.log("############################ "+parseInt($("#dep").val())*1000);
-$.get("/stades?posteCode="+parseInt($("#dep").val())*1000, {},function (rep) {
-if(rep) stades = rep;
-// console.log(stades);
-for (var i=0;i<stades.length; i++){
-// Create a marker and set its position.
-myLatLng.lat=stades[i].latitude ;
-myLatLng.lng=stades[i].longitude;
-marker= new google.maps.Marker({
-map: map,
-position: myLatLng,
-title: stades[i].id +"#"+stades[i].nom+" "+stades[i].commune+" "+stades[i].codePostal
-});
-
-marker.addListener('click', function() {
-this.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
-map.setCenter(this.getPosition());
-// console.log(this);
-if(markerSelectionner){
-markerSelectionner.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
-}
-markerSelectionner=this;
-// console.log(this.title.split("#"));
-$("#stadeId").val(this.title.split("#")[0]);
-$("#stade").val(this.title.split("#")[1]);
-});
-}
-
-},"json");
-});
-
-function initMap() {
-$.get("/userConnected",{},function (rep) {
-if(rep) {
-user=rep;
-
-var depa = (Math.floor(parseInt(user.address.posteCode)/1000));
-console.log(depa);
-$("#dep option[value='"+depa+"']").prop('selected',true);
-}
-else {
-alert("Connexion requise");
-return;
-}
-console.log(user);
-var myLatLng = {lat: 48.75, lng: 2.19};
-
-// Create a map object and specify the DOM element for display.
-var map = new google.maps.Map(document.getElementById('map'), {
-center: myLatLng,
-scrollwheel: false,
-zoom: 8
-});
-
-$.get("/stades?posteCode="+parseInt($("#dep").val())*1000, {},function (rep) {
-if(rep) stades = rep;
-// console.log(stades);
-for (var i=0;i<stades.length; i++){
-// Create a marker and set its position.
-myLatLng.lat=stades[i].latitude ;
-myLatLng.lng=stades[i].longitude;
-marker= new google.maps.Marker({
-map: map,
-position: myLatLng,
-title: stades[i].id +"#"+stades[i].nom+" "+stades[i].commune+" "+stades[i].codePostal
-});
-
-marker.addListener('click', function() {
-this.setIcon("http://maps.google.com/mapfiles/ms/icons/green-dot.png");
-map.setCenter(this.getPosition());
-// console.log(this);
-if(markerSelectionner){
-markerSelectionner.setIcon("http://maps.google.com/mapfiles/ms/icons/red-dot.png");
-}
-markerSelectionner=this;
-// console.log(this.title.split("#"));
-$("#stadeId").val(this.title.split("#")[0]);
-$("#stade").val(this.title.split("#")[1]);
-});
-}
-
-},"json");
-
-
-},"json"
-
-);
-
-
-
-
-
-
-
-}
-
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC68IjFMeoAdNE2n7CS5I9cCXHj1Q6NleI&callback=initMap"
-async defer>
-</script>
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker2').datetimepicker({
-            locale: 'fr'
-        });
-    });
-</script>
-<script>

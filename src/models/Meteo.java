@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -19,6 +21,7 @@ public class Meteo {
     private String icon;
 
     @ManyToOne
+    @JsonIgnore
     private Stade stade;
 
     public Stade getStade() {

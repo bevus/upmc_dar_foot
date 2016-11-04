@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import forms.Form;
 import forms.JoinGameForm;
+import init.Consts;
 import init.Init;
 import models.Rencontre;
 import models.RencontreUser;
@@ -22,13 +23,13 @@ import java.io.IOException;
  */
 public class DetailRencontre extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType(Consts.CONTENT_TYPE_JSON);
         SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
         ObjectMapper mapper = new ObjectMapper();
         User user = (User)request.getSession().getAttribute("user");
         JoinGameForm form = new JoinGameForm(factory);
         RencontreUser rencontreUser = form.validate(request, user);
 
-        response.setContentType("text/json; charset=utf-8");
         if(rencontreUser != null){
             response.getWriter().print(mapper.writeValueAsString(rencontreUser));
         }else{
@@ -44,14 +45,16 @@ public class DetailRencontre extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
         response.setContentType("text/json");
+        ObjectMapper mapper = new ObjectMapper();
         try{
             Session session = factory.openSession();
             Rencontre rencontre = Form.checkIdRencontre(Form.getField("id", request), session);
-            ObjectMapper mapper = new ObjectMapper();
             response.getWriter().print(mapper.writeValueAsString(rencontre));
             session.close();
         }catch (Exception e){
-            response.getWriter().print("{'error' : " + e.getMessage() + "}");
+            ObjectNode error = mapper.createObjectNode();
+            error.put("error", e.getMessage());
+            response.getWriter().print(error.toString());
         }
     }
 }

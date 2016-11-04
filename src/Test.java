@@ -76,24 +76,36 @@ public class Test {
         }
         //comments
         Comment comment1 = new Comment();
+        ArrayList<User> upvoters = new ArrayList<>();
+        upvoters.add(usres.get(0));
+        comment1.setUpvoters(upvoters);
         comment1.setStade(stade);
         comment1.setAuthor(usres.get(0));
         comment1.setDateComment(new Date());
         comment1.setTextComment("Never hoist a bucaneer.All freebooters desire coal-black, stormy yardarms.");
 
         Comment comment2 = new Comment();
+        upvoters = new ArrayList<>();
+        upvoters.add(usres.get(1));
+        comment2.setUpvoters(upvoters);
         comment2.setStade(stade);
         comment2.setAuthor(usres.get(1));
         comment2.setDateComment(new Date());
         comment2.setTextComment("The processor walks mankind like a real green people.Yell wihtout mystery, and we won’t attack a particle.");
 
         Comment comment3 = new Comment();
+        upvoters = new ArrayList<>();
+        upvoters.add(usres.get(2));
+        comment3.setUpvoters(upvoters);
         comment3.setStade(stade);
         comment3.setAuthor(usres.get(2));
         comment3.setDateComment(new Date());
         comment3.setTextComment("Why does the space suit die?I invade this death, it's called most unusual mineral.Where is the collective crewmate?Planets wobble with moon at the small port!");
 
         Comment comment4 = new Comment();
+        upvoters = new ArrayList<>();
+        upvoters.add(usres.get(3));
+        comment4.setUpvoters(upvoters);
         comment4.setStade(stade);
         comment4.setAuthor(usres.get(3));
         comment4.setDateComment(new Date());

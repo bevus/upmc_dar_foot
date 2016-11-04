@@ -6,16 +6,17 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <img id="profilePicture" style="cursor: pointer" src="" class="img-circle img-thumbnail" width="90" height="90" >
+                        <input style="display:none"  id="img" name="img" class="input-file" type="file">
+                        <span class="help-block alert-danger"></span>
                     </div>
                 </div>
                 <br>
-                <input style="display:none"  id="img" name="img" class="input-file" type="file">
                 <!-- Text input-->
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="firstName">Nom</label>
                     <div class="col-md-4">
                         <input id="firstName" name="firstName" type="text" placeholder="Votre nom" class="form-control input-md">
-
+                        <span class="help-block alert-danger"></span>
                     </div>
                 </div>
 
@@ -24,25 +25,7 @@
                     <label class="col-md-4 control-label" for="lastName">Prénom</label>
                     <div class="col-md-4">
                         <input id="lastName" name="lastName" type="text" placeholder="Votre prénom" class="form-control input-md">
-
-                    </div>
-                </div>
-
-                <!-- Password input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="password">Nouveau Mot de passe</label>
-                    <div class="col-md-4">
-                        <input id="password" name="password" type="password" placeholder="Nouveau mot de pass" class="form-control input-md">
-
-                    </div>
-                </div>
-
-                <!-- Password input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label" for="confirmPassword">Confirmer Mot de passe </label>
-                    <div class="col-md-4">
-                        <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Saisir a nouveau" class="form-control input-md">
-
+                        <span class="help-block alert-danger"></span>
                     </div>
                 </div>
 
@@ -54,7 +37,7 @@
                             <span class="input-group-addon">+33</span>
                             <input id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Votre numéro" type="tel">
                         </div>
-
+                        <span class="help-block alert-danger"></span>
                     </div>
                 </div>
                 <!-- Text input-->
@@ -69,7 +52,7 @@
                     <label class="col-md-4 control-label" for="street">Rue</label>
                     <div class="col-md-4">
                         <input id="street" name="street" type="text" placeholder="nom de la rue" class="form-control input-md">
-
+                        <span class="help-block alert-danger"></span>
                     </div>
                 </div>
                 <!-- Text input-->
@@ -77,7 +60,6 @@
                     <label class="col-md-4 control-label" for="posteCode">Code postal</label>
                     <div class="col-md-4">
                         <input id="posteCode" name="posteCode" type="number" placeholder="votre code postal" class="form-control input-md">
-
                     </div>
                 </div>
                 <!-- Text input-->
@@ -88,6 +70,30 @@
 
                     </div>
                 </div>
+                <!-- Password input-->
+                <div class="col-md-12 text-center">
+                    <a href="" class="" id="changePassword">Changer votre mot de passe</a>
+                    <br>
+                </div>
+                <div id="changePasswordDiv">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="password">Nouveau Mot de passe</label>
+                        <div class="col-md-4">
+                            <input id="password" name="password" type="password" placeholder="Nouveau mot de pass" class="form-control input-md">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Password input-->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="confirmPassword">Confirmer Mot de passe </label>
+                        <div class="col-md-4">
+                            <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Saisir a nouveau" class="form-control input-md">
+                            <span class="help-block alert-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
 
                 <!-- Button -->
                 <div class="form-group">
@@ -101,54 +107,52 @@
 </div>
 
 <script>
-    var user;
-    $(function () {
-        $.get('/userConnected', {}, function (data) {
-            if(data){
-                user = data;
-                $.each(data, function (key, val) {
-                    if(key != "img"){
-                        $("#"+key).val(val);
-                    }
-                    if(key == 'address'){
-                        $.each(data.address, function (k, v) {
-                            $("#"+k).val(v);
-                        })
-                    }
-                });
-                $("#profilePicture").attr("src", "/Ressources/images/" + user.img);
-            }
-        }, 'json');
-        $('#update').submit(function (e) {
-            var photoo =$('#pictureUser').val();
-            e.preventDefault();
-            $.ajax({
-                url: '/update',
-                type: 'POST',
-                data: new FormData(this),
-                processData: false,
-                dataType: "json",
-                contentType: false
-            }).done( function(response){
-                if (response.ok) {
-
-                    $('#city').val(response.photo);
-                    $('#firstName').val();
+    if(user != null){
+        $(function () {
+            $("#changePasswordDiv").hide();
+            $("#changePassword").click(function (e) {
+                e.preventDefault();
+                $("#changePasswordDiv").fadeToggle();
+            });
+            $.each(user, function (key, val) {
+                if(key != "img"){
+                    $("#"+key).val(val);
                 }
-                if(response.photo != ""){
-                    $('#profileImage').attr("src",'/Ressources/images/' + response.photo);
-
+                if(key == 'address'){
+                    $.each(user.address, function (k, v) {
+                        $("#"+k).val(v);
+                    })
                 }
             });
+            $("#profilePicture").attr("src", "/Ressources/images/" + user.img);
 
+            $('#update').submit(function (e) {
+                var photo =$('#pictureUser').val();
+                e.preventDefault();
+                $.ajax({
+                    url: '/update',
+                    type: 'POST',
+                    data: new FormData(this),
+                    processData: false,
+                    dataType: "json",
+                    contentType: false
+                }).done( function(response){
+                    if(response.error){
+                        delete response.error;
+                        $.each(response, function (key, value) {
+                            $("#"+key).next().text(value);
+                        });
+                    }else{
+//                        window.location.reload();
+                    }
+                });
+            });
 
+            $('#profilePicture').click(function () {
+                $("#img").trigger('click');
+            });
         });
-
-        $('#profileImage').click(function () {
-            $("#pictureUser").trigger('click');
-        });
-
-
-
-    });
+    }else{
+        window.location.replace("/index.html");
+    }
 </script>

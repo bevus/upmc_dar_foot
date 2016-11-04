@@ -2,7 +2,8 @@
 <section class="content">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 blackCard">
+            <!--details match-->
+            <div class="col-md-6">
                 <h3>Détails de la rencontre</h3>
                 <hr>
                 <div class="row">
@@ -16,79 +17,61 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12" style="text-align: right">
+                    <div class="col-md-12">
                         <h3 id="playersNumber" class=""></h3>
                     </div>
                 </div>
                 <h3>Composition des equipes</h3>
                 <hr>
-                <div class="row text-center">
-                    <div class="col-md-5">
-                        <a id="teamABtn" data-id="" data-team="A" href="" class="team btn btn-sm "></a>
-                        <hr>
-                        <div id="playersA">
+                <div id="composition">
 
-                        </div>
-                    </div>
-                    <div class="col-md-5 col-md-offset-2">
-                        <a id="teamBBtn" data-id="" data-team="B" href="" class="team btn btn-sm "></a>
-                        <hr>
-                        <div id="playersB">
-
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div class="col-md-5 col-md-offset-1 blackCard">
-                <h3 id="cityName">Chargement des données météo</h3>
+            <!--details stade-->
+            <div class="col-md-6">
+                <h3>Stade</h3>
                 <hr>
-                <div id="days" class="row">
+                <h3 class="text-capitalize" id="stadiumName"></h3>
+                <h4 class="note"></h4>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 id="note" class="pull-right"></h3>
+                        <div id="stadiumLocation" style="height: 300px; width: 100%">
+                        </div>
+                    </div>
+                    <div id="days" class="col-md-12">
+
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 blackCard">
-                <h3>Stade</h3>
-                <hr>
-                <h3 class="text-capitalize" id="stadiumName"></h3>
-                <h4 class="note">4.5/5</h4>
-                <div class="row">
-                    <div class="col-md-5">
-                        <div id="stadiumLocation" style="height: 300px; width: 100%">
+            <div class="col-md-12">
+                <form class="form-horizontal" id="commentForm">
+                    <fieldset>
+                        <!-- Form Name -->
+                        <h4 class="text-info">donnez votre avis sur ce stade pour aider les autre utilisateur à avoir des information sur ce stade</h4>
+                        <!-- Textarea -->
+                        <input type="hidden" name="idStade" id="idStade">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <textarea class="form-control" id="textComment" rows="5" name="textComment"></textarea>
+                                <span class="help-block alert-danger"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-5 col-lg-offset-2">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h3>Avis</h3>
-                        <hr>
-                        <form class="form-horizontal" id="commentForm">
-                            <fieldset>
-                                <!-- Form Name -->
-                                <legend>donnez votre avis sur ce stade pour aider les autre utilisateur à avoir des information sur ce stade</legend>
-                                <!-- Textarea -->
-                                <input type="hidden" name="idStade" id="idStade">
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <textarea class="form-control" id="textComment" rows="5" name="textComment"></textarea>
-                                        <span class="help-block alert-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        <a id="submitComment" href="" class="btn btn-primary pull-right">envoyer</a>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                    <br>
-                    <div id="comments">
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <a id="submitComment" href="" class="btn btn-primary pull-right">envoyer</a>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <br>
+            <div id="comments">
+            </div>
+            <div class="col-md-12 text-center">
+                <a href="" id="showComments">Afficher les commentaires sur ce stade</a>
             </div>
         </div>
     </div>
@@ -99,6 +82,8 @@
     var stade = null;
     var params = window.location.href.split('?');
     var id;
+    var connectedPlayer = "connectedPlayer";
+
     $(function(){
         // mettre à jour la page
         if(params.length > 1){
@@ -129,7 +114,7 @@
                 }
             });
             // choisir une equipe
-            $(".team").click(function (e) {
+            $("body").on('click', '.team', function (e) {
                 e.preventDefault();
                 if(!$(this).hasClass("closed")){
                     var params = {
@@ -144,10 +129,78 @@
                     );
                 }
             });
+            $("body").on('click', '.cancelReservation', function (e) {
+                e.preventDefault();
+                if(user != null){
+                    var index = -1;
+                    for(var i = 0; i < rencontre.players.length; i++){
+                        if(rencontre.players[i].player.id == user.id){
+                            index = i;
+                            break;
+                        }
+                    }
+                    if(index != -1){
+                        $.post('/cancelParticipation', {
+                            rencontreId : $(this).attr("data-id")
+                        }, function(data) {
+                            if(!data.error){
+                                rencontre.players.splice(index, 1);
+                                listPlayers(rencontre.players, $('#teamA').empty(), $('#teamB').empty(), user, connectedPlayer);
+                                $("#joinButtons").slideUp(200).html(
+                                        `<div class="col-md-12">
+                                    <hr/>
+                                </div>`).append(joinGameButtons(rencontre)).slideDown(200);
+                            }else{
+                                showModal("", data.error);
+                            }
+                        }, 'json');
+                    }
+                }
+            });
+
+            // upvote comment
+            $("body").on("click", ".voteComment", function (e) {
+                e.preventDefault();
+                var element = $(this);
+                if(user != undefined){
+                    $.post('/upvoteComment', {commentId : element.attr("data-id")}, function (data) {
+                        if(data.ok){
+                            element.hide();
+                        }
+                    }, 'json');
+                }else{
+                    showModal("", "vous devez vous connecter pour pouvoir effectuer cette action")
+                }
+            }).on("click", ".voteStade", function (e) {
+                // upvote stade
+                e.preventDefault();
+                var element = $(this);
+                if(user != undefined){
+                    $.post('/upvoteStadium', {stadeId : element.attr("data-id")}, function (data) {
+                        if(data.ok){
+                            element.hide();
+                        }
+                    }, 'json');
+                }else{
+                    showModal("", "vous devez vous connecter pour pouvoir effectuer cette action")
+                }
+            })
         }else{
             $(".content").html("");
             showModal('', '<p class="alert alert-danger">aucune rencontre séléctionée</p>')
         }
+        $('#showComments').click(function (e) {
+            e.preventDefault();
+            if(stade != null) {
+                var commentsCount = $(".comment").length;
+                getComments(stade.id, commentsCount, 5, $('#comments'), "comment", user, function () {
+                    $('#showComments').text("afficher plus de commentaires");
+                    if(commentsCount == $(".comment").length){
+                        $('#showComments').hide();
+                    }
+                });
+            }
+        });
     });
     // todo gestion des equipes
     // todo controle des equipes (ne pas participer deux fois dans la meme equipe)
@@ -167,42 +220,25 @@
             $("#matchDate").text(getDate(rencontre.dateDebut));
             $("#playersNumber").text(rencontre.players.length + "/" + (rencontre.nbJoueurs * 2)).addClass((rencontre.players.length < (rencontre.nbJoueurs * 2  ))? "text-success" : "text-danger");
             $("#stadiumCity").text(rencontre.stade.commune);
-            $(".team").attr("data-id", rencontre.id);
-            var players = rencontre.players;
-            var teamACount = 0;
-            var teamBCount = 0;
-            $.each(players, function (i, player) {
-                var team;
-                if(player.team == "A"){
-                    teamACount++;
-                    team = $("#playersA");
-                }else if(player.team == "B"){
-                    teamBCount++;
-                    team = $("#playersB");
-                }
-                team.append(addPlayer(player));
-            });
-            if(teamACount < rencontre.nbJoueurs){
-                $("#teamABtn").text("jouer en équipe A").addClass("btn-primary");
-            }else{
-                $("#teamABtn").text("équipe A complète").addClass("btn-warning disabled closed");
-            }
-            if(teamBCount < rencontre.nbJoueurs){
-                $("#teamBBtn").text("jouer en équipe B").addClass("btn-success");
-            }else{
-                $("#teamBBtn").text("équipe B complète").addClass("btn-warning disabled closed");
-            }
-
+            teamsComposition(rencontre, $("#composition"), user);
             stade = rencontre.stade;
             $("#stadiumName").text(stade.nom + ' ' + stade.commune + ' ' + stade.codePostal);
-            $.each(rencontre.stade.comments, function (i, comment) {
-                $('#comments').append(addComment(comment));
-            });
+            if(user != undefined){
+                var voted = false;
+                $.each(stade.stadeUpvoters, function (i, v) {
+                    if(v.id == user.id){
+                        voted = true;
+                    }
+                });
+                if(!voted){
+                    $("#note").html('<a href=""><i data-id="'+ stade.id +'" class="voteStade glyphicon glyphicon-thumbs-up"></i></a>');
+                }
+            }
             $("#idStade").val(stade.id);
-            loadWeatherData(stade.latitude, stade.longitude, 16, $("#days"));
+            loadLocalWeather(id, 6, $("#days"));
             $("body").append('<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyw6uBdlxvjGFSCXauLkcoPdwIwaJehSE&callback=initMap"/>');
         }else{
-            showModal("", '<p class="alert alert-danger">' + data.error + '</p>')
+            window.location.replace("/404.html");
         }
     }
     /**
@@ -240,42 +276,6 @@
     }
     /**
      * utilisée dans : rencontre.html
-     * format la date (Le d/m/yy à h:m)
-     * @param timestamp
-     * @returns {string}
-     */
-    function getDate(timestamp) {
-        var date = new Date(timestamp);
-        return "Le "+date.getDate()+"/"+(date.getMonth() + 1)+"/"+date.getFullYear()+" à "+date.getHours()+":"+date.getMinutes()
-    }
-    /**
-     * utilisée dans : rencontre.html
-     * retourn le code html d'un commentaire
-     * @param comment
-     * @returns {string}
-     */
-    function addComment(comment) {
-        return '<div class="col-md-12 comment"> ' +
-                '<div class = "col-md-1 text-center"> ' +
-                '<img src = "/Ressources/images/' + comment.author.img + '" class="img-circle img-thumbnail" alt="">' +
-                '</div>' +
-                '<div class = "col-md-11">' +
-                '<div class = "row">' +
-                '<div class = "col-md-12">' +
-                '<b class="pull-right">' + getDate(comment.dateComment) + '</b>' +
-                '<h4>' + comment.author.firstName + ' ' + comment.author.lastName + '</h4>' +
-                '</div > ' +
-                '</div>' +
-                '<div class="row">' +
-                '<div class="col-md-12">' +
-                '<p>' + comment.textComment + '</p>' +
-                '<hr >' +
-                '</div>' +
-                '</div>' +
-                '</div>';
-    }
-    /**
-     * utilisée dans : rencontre.html
      * getion des equipe (callback recquete ajax choix equipe)
      */
     function joinGame(data) {
@@ -289,71 +289,130 @@
             modalBody += "</p>";
             showModal("", modalBody);
         }else{
+            rencontre.players.push(data);
             var team;
             console.log(data.team);
             if (data.team == "A") {
-                team = $("#playersA");
+                team = $("#teamA");
             } else if (data.team == "B") {
-                team = $("#playersB");
+                team = $("#teamB");
             }
-            team.append(addPlayer(data, "newPlayer"));
-            $("newPlayer").hide().slideDown(400);
-            $(".team").slideUp(200);
+            team.append(addPlayer(data, connectedPlayer));
+            $('.'+connectedPlayer).hide().slideDown(400);
+            $("#joinButtons").slideUp(200).html(
+                    `<div class="col-md-12">
+                          <hr/>
+                    </div>`).append(cancelButton(data.team, rencontre, user)).slideDown(200);
         }
-    }
-    /**
-     * utilisée dans : rencontre.html
-     * charge les données météos depuis le serveur qui contact l'api openweather
-     * @param lat
-     * @param lon
-     * @param nbDays
-     * @param element
-     */
-    function loadWeatherData(lat, lon, nbDays, element) {
-        $.get(
-                "/weather",
-                {
-                    lat : lat,
-                    lon : lon,
-                    nbDays : nbDays
-                },
-                function(data){
-                    if(!data.error){
-                        $.each(data.days, function(i, day){
-                            element.append('' +
-                                    '<div class="dayWeather">' +
-                                    '<p>' + day.name + '</p>' +
-                                    ' <img src="' + day.icon + '" alt="' + day.description + '"> ' +
-                                    '<p><b>' + day.dayT + '°</b></p>' +
-                                    '<p> ' + day.nightT + '°</p>' +
-                                    '</div>');
-                        });
-                        $("#cityName").text("Prévision météo à " + data.city.name);
-                    }else{
-                        $("#days").append(
-                                '<div class="col-md-4">' +
-                                '<p class="alert alert-danger">impossible de charger les données météo</p> ' +
-                                '</div>'
-                        );
-                    }
-                },
-                'json'
-        )
     }
     function addPlayer(player, cls) {
-        return "<p class='" + cls + "'>" + player.player.firstName + " " + player.player.lastName + "</p>";
+        return `<p class="${cls}">${player.player.firstName} ${player.player.lastName}</p>`;
     }
-    /**
-     * ajoute une modal a la page et l'afficher
-     * @param title
-     * @param body
-     */
-    function showModal(title, body) {
-        if(!document.getElementById("messageModal")){
-            $("body").append('<div class="modal fade" id="messageModal"><div class="modal-dialog"><div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> <h4 class="modal-title"></h4> </div> <div class="modal-body"> </div> <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">fermer</button></div></div></div></div>');
+    function cancelButton(userTeam, rencontre, user) {
+        if(user != null && user.id == rencontre.organizer.id){
+            return "";
         }
-        $("#messageModal").find(".modal-title").html("").append(title);
-        $("#messageModal").find(".modal-body").html("").append(body);
-        $('#messageModal').modal('show');
+        switch (userTeam) {
+            case "A":
+                return `<div class="col-md-6 text-center">
+                                    <a class="cancelReservation btn btn-warning" href="" data-id="${rencontre.id}">Je ne serai pas présent</a>
+                                </div>`
+                ;
+            case "B":
+                return `<div class="col-md-6 col-md-offset-6 text-center">
+                                    <a class="cancelReservation btn btn-warning" href="" data-id="${rencontre.id}">Je ne serai pas présent</a>
+                                </div>`
+                ;
+        }
+        return "";
+    }
+    function joinGameButtons(rencontre) {
+        var countTeamA = 0;
+        var countTeamB = 0;
+        $.each(rencontre.players, function (i, v) {
+            if(v.team == "A")
+                countTeamA++;
+            if(v.team == "B")
+                countTeamB++;
+        });
+        var buttonA = "";
+        var buttonB = "";
+        if (countTeamA < rencontre.nbJoueurs) {
+            buttonA =
+                    `<div class="col-md-6 text-center">
+                                     <a class="team btn btn-success" href="" data-team="${'A'}" data-id="${rencontre.id}">Jouer en équipe A</a>
+                                </div>`
+            ;
+        } else {
+            buttonA = `<div class="col-md-6 text-center"></div>`;
+        }
+        if (countTeamB < rencontre.nbJoueurs) {
+            buttonB =
+                    `<div class="col-md-6 text-center">
+                                 <a class="team btn btn-success" href="" data-team="${'B'}" data-id="${rencontre.id}">Jouer en équipe B</a>
+                            </div>`
+            ;
+        } else {
+            buttonB = `<div class="col-md-6 text-center"></div>`;
+        }
+        return buttonA + buttonB;
+    }
+    function loginButton() {
+        return `<div class="col-md-12  text-center">
+                        <a href="" data-toggle="modal" data-target="#loginModal">Connectez vous pour pouvoir participer à ce match</a>
+                </div>`;
+    }
+    function listPlayers(players, teamAElement, teamBelement, user, userClass) {
+        var userTeam = undefined;
+        $.each(players, function (i, player) {
+            var team;
+            var cls;
+            if(player.team == "A"){
+                team = teamAElement;
+                if(user != null && player.player.id == user.id){
+                    cls = connectedPlayer;
+                    userTeam = "A";
+                }
+            }else if(player.team == "B"){
+                team = teamBelement;
+                if(user != null && player.player.id == user.id){
+                    cls = userClass;
+                    userTeam = "B";
+                }
+            }
+            team.append(addPlayer(player, cls));
+        });
+        return userTeam;
+    }
+
+    function teamsComposition(rencontre, element, user) {
+        element.append(
+                `<div class="row">
+                        <div class="col-md-6 text-center" id="teamA">
+                        </div>
+                        <div class="col-md-6 text-center" id="teamB">
+                        </div>
+                        <div class="row" id="joinButtons">
+                        <div class="col-md-12">
+                            <hr/>
+                        </div>
+                        </div>
+                </div>`
+        );
+        var userTeam = listPlayers(rencontre.players, $("#teamA"), $("#teamB"), user, connectedPlayer );
+
+        if(user != null){
+            if(userTeam != undefined){
+                $("#joinButtons").append(cancelButton(userTeam, rencontre, user));
+            }else{
+                $("#joinButtons").append(joinGameButtons(rencontre));
+            }
+        }else{
+            var countTeamA = rencontre.players.filter(p => p.team == 'A').length;
+            var countTeamB = rencontre.players.filter(p => p.team == 'B').length;
+            if(countTeamA < rencontre.nbJoueurs || countTeamB < rencontre.nbJoueurs){
+                $("#joinButtons").append(loginButton());
+            }
+        }
     }
 </script>

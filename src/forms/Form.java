@@ -1,19 +1,14 @@
 package forms;
 
-import models.Rencontre;
-import models.RencontreUser;
-import models.Stade;
-import models.User;
+import models.*;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Hacene on 11/02/2016.
@@ -26,14 +21,19 @@ public abstract class Form {
     public static final int GAME_DURATION = 1000 * 3600 * 2;
     public static final int NEXT_GAME_MIN_TIME = 1000 * 3600 * 2; // 2 heures min avant un match et sa planification
     public static final int NEXT_GAME_MIN_TIME_HOURS = NEXT_GAME_MIN_TIME / 3600 / 1000; // 2 heures min avant un match et sa planification
+    public static final int MAX_UPLOAD_SIZE_M = 1024*1024*10;
+    public static final int NAME_MIN_SIZE = 2;
+    public static final int NAME_MAX_SIZE = 60;
+    public static final int COMMENT_MAX_SIZE = 255;
+    public static final String TEAM_A = "A";
+    public static final String TEAM_B = "B";
+    public static final String DEFAULT_USER_PIC = "1.png";
+    public static final String IMG_PATH = "/Ressources/images/";
+//    public static final String[] VALID_MIME_TYPE = {"png", "jpg", "jpeg", "gif", "bmp"};
+
     public String result;
     public Map<String,String> error = new HashMap<>();
     public SessionFactory factory = null;
-    public static int NAME_MIN_SIZE = 2;
-    public static int NAME_MAX_SIZE = 60;
-    public static int COMMENT_MAX_SIZE = 255;
-    public static final String TEAM_A = "A";
-    public static final String TEAM_B = "B";
 
     public Form(SessionFactory factory) {
         this.factory = factory;
@@ -48,15 +48,16 @@ public abstract class Form {
         }
     }
 
-    public static void checkPassword(String password, String cPassword) throws Exception {
+    public static String checkPassword(String password, String cPassword) throws Exception {
         if(password == null || cPassword == null){
                     throw new Exception("mot de passe vide");
         }else if(!password.equals(cPassword)){
             throw new Exception("les deux mots de passes ne correspondent pas");
         }
+        return password;
     }
 
-    public static void checkName(String name) throws Exception{
+    public static String checkName(String name) throws Exception{
         if(name == null){
             throw new Exception("champs vide");
         }else{
@@ -67,14 +68,16 @@ public abstract class Form {
                 throw new Exception("au plus " + NAME_MAX_SIZE + " caractèrs");
             }
         }
+        return name;
     }
     // validation d'une adresse mail
-    public static void checkMail(String mail) throws Exception {
+    public static String checkMail(String mail) throws Exception {
         if (mail == null) {
             throw new Exception("mail vide");
         } else if (!mail.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)")) {
             throw new Exception("format adresse mail incorrect");
         }
+        return mail;
     }
     public static void isNewMail(String mail, SessionFactory factory) throws Exception {
         Session session = factory.openSession();
@@ -94,7 +97,7 @@ public abstract class Form {
             return user;
         }
     }
-    public static void checkStadeComment(String comment) throws Exception {
+    public static String checkStadeComment(String comment) throws Exception {
         if(comment == null){
             throw new Exception("commentaire vide");
         }else{
@@ -102,6 +105,7 @@ public abstract class Form {
                 throw new Exception("commentaire trop long, maximum "+COMMENT_MAX_SIZE);
             }
         }
+        return comment;
     }
     public static Rencontre checkIdRencontre(String idString, Session session) throws Exception {
         if(idString == null){
@@ -267,6 +271,93 @@ public abstract class Form {
                 }
             }
             return date;
+        }
+    }
+    // check file extention
+    // check file lenght
+    public static String checkFile(Part part) throws Exception{
+        if(part == null){
+            throw new Exception("erreur lors de la transmission du fichier");
+        }else{
+            String mimeType = part.getContentType();
+            if(!mimeType.split("/")[0].equals("image")){
+                throw new Exception("le type du fichier n'est pas valide");
+            }else{
+                String fileExtention = mimeType.split("/")[1];
+                if(part.getSize() > MAX_UPLOAD_SIZE_M){
+                    System.out.println(part.getSize());
+                    throw new Exception("taile du fichier trop grande au plus " + MAX_UPLOAD_SIZE_M / 1024 + " Mo");
+                }
+                return System.currentTimeMillis() + "." + fileExtention;
+            }
+        }
+    }
+
+    public static int checkStreetNumber(String streetNumber) throws Exception{
+        // n° rue
+        if(streetNumber == null ){
+            throw new Exception("numéro de rue vide");
+        }else{
+            try{
+                return Integer.parseInt(streetNumber);
+            }catch (NumberFormatException e){
+                throw new Exception("numéro de rue invalide");
+            }
+        }
+    }
+
+    public static String checkStreetName(String street) throws Exception{
+        if(street == null){
+            throw new Exception("nom de rue vide");
+        }else{
+            return street;
+        }
+    }
+
+    public static String checkZipCode(String zipCode) throws Exception{
+        if(zipCode == null){
+            throw new Exception("code postal vides");
+        }else{
+            if(!zipCode.matches("^[0-9]{5}$")){
+                throw new Exception("code postal invalide");
+            }else{
+                return zipCode;
+            }
+        }
+    }
+
+    public static String checkPhoneNumber(String phoneNumber) throws Exception{
+        if(phoneNumber == null){
+            throw new Exception("numéro de télephone vide");
+        }else{
+            return phoneNumber;
+        }
+    }
+    public static void canUpvoteComment(User user, Comment comment) throws Exception{
+        if(user == null){
+            throw new Exception("pas connecté");
+        }else if(comment == null){
+            throw new Exception("commentaire invalide");
+        }else{
+            for(User u : comment.getUpvoters()){
+                if(u.getId() == user.getId()){
+                    throw new Exception("vous avez déja voter pour ce commentaire");
+                }
+            }
+        }
+    }
+
+    public static void canUpvoteSatde(User user, Stade stade) throws Exception{
+        if(user == null){
+            throw new Exception("pas connecté");
+        }else if(stade == null){
+            throw new Exception("stade invalide");
+        }else{
+            for(User u : stade.getStadeUpvoters()){
+                if(u.getId() == user.getId()){
+                    throw new Exception("vous avez déja voter pour ce stade");
+                }
+            }
         }
     }
 }

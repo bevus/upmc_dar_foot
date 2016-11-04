@@ -3,6 +3,7 @@ package servlets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import forms.SignUpForm;
+import init.Consts;
 import init.Init;
 import models.User;
 import org.hibernate.SessionFactory;
@@ -18,6 +19,7 @@ import java.io.IOException;
  */
 
 public class SignUp extends HttpServlet {
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SessionFactory sessionFactory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
         SignUpForm form = new SignUpForm(sessionFactory);
@@ -26,6 +28,7 @@ public class SignUp extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode jsonResponse = mapper.createObjectNode();
         if(user != null){
+            request.getSession().setAttribute(Consts.USER, user);
             jsonResponse.put("ok", true);
         }else{
             jsonResponse.put("ok", false);

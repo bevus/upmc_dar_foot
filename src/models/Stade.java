@@ -5,6 +5,8 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,11 +24,16 @@ public class Stade {
     private int note;
     @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
-    @OrderBy("dateComment desc")
+    @OrderBy("dateComment desc ")
+    @JsonIgnore
     private List<Comment> comments;
     @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
     private List<StadeImage> images;
+    @ManyToMany
+    private List<User> stadeUpvoters;
+    @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
+    private List<Meteo> meteos;
 
     public int getId() {
         return id;
@@ -77,6 +84,7 @@ public class Stade {
     }
 
     public List<Comment> getComments() {
+        Collections.sort(comments);
         return comments;
     }
 
@@ -100,8 +108,6 @@ public class Stade {
         this.images = images;
     }
 
-    @OneToMany(mappedBy = "stade", cascade = CascadeType.ALL)
-    private List<Meteo> meteos;
 
     public List<Meteo> getMeteos() {
         return meteos;
@@ -109,5 +115,13 @@ public class Stade {
 
     public void setMeteos(List<Meteo> meteos) {
         this.meteos = meteos;
+    }
+
+    public List<User> getStadeUpvoters() {
+        return stadeUpvoters;
+    }
+
+    public void setStadeUpvoters(List<User> upvoters) {
+        this.stadeUpvoters = upvoters;
     }
 }

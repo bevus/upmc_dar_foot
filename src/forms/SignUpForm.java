@@ -12,31 +12,26 @@ import java.util.Date;
  * Created by Hacene on 08/10/2016.
  */
 public class SignUpForm extends Form {
-    public static final String DEFAULT_USER_PIC = "1.png";
     public SignUpForm(SessionFactory factory) {
         super(factory);
     }
 
     public User validate(HttpServletRequest request){
         User user = new User();
-        user.setFirstName(getField("firstName", request));
-        user.setLastName(getField("lastName", request));
-        user.setEmail(getField("email", request));
-        user.setPassword(getField("password", request));
         user.setImg(DEFAULT_USER_PIC);
         user.setCreationDate(new Date());
         try{
-            checkName(user.getFirstName());
+            user.setFirstName(checkName(getField("firstName", request)));
         }catch (Exception e){
             error.put("firstName", e.getMessage());
         }
         try{
-            checkName(user.getLastName());
+            user.setLastName(checkName(getField("lastName", request)));
         }catch (Exception e){
             error.put("lastName", e.getMessage());
         }
         try{
-            checkMail(user.getEmail());
+            user.setEmail(checkMail(getField("email", request)));
         }catch (Exception e){
             error.put("email", e.getMessage());
         }
@@ -46,7 +41,7 @@ public class SignUpForm extends Form {
             error.put("email", e.getMessage());
         }
         try{
-            checkPassword(user.getPassword(), getField("confirmPassword", request));
+            user.setPassword(checkPassword(getField("password", request), getField("confirmPassword", request)));
         }catch (Exception e){
             error.put("password", e.getMessage());
         }
