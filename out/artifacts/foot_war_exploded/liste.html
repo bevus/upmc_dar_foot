@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-3">
             <div class="searchPanel col-md-12">
-                <form class="">
+                <form class="searchControles">
                     <hr>
                     <div class="form-group">
                         <label class="control-label" for="keyWord">mot clé</label>
@@ -15,8 +15,8 @@
                     </div>
                     <hr>
                     <div class="form-group">
-                        <label class="control-label" for="nbPlayers">nombre de joueurs</label>
-                        <input id="nbPlayers" name="nbPlayers" type="number" placeholder="5, 6..." class="searchControl form-control input-md">
+                        <label class="control-label" for="nbPlayers">nombre de joueurs par équipe</label>
+                        <input id="nbPlayers" name="nbPlayers" type="text" placeholder="5, 6..." class="searchControl form-control input-md">
                     </div>
                 </form>
             </div>
@@ -27,24 +27,30 @@
         </div>
     </div>
 </section>
+<script src="Ressources/js/bower_components/moment/moment.js"></script>
+<script src="Ressources/js/bower_components/moment/locale/fr.js"></script>
+<script src="Ressources/js/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script>
     $(function(){
-        $.get(
-                '/list',
-                {},
-                function(data){
-                    if(data.rencontres){
-                        $.each(data.rencontres, function(i, rencontre){
-                            $(".listMatch").append(addRencontre(rencontre));
-                        });
-                    }
-                },
-                'json'
-        );
+        $(function () {
+            $('#date').datetimepicker({
+                locale: 'fr',
+                format: "DD/MM/YYYY"
+            }).blur(function (e) {
+                e.preventDefault();
+                $(this).trigger("keyup");
+            });
+        });
+        var listMatchElement = $(".listMatch");
+        $(".searchControl").keyup(function (e) {
+            e.preventDefault();
+            loadRencontres(listMatchElement, getSearchControlParams())
+        });
+        loadRencontres(listMatchElement, {});
         $('.searchPanel').affix({
             offset: {
                 top: function(){
-                    return (this.top = $(".listMatch").offset().top)
+                    return (this.top = listMatchElement.offset().top)
                 },
                 bottom: function () {
                     return (this.bottom = $('.footer').outerHeight(true))
@@ -54,27 +60,44 @@
         })
     });
 
-    function addRencontre(rencontre) {
-        return`<li class="match">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <img src="Ressources/images/${rencontre.organisateur.img}" class="img-thumbnail" width="80" height="80">
-                        </div>
-                        <div class="col-md-8">
-                            <h4>${rencontre.organisateur.prenom} ${rencontre.organisateur.nom}</h4>
-                            <p>${rencontre.description}</p>
-                            <p><b> ${rencontre.dateHeure}</b></p>
-                        </div>
-                        <div class="col-md-2" style="text-align: right">
-                            <h3 class="${(rencontre.nbJoueurCurr <= rencontre.nbJoueurTotal) ? "text-success" : "text-danger"}">${rencontre.nbJoueurCurr}/${rencontre.nbJoueurTotal}</h3>
-                            <b>à  ${rencontre.ville}</b>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="rencontre.html?id=${rencontre.id}" class="btn btn-primary pull-right">détails</a>
-                        </div>
-                    </div>
-                </li>`;
+    function getSearchControlParams() {
+        return {
+            'keyWord': $('#keyWord').val(),
+            'date': ($('#date').data("DateTimePicker").date() != null)? $('#date').data("DateTimePicker").date().valueOf() : "",
+            'nbPlayers': $("#nbPlayers").val()
+        }
+    }
+    function loadRencontres(element, params) {
+        $.get(
+                '/list',
+                params,
+                function (rencontres) {
+                    var html = "";
+                    $.each(rencontres, function(i, rencontre){
+                        html += `<li class="match">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                                <img src="Ressources/images/${rencontre.organizerPic}" class="img-thumbnail" width="80" height="80">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h4>${rencontre.organizerFirstName} ${rencontre.organizerLastName}</h4>
+                                            <p>${rencontre.description}</p>
+                                            <p><b> ${getDate(rencontre.dateTime)}</b></p>
+                                        </div>
+                                        <div class="col-md-2" style="text-align: right">
+                                            <h3 class="${(rencontre.playersCount <= rencontre.maxPlayersCount) ? "text-success" : "text-danger"}">${rencontre.playersCount}/${rencontre.maxPlayersCount}</h3>
+                                            <b>à  ${rencontre.city}</b>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a href="rencontre.html?id=${rencontre.id}" class="btn btn-primary pull-right">détails</a>
+                                        </div>
+                                    </div>
+                                </li>`;
+                    });
+                    element.html(html);
+                }
+        );
     }
 </script>

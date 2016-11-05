@@ -17,13 +17,15 @@ public class Meteo implements Comparable<Meteo> {
     private int dayT;
     private int nightT;
     private int humidity;
+    private int code;
     private String description;
     private String icon;
 
     @ManyToOne
     @JsonIgnore
     private Stade stade;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "meteo")
+    @JsonIgnore
     private Rencontre rencontre;
 
     public Rencontre getRencontre() {
@@ -112,6 +114,15 @@ public class Meteo implements Comparable<Meteo> {
 
     public Meteo setIcon(String icon) {
         this.icon = icon;
+        return this;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public Meteo setCode(int code) {
+        this.code = code;
         return this;
     }
 

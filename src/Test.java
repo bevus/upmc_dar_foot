@@ -17,7 +17,7 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) throws Exception {
-        //populate();
+        populate();
     }
 
     public static User addUser(Address addr, String fNmae, String lName, String email, String img){

@@ -202,10 +202,6 @@
             }
         });
     });
-    // todo gestion des equipes
-    // todo controle des equipes (ne pas participer deux fois dans la meme equipe)
-    // todo image stade !
-    // todo gestion des session pour savoir quelle rencontre afficher
     /**
      * utilisée dans : rencontre.html
      * met à jour la page rencontre
@@ -238,7 +234,7 @@
             loadLocalWeather(id, 6, $("#days"));
             $("body").append('<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyw6uBdlxvjGFSCXauLkcoPdwIwaJehSE&callback=initMap"/>');
         }else{
-            window.location.replace("/404.html");
+//            window.location.replace("/404.html");
         }
     }
     /**
@@ -396,6 +392,9 @@
                         <div class="col-md-12">
                             <hr/>
                         </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr/>
                         </div>
                 </div>`
         );
