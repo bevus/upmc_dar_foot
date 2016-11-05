@@ -17,9 +17,9 @@ public class Meteo implements Comparable<Meteo> {
     private int dayT;
     private int nightT;
     private int humidity;
+    private int code;
     private String description;
     private String icon;
-    private int code;
 
     @ManyToOne
     @JsonIgnore
@@ -121,8 +121,9 @@ public class Meteo implements Comparable<Meteo> {
         return code;
     }
 
-    public void setCode(int code) {
+    public Meteo setCode(int code) {
         this.code = code;
+        return this;
     }
 
     @Override

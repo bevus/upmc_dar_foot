@@ -85,7 +85,6 @@ public class HelperFunctions {
             day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
             day.put("humidity", node.get("humidity").asText());
             day.put("description", node.get("weather").get(0).get("description").asText());
-            day.put("code", Integer.parseInt(node.get("weather").get(0).get("id").asText())/100);
             cal.add(Calendar.DATE, 1);
         }
         return response;
@@ -103,10 +102,9 @@ public class HelperFunctions {
             meteo.setDescription(day.get("description").asText());
             meteo.setIcon(day.get("icon").asText());
             meteo.setDayDate(new Date(Long.parseLong(day.get("date").asText())));
-            meteo.setCode(day.get("doce").asInt());
+            meteo.setCode(day.get("code").asInt());
             meteo.setRencontre(rencontre);
             meteos.add(meteo);
-
         }
         return meteos;
     }
