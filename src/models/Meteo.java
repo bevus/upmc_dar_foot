@@ -19,11 +19,13 @@ public class Meteo implements Comparable<Meteo> {
     private int humidity;
     private String description;
     private String icon;
+    private int code;
 
     @ManyToOne
     @JsonIgnore
     private Stade stade;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "meteo")
+    @JsonIgnore
     private Rencontre rencontre;
 
     public Rencontre getRencontre() {
@@ -115,8 +117,32 @@ public class Meteo implements Comparable<Meteo> {
         return this;
     }
 
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     @Override
     public int compareTo(Meteo o) {
         return  this.getDayDate().compareTo(o.getDayDate());
+    }
+
+    @Override
+    public String toString() {
+        return "Meteo{" +
+                "id=" + id +
+                ", dayName='" + dayName + '\'' +
+                ", dayDate=" + dayDate +
+                ", dayT=" + dayT +
+                ", nightT=" + nightT +
+                ", humidity=" + humidity +
+                ", description='" + description + '\'' +
+                ", icon='" + icon + '\'' +
+                ", stade=" + stade +
+                ", rencontre=" + rencontre +
+                '}';
     }
 }

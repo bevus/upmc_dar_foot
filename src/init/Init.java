@@ -2,6 +2,7 @@ package init;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import utils.HelperFunctions;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -17,6 +18,8 @@ public class Init implements ServletContextListener {
         ServletContext servletContext = sce.getServletContext();
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         servletContext.setAttribute(ATT_SESSION_FACTORY, sessionFactory);
+
+        HelperFunctions.StartDailyTask(sessionFactory);
     }
 
     @Override

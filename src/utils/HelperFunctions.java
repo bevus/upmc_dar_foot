@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import init.DailyTask;
 import models.Meteo;
 import models.Rencontre;
 import models.Stade;
 import models.User;
+import org.hibernate.SessionFactory;
 
 import javax.servlet.http.Part;
 import java.io.*;
@@ -83,6 +85,7 @@ public class HelperFunctions {
             day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
             day.put("humidity", node.get("humidity").asText());
             day.put("description", node.get("weather").get(0).get("description").asText());
+            day.put("code", Integer.parseInt(node.get("weather").get(0).get("id").asText())/100);
             cal.add(Calendar.DATE, 1);
         }
         return response;
@@ -100,7 +103,10 @@ public class HelperFunctions {
             meteo.setDescription(day.get("description").asText());
             meteo.setIcon(day.get("icon").asText());
             meteo.setDayDate(new Date(Long.parseLong(day.get("date").asText())));
+            meteo.setCode(day.get("doce").asInt());
+            meteo.setRencontre(rencontre);
             meteos.add(meteo);
+
         }
         return meteos;
     }
@@ -305,5 +311,10 @@ public class HelperFunctions {
     }
     private void writeFile(Part part, String fileName ) throws IOException {
         Files.copy(part.getInputStream(), Paths.get(fileName));
+    }
+
+    public static void StartDailyTask(SessionFactory sessionFactory){
+        Timer timer= new Timer();
+        timer.schedule(new DailyTask(sessionFactory),1000,10000*6*60*24); // 24 heures
     }
 }
