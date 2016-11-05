@@ -1,13 +1,28 @@
 <section class="container">
     <div class="row">
         <div class="col-md-3">
-            <div class="searchPanel">
-                <!--search params-->
+            <div class="searchPanel col-md-12">
+                <form class="">
+                    <hr>
+                    <div class="form-group">
+                        <label class="control-label" for="keyWord">mot clé</label>
+                        <input id="keyWord" name="keyWord" type="text" placeholder="stade, commune..." class="searchControl form-control input-md">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label class="control-label" for="date">date</label>
+                        <input id="date" name="date" type="text" placeholder="" class="searchControl form-control input-md">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label class="control-label" for="nbPlayers">nombre de joueurs</label>
+                        <input id="nbPlayers" name="nbPlayers" type="number" placeholder="5, 6..." class="searchControl form-control input-md">
+                    </div>
+                </form>
             </div>
         </div>
         <div class="col-md-9">
             <ul class="listMatch list-unstyled">
-
             </ul>
         </div>
     </div>
@@ -20,28 +35,7 @@
                 function(data){
                     if(data.rencontres){
                         $.each(data.rencontres, function(i, rencontre){
-                            $(".listMatch").append(
-                                    '<li class="match">'+
-                                    '<div class="row">'+
-                                    '<div class="col-md-2">'+
-                                    '<img src="Ressources/images/' + rencontre.organisateur.img + '" class="img-circle img-thumbnail" width="80" height="80">'+
-                                    '</div>'+
-                                    '<div class="col-md-8">'+
-                                    '<h4>' + rencontre.organisateur.prenom + ' ' + rencontre.organisateur.nom + '</h4>'+
-                                    '<p>' + rencontre.description + '</p>' +
-                                    '<p><b>' + rencontre.dateHeure + '</b></p>' +
-                                    '</div>'+
-                                    '<div class="col-md-2" style="text-align: right">'+
-                                    '<h3 class="' + ((rencontre.nbJoueurCurr <= rencontre.nbJoueurTotal)? "text-success" : "text-danger") + '">' + rencontre.nbJoueurCurr + '/' + rencontre.nbJoueurTotal +'</h3>'+
-                                    '<b>à ' + rencontre.ville + '</b>'+
-                                    '</div>'+
-                                    '</div>'+
-                                    '<div class="row">'+
-                                    '<div class="col-md-12">'+
-                                    '<a href="rencontre.html?id=' + rencontre.id + '" class="btn btn-primary pull-right">détails</a>'+
-                                    '</div>'+
-                                    '</div>'+
-                                    '</li>')
+                            $(".listMatch").append(addRencontre(rencontre));
                         });
                     }
                 },
@@ -59,4 +53,28 @@
             }
         })
     });
+
+    function addRencontre(rencontre) {
+        return`<li class="match">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="Ressources/images/${rencontre.organisateur.img}" class="img-thumbnail" width="80" height="80">
+                        </div>
+                        <div class="col-md-8">
+                            <h4>${rencontre.organisateur.prenom} ${rencontre.organisateur.nom}</h4>
+                            <p>${rencontre.description}</p>
+                            <p><b> ${rencontre.dateHeure}</b></p>
+                        </div>
+                        <div class="col-md-2" style="text-align: right">
+                            <h3 class="${(rencontre.nbJoueurCurr <= rencontre.nbJoueurTotal) ? "text-success" : "text-danger"}">${rencontre.nbJoueurCurr}/${rencontre.nbJoueurTotal}</h3>
+                            <b>à  ${rencontre.ville}</b>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="rencontre.html?id=${rencontre.id}" class="btn btn-primary pull-right">détails</a>
+                        </div>
+                    </div>
+                </li>`;
+    }
 </script>

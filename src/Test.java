@@ -4,7 +4,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import utils.HelperFunctions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +17,7 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) throws Exception {
-        populate();
+        //populate();
     }
 
     public static User addUser(Address addr, String fNmae, String lName, String email, String img){
@@ -68,12 +71,6 @@ public class Test {
         stade.setNom("STADE AURÉLIEN BAZIN");
         stade.setNote(0);
 
-        // meteo
-        try {
-            stade.setMeteos(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(stade.getLatitude()+"", stade.getLongitude()+"", "16"), stade));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         //comments
         Comment comment1 = new Comment();
         ArrayList<User> upvoters = new ArrayList<>();
@@ -114,7 +111,7 @@ public class Test {
         session.beginTransaction();
 
         // match
-        Date date = new Date();
+        Date date = HelperFunctions.formatDate(new Date());
         for(int i = 0; i < 5; i++){
             Rencontre rencontre = new Rencontre();
             rencontre.setDescription("Arrr! Pieces o' hunger are forever old.Yuck, undead dubloon. you won't pull the fortress.Arg, heavy-hearted reef.");
@@ -139,6 +136,10 @@ public class Test {
                 rencontreUser.setRencontre(rencontre);
             }
             rencontre.setPlayers(rencontreUsers);
+            try {
+                rencontre.setMeteo(HelperFunctions.filterMeteo(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(stade.getLatitude()+"", stade.getLongitude()+"", "16"), stade, rencontre), date));
+            } catch (Exception ignored) {
+            }
             session.persist(rencontre);
         }
 

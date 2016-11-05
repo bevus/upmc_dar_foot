@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Meteo;
+import models.Rencontre;
 import models.Stade;
 import models.User;
 
@@ -17,15 +18,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by Hacene on 08/10/2016.
  */
 public class HelperFunctions {
     public static final String[] daysOfWeek = {"DIM", "LUN","MAR", "MER", "JEU", "VEN", "SAM"};
+
     public static String getSHA1(String s)  {
         if(s == null)
             return "";
@@ -47,6 +49,16 @@ public class HelperFunctions {
         }
     }
 
+    public static Date formatDate(Date d){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        try {
+            d = format.parse(format.format(d));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return d;
+    }
+
     public static ObjectNode getWeatherData(String lat, String lon, String nbDays) throws Exception{
         final String API_KEY = "d651f5d56cfe0880876e540f4a805bdc";
         String url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" +
@@ -60,8 +72,8 @@ public class HelperFunctions {
         ArrayNode daysResponse = response.putArray("days");
 
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-
+        Date date = formatDate(new Date());
+        cal.setTime(date);
         for (JsonNode node : days){
             ObjectNode day = daysResponse.addObject();
             day.put("name", daysOfWeek[cal.get(Calendar.DAY_OF_WEEK) - 1]);
@@ -76,7 +88,7 @@ public class HelperFunctions {
         return response;
     }
 
-    public static ArrayList<Meteo> jsonToMeteo(ObjectNode node, Stade stade){
+    public static ArrayList<Meteo> jsonToMeteo(ObjectNode node, Stade stade, Rencontre rencontre){
         ArrayList<Meteo> meteos = new ArrayList<>();
         for(JsonNode day : (ArrayNode)node.get("days")){
             Meteo meteo = new Meteo();
@@ -91,6 +103,17 @@ public class HelperFunctions {
             meteos.add(meteo);
         }
         return meteos;
+    }
+
+    public static Meteo filterMeteo(List<Meteo> meteoList, Date date){
+        Collections.sort(meteoList);
+        Calendar calendar = Calendar.getInstance();
+        for(Meteo m : meteoList){
+            if(m.getDayDate().compareTo(date) == 0){
+                return  m;
+            }
+        }
+        return meteoList.get(meteoList.size() - 1);
     }
 
     /**

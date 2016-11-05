@@ -25,6 +25,17 @@ public class Rencontre {
     private User organizer;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rencontre")
     private List<RencontreUser> players;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Meteo meteo;
+
+    public Meteo getMeteo() {
+        return meteo;
+    }
+
+    public Rencontre setMeteo(Meteo meteo) {
+        this.meteo = meteo;
+        return this;
+    }
 
     public String getDescription() {
         return description;

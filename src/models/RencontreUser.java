@@ -13,10 +13,10 @@ public class RencontreUser {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String team;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private User player;
     private Date dateCreation;
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnore
     private Rencontre rencontre;
 

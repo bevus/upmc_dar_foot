@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by Hacene on 24/10/2016.
  */
 @Entity
-public class Meteo {
+public class Meteo implements Comparable<Meteo> {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String dayName;
@@ -23,6 +23,17 @@ public class Meteo {
     @ManyToOne
     @JsonIgnore
     private Stade stade;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Rencontre rencontre;
+
+    public Rencontre getRencontre() {
+        return rencontre;
+    }
+
+    public Meteo setRencontre(Rencontre rencontre) {
+        this.rencontre = rencontre;
+        return this;
+    }
 
     public Stade getStade() {
         return stade;
@@ -102,5 +113,10 @@ public class Meteo {
     public Meteo setIcon(String icon) {
         this.icon = icon;
         return this;
+    }
+
+    @Override
+    public int compareTo(Meteo o) {
+        return  this.getDayDate().compareTo(o.getDayDate());
     }
 }

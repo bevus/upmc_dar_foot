@@ -1,23 +1,20 @@
 package servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import forms.Form;
+import init.Consts;
 import init.Init;
 import models.Rencontre;
-import models.Stade;
-import models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,59 +23,57 @@ import java.util.List;
 public class ListeRencontre extends HttpServlet {
 
     public static final int MAX_RESULTS = 5;
-    private String Q  ;
+    private String Q;
     int start;
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType(Consts.CONTENT_TYPE_JSON);
+
+        String keyWord = Form.getField("keyWord", request);
+        Date date = null;
         try {
-            start = Integer.parseInt(request.getParameter("start"));
+            date = new Date(Long.parseLong(Form.getField("date", request)));
+        }catch(Exception ignored){
         }
-        catch (NumberFormatException e){
-            start=0;
+        Integer nbPlayers = null;
+        try{
+            nbPlayers = Integer.parseInt(Form.getField("nbPlayers", request));
+        }catch (Exception ignored){
         }
+
+        String stringQuery = "from Rencontre where " +
+                ((keyWord == null) ? " true and " : " description like :keyWord1 or stade.nom like :keyWord2 or stade.commune like :keyWord3 and ") +
+                ((date == null) ? " true and " : " DATE_FORMAT(dateDebut, '%d/%m/%Y') = :searchDate and ") +
+                ((nbPlayers == null) ? " true and " : " nbJoueurs = :nbJouers and ") + " dateDebut >= :currentDate";
 
         SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
         Session session = factory.openSession();
-
-        //String q="from Rencontre r, r.players p where p.firstName like :parti ORDER BY r.dateDebut desc";
-        List<Rencontre> rencontresQ  = search(session,request.getParameter("ville"), request.getParameter("organisateur"),
-                request.getParameter("date"), request.getParameter("nbJoueur"), request.getParameter("participant"),
-                request.getParameter("description"));
-        // List<Rencontre> rencontresQ = session.createQuery(q).setParameter("parti",request.getParameter("participant")).setFirstResult(start).setMaxResults(MAX_RESULTS).list();
-
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy à HH:mm");
-
         ObjectMapper mapper = new ObjectMapper();
-        ObjectNode jsonResponse = mapper.createObjectNode();
-        ArrayNode rencontres = jsonResponse.putArray("rencontres");
-
-        for(Rencontre r : rencontresQ){
-            ObjectNode rencontre = rencontres.addObject();
-            ObjectNode organizateur = rencontre.putObject("organisateur");
-
-            organizateur.put("id",r.getOrganizer().getId());
-            organizateur.put("nom",r.getOrganizer().getFirstName() );
-            organizateur.put("prenom",r.getOrganizer().getLastName() );
-            organizateur.put("img",r.getOrganizer().getImg());
-
-            rencontre.put("id",r.getId());
-            rencontre.put("nbJoueurCurr",r.getPlayers().size());
-            rencontre.put("nbJoueurTotal", r.getNbJoueurs());
-            rencontre.put("dateHeure","Le "+df.format(r.getDateDebut()));
-            rencontre.put("nomStade",r.getStade().getNom());
-            rencontre.put("description",r.getDescription());
-            rencontre.put("ville",r.getStade().getCommune()+" "+r.getStade().getCodePostal());
+        System.out.println(stringQuery);
+        Query<Rencontre> query = session.createQuery(stringQuery);
+        query.setParameter("currentDate", new Date());
+        if(keyWord != null){
+            query.setParameter("keyWord1", "%"+keyWord+"%");
+            query.setParameter("keyWord2", "%"+keyWord+"%");
+            query.setParameter("keyWord3", "%"+keyWord+"%");
+        }
+        if(date != null){
+            query.setParameter("searchDate", "%"+date+"%");
+        }
+        if(nbPlayers != null){
+            query.setParameter("nbJouers", "%"+nbPlayers+"%");
         }
 
-        jsonResponse.put("Q",Q);
-        response.setContentType("text/json; charset=utf-8");
-        session.close();
-        response.getWriter().print(jsonResponse.toString());
+        List<Rencontre> rencontres = query.list();
+        response.getWriter().print(mapper.writeValueAsString(rencontres));
     }
-
-    private List<Rencontre> search(Session session,String ville, String organisateur, String date, String nbJoueur,
+}
+/*
+        private List<Rencontre> search(Session session,String ville, String organisateur, String date, String nbJoueur,
                                    String participant, String description) {
         String q="";
 
@@ -117,13 +112,10 @@ public class ListeRencontre extends HttpServlet {
 
         Q=q;
         List<Rencontre> rencontres=new ArrayList<>();
-
         rencontres = session.createQuery(q).setFirstResult(start).setMaxResults(MAX_RESULTS).list();
 
         return rencontres;
-    }
-/*
-    private List<Rencontre> searchOld(Session session,String ville, String organisateur, String date, String nbJoueur,
+        private List<Rencontre> searchOld(Session session,String ville, String organisateur, String date, String nbJoueur,
                                       String participant, String description) {
 
         List rencontres;
@@ -175,4 +167,48 @@ public class ListeRencontre extends HttpServlet {
 
 //}
 
-}
+
+//        try {
+//            start = Integer.parseInt(request.getParameter("start"));
+//        }
+//        catch (NumberFormatException e){
+//            start=0;
+//        }
+//
+//        SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
+//        Session session = factory.openSession();
+//
+//        //String q="from Rencontre r, r.players p where p.firstName like :parti ORDER BY r.dateDebut desc";
+//        List<Rencontre> rencontresQ  = search(session,request.getParameter("ville"), request.getParameter("organisateur"),
+//                request.getParameter("date"), request.getParameter("nbJoueur"), request.getParameter("participant"),
+//                request.getParameter("description"));
+//        // List<Rencontre> rencontresQ = session.createQuery(q).setParameter("parti",request.getParameter("participant")).setFirstResult(start).setMaxResults(MAX_RESULTS).list();
+//
+//        DateFormat df = new SimpleDateFormat("dd-MM-yyyy à HH:mm");
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        ObjectNode jsonResponse = mapper.createObjectNode();
+//        ArrayNode rencontres = jsonResponse.putArray("rencontres");
+//
+//        for(Rencontre r : rencontresQ){
+//            ObjectNode rencontre = rencontres.addObject();
+//            ObjectNode organizateur = rencontre.putObject("organisateur");
+//
+//            organizateur.put("id",r.getOrganizer().getId());
+//            organizateur.put("nom",r.getOrganizer().getFirstName() );
+//            organizateur.put("prenom",r.getOrganizer().getLastName() );
+//            organizateur.put("img",r.getOrganizer().getImg());
+//
+//            rencontre.put("id",r.getId());
+//            rencontre.put("nbJoueurCurr",r.getPlayers().size());
+//            rencontre.put("nbJoueurTotal", r.getNbJoueurs());
+//            rencontre.put("dateHeure","Le "+df.format(r.getDateDebut()));
+//            rencontre.put("nomStade",r.getStade().getNom());
+//            rencontre.put("description",r.getDescription());
+//            rencontre.put("ville",r.getStade().getCommune()+" "+r.getStade().getCodePostal());
+//        }
+//
+//        jsonResponse.put("Q",Q);
+//        response.setContentType("text/json; charset=utf-8");
+//        session.close();
+//        response.getWriter().print(jsonResponse.toString());
