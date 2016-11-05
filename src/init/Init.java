@@ -20,6 +20,7 @@ public class Init implements ServletContextListener {
         servletContext.setAttribute(ATT_SESSION_FACTORY, sessionFactory);
 
         HelperFunctions.StartDailyTask(sessionFactory);
+
     }
 
     @Override

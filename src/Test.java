@@ -1,15 +1,17 @@
 import models.*;
-import org.hibernate.Session;
+import models.Address;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import utils.HelperFunctions;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+
 
 /**
  * Created by Hacene on 08/10/2016.
@@ -17,7 +19,51 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) throws Exception {
-//        populate();
+
+
+
+        // populate();
+
+//        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+//        Session session = sessionFactory.openSession();
+//
+//        Date date = HelperFunctions.formatDate(new Date());
+//        List<Meteo> meteos = session.createQuery("from Meteo where dayDate >=:currDate")
+//                .setParameter("currDate",HelperFunctions.formatDate(date))
+//                .list();
+//        session.beginTransaction();
+//
+//
+//        System.out.println(meteos +"\n"+
+//        " "+meteos.size());
+//
+//        for (Meteo m: meteos){
+//            Meteo newMeteo=HelperFunctions.filterMeteo(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(m.getStade().getLatitude()+"",
+//                    m.getStade().getLongitude()+"", "16"), m.getStade(), m.getRencontre()),HelperFunctions.formatDate( m.getRencontre().getDateDebut()));
+//
+////            if (Math.abs(m.getDayT()-newMeteo.getDayT())<=2){
+////                System.out.println("Changement de temperature pour la rencotre du "+m.getRencontre().getDateDebut()+ " a "+m.getStade().getCommune());
+////                // TODO send mails
+////            }
+////            newMeteo.setId(m.getId());
+////            session.update(newMeteo);
+//
+//            System.out.println(m.getDayT() + " "+ newMeteo.getDayT());
+//
+//            m.setDayDate(newMeteo.getDayDate());
+//            m.setDayName(newMeteo.getDayName());
+//            m.setDayT(newMeteo.getDayT());
+//            m.setNightT(newMeteo.getNightT());
+//            m.setHumidity(newMeteo.getHumidity());
+//            m.setDescription(newMeteo.getDescription());
+//            m.setIcon(newMeteo.getIcon());
+//
+//            session.update(m);
+//        }
+//
+//        session.getTransaction().commit();
+//        session.close();
+
     }
 
     public static User addUser(Address addr, String fNmae, String lName, String email, String img){
@@ -34,7 +80,7 @@ public class Test {
 
     public static void populate(){
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();
+        org.hibernate.Session session = sessionFactory.openSession();
         // addresses
         Address addressHacene = new Address();
         addressHacene.setCity("Villetaneuse");

@@ -6,4 +6,5 @@ package init;
 public interface Consts {
     String CONTENT_TYPE_JSON = "text/json; charset=utf-8";
     String USER = "user";
+    String WEB_ROOT="localhost:8081";
 }

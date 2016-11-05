@@ -9,16 +9,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import utils.HelperFunctions;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimerTask;
+import java.util.*;
 
 
 /**
  * Created by Zahir on 24/10/2016.
  */
-public class DailyTask extends TimerTask implements init.Observable{
+public class DailyTask extends TimerTask implements Observable{
     private SessionFactory sessionFactory;
     private List<Observer> observers = new ArrayList<>();
     public DailyTask(SessionFactory sessionFactory) {
@@ -45,12 +42,15 @@ public class DailyTask extends TimerTask implements init.Observable{
 
             session.beginTransaction();
 
+            Map<Meteo,Meteo> meteoMeteoMap = new HashMap<>();
+
             for (Meteo m: meteos){
                 Meteo newMeteo=HelperFunctions.filterMeteo(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(m.getStade().getLatitude()+"",
                         m.getStade().getLongitude()+"", "16"), m.getStade(), m.getRencontre()),HelperFunctions.formatDate( m.getRencontre().getDateDebut()));
 
+                meteoMeteoMap.put(m.clone(),newMeteo);
 
-                //System.out.println(m.getDayT() + " "+ newMeteo.getDayT());
+                System.out.println(m.getDayT() + " "+ newMeteo.getDayT()+ " newMeteo.code="+newMeteo.getCode() + " meteo.code="+m.getCode());
 
                 m.setDayDate(newMeteo.getDayDate());
                 m.setDayName(newMeteo.getDayName());
@@ -61,21 +61,26 @@ public class DailyTask extends TimerTask implements init.Observable{
                 m.setIcon(newMeteo.getIcon());
                 m.setCode(newMeteo.getCode());
 
-                if(HelperFunctions.formatDate(newMeteo.getDayDate()).compareTo(HelperFunctions.formatDate(m.getRencontre().getDateDebut()))==0){
-                    meteoAvailable(m.getRencontre(), m , newMeteo);
-                }
-
-                if(m.getCode()!= newMeteo.getCode()){
-                    meteoChanged(m.getRencontre(), m , newMeteo);
-                }
                 session.update(m);
             }
 
             session.getTransaction().commit();
+
+
+            for(Meteo m:meteoMeteoMap.keySet()){
+                Meteo newMeteo = meteoMeteoMap.get(m);
+
+                if(HelperFunctions.formatDate(newMeteo.getDayDate()).compareTo(HelperFunctions.formatDate(m.getRencontre().getDateDebut()))==0 &&
+                        HelperFunctions.formatDate(m.getDayDate()).compareTo(HelperFunctions.formatDate(newMeteo.getDayDate()))<0) {
+                    meteoAvailable(m.getRencontre(), m , newMeteo);
+                }
+                System.out.println("m.code="+m.getCode()+" newM.code="+newMeteo.getCode());
+                if(m.getCode()!= newMeteo.getCode()){
+                    meteoChanged(m.getRencontre(), m , newMeteo);
+                }
+            }
+
             session.close();
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,12 +6,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import init.DailyTask;
+import init.NotifyUsers;
 import models.Meteo;
 import models.Rencontre;
 import models.Stade;
 import models.User;
 import org.hibernate.SessionFactory;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.net.URL;
@@ -85,7 +89,7 @@ public class HelperFunctions {
             day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
             day.put("humidity", node.get("humidity").asText());
             day.put("description", node.get("weather").get(0).get("description").asText());
-            day.put("code", Integer.parseInt(node.get("weather").get(0).get("id").asText())/100 );
+            day.put("code", Integer.parseInt(node.get("weather").get(0).get("id").asText())/100);
             cal.add(Calendar.DATE, 1);
         }
         return response;
@@ -315,7 +319,49 @@ public class HelperFunctions {
 
     public static void StartDailyTask(SessionFactory sessionFactory){
         Timer timer= new Timer();
-        timer.schedule(new DailyTask(sessionFactory),1000,10000*6*60*24); // 24 heures
+        DailyTask task = new DailyTask(sessionFactory);
+        task.addObserver(new NotifyUsers());
+        timer.schedule(task,1000,10000*6*60*24); // 24 heures
+
+    }
+
+    public static void sendMail(String mailTo, String subject, String body){
+        String host="smtp.live.com";
+        final String user="darfoot@hotmail.com";
+        final String password="Khelifa2016";
+
+        String to=mailTo;
+        //Get the session object
+        Properties props = new Properties();
+        props.setProperty("mail.transport.protocol", "smtp");
+        props.setProperty("mail.host", host);
+        props.put("mail.smtp.host",host);
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.port", "587");
+
+
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user,password);
+                    }
+                });
+
+        //Compose the message
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(user));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.setSubject(subject);
+            message.setText(body);
+
+            //send the message
+            Transport.send(message);
+
+            System.out.println("message sent successfully...");
+
+        } catch (MessagingException e) {e.printStackTrace();}
     }
 
     public static void fillRencontreObjectNode(ObjectNode jsonR, Rencontre r){

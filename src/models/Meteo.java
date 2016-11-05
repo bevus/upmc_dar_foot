@@ -146,4 +146,21 @@ public class Meteo implements Comparable<Meteo> {
                 ", rencontre=" + rencontre +
                 '}';
     }
+
+
+    public Meteo clone()  {
+        Meteo m = new Meteo();
+        m.setCode(getCode());
+        m.setIcon(getIcon());
+        m.setStade(getStade());
+        m.setHumidity(getHumidity());
+        m.setDayT(getDayT());
+        m.setId(getId());
+        m.setRencontre(getRencontre());
+        m.setNightT(getNightT());
+        m.setDescription(getDescription());
+        m.setDayName(getDayName());
+        m.setDayDate(getDayDate());
+        return m;
+    }
 }
