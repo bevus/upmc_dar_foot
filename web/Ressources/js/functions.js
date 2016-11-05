@@ -139,3 +139,27 @@ function getComments(stadeId, first, count, element, commentClass, user, callbac
           }, 'json'
       );
 }
+function addRencontre(rencontre) {
+    return `<li class="match">
+                        <div class="row">
+                            <div class="col-md-2">
+                                    <img src="Ressources/images/${rencontre.organizerPic}" class="img-thumbnail" width="80" height="80">
+                            </div>
+                            <div class="col-md-7">
+                                <h4>${rencontre.organizerFirstName} ${rencontre.organizerLastName}</h4>
+                                <p>${rencontre.description}</p>
+                                <p><b> ${getDate(rencontre.dateTime)}</b></p>
+                            </div>
+                            <div class="col-md-3" style="text-align: right">
+                                <h3 class="${(rencontre.playersCount <= rencontre.maxPlayersCount) ? "text-success" : "text-danger"}">${rencontre.playersCount}/${rencontre.maxPlayersCount}</h3>
+                                <b>à  ${rencontre.city}</b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="rencontre.html?id=${rencontre.id}" class="btn btn-primary pull-right">détails</a>
+                            </div>
+                        </div>
+                    </li>`;
+}
+

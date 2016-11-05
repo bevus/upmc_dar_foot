@@ -17,48 +17,7 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) throws Exception {
-        // populate();
-
-//        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-//        Session session = sessionFactory.openSession();
-//
-//        Date date = HelperFunctions.formatDate(new Date());
-//        List<Meteo> meteos = session.createQuery("from Meteo where dayDate >=:currDate")
-//                .setParameter("currDate",HelperFunctions.formatDate(date))
-//                .list();
-//        session.beginTransaction();
-//
-//
-//        System.out.println(meteos +"\n"+
-//        " "+meteos.size());
-//
-//        for (Meteo m: meteos){
-//            Meteo newMeteo=HelperFunctions.filterMeteo(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(m.getStade().getLatitude()+"",
-//                    m.getStade().getLongitude()+"", "16"), m.getStade(), m.getRencontre()),HelperFunctions.formatDate( m.getRencontre().getDateDebut()));
-//
-////            if (Math.abs(m.getDayT()-newMeteo.getDayT())<=2){
-////                System.out.println("Changement de temperature pour la rencotre du "+m.getRencontre().getDateDebut()+ " a "+m.getStade().getCommune());
-////                // TODO send mails
-////            }
-////            newMeteo.setId(m.getId());
-////            session.update(newMeteo);
-//
-//            System.out.println(m.getDayT() + " "+ newMeteo.getDayT());
-//
-//            m.setDayDate(newMeteo.getDayDate());
-//            m.setDayName(newMeteo.getDayName());
-//            m.setDayT(newMeteo.getDayT());
-//            m.setNightT(newMeteo.getNightT());
-//            m.setHumidity(newMeteo.getHumidity());
-//            m.setDescription(newMeteo.getDescription());
-//            m.setIcon(newMeteo.getIcon());
-//
-//            session.update(m);
-//        }
-//
-//        session.getTransaction().commit();
-//        session.close();
-
+//        populate();
     }
 
     public static User addUser(Address addr, String fNmae, String lName, String email, String img){

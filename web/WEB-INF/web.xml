@@ -94,6 +94,10 @@
         <servlet-name>CancelParticipation</servlet-name>
         <servlet-class>servlets.CancelParticipation</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MesRencontre</servlet-name>
+        <servlet-class>servlets.MesRencontre</servlet-class>
+    </servlet>
 
 
     <servlet-mapping>
@@ -170,6 +174,10 @@
     <servlet-mapping>
         <servlet-name>CancelParticipation</servlet-name>
         <url-pattern>/cancelParticipation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MesRencontre</servlet-name>
+        <url-pattern>/myMatches</url-pattern>
     </servlet-mapping>
 
     <listener>

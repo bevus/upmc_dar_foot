@@ -10,6 +10,7 @@ import models.Rencontre;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import utils.HelperFunctions;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -70,16 +71,7 @@ public class ListeRencontre extends HttpServlet {
         List<Rencontre> rencontres = query.list();
         ArrayNode jsonResponse = mapper.createArrayNode();
         for(Rencontre r : rencontres){
-            ObjectNode jsonR = jsonResponse.addObject();
-            jsonR.put("organizerPic", r.getOrganizer().getImg());
-            jsonR.put("organizerFirstName", r.getOrganizer().getFirstName());
-            jsonR.put("organizerLastName", r.getOrganizer().getLastName());
-            jsonR.put("dateTime", r.getDateDebut().getTime());
-            jsonR.put("description", r.getDescription());
-            jsonR.put("maxPlayersCount", r.getNbJoueurs() * 2);
-            jsonR.put("playersCount", r.getPlayers().size());
-            jsonR.put("city", r.getStade().getCommune());
-            jsonR.put("id", r.getId());
+            HelperFunctions.fillRencontreObjectNode(jsonResponse.addObject(), r);
         }
         session.close();
         response.getWriter().print(jsonResponse.toString());

@@ -49,13 +49,10 @@
         loadRencontres(listMatchElement, {});
         $('.searchPanel').affix({
             offset: {
-                top: function(){
-                    return (this.top = listMatchElement.offset().top)
-                },
+                top: $("nav").offset().top,
                 bottom: function () {
-                    return (this.bottom = $('.footer').outerHeight(true))
-                },
-                offset : {top : 0}
+                    return (this.bottom = $('.footer').outerHeight(true));
+                }
             }
         })
     });
@@ -68,35 +65,18 @@
         }
     }
     function loadRencontres(element, params) {
+        element.html(`<h3 class="text-center">Aucun résultat disponible</h3>`);
         $.get(
                 '/list',
                 params,
                 function (rencontres) {
                     var html = "";
                     $.each(rencontres, function(i, rencontre){
-                        html += `<li class="match">
-                                    <div class="row">
-                                        <div class="col-md-2">
-                                                <img src="Ressources/images/${rencontre.organizerPic}" class="img-thumbnail" width="80" height="80">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <h4>${rencontre.organizerFirstName} ${rencontre.organizerLastName}</h4>
-                                            <p>${rencontre.description}</p>
-                                            <p><b> ${getDate(rencontre.dateTime)}</b></p>
-                                        </div>
-                                        <div class="col-md-2" style="text-align: right">
-                                            <h3 class="${(rencontre.playersCount <= rencontre.maxPlayersCount) ? "text-success" : "text-danger"}">${rencontre.playersCount}/${rencontre.maxPlayersCount}</h3>
-                                            <b>à  ${rencontre.city}</b>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <a href="rencontre.html?id=${rencontre.id}" class="btn btn-primary pull-right">détails</a>
-                                        </div>
-                                    </div>
-                                </li>`;
+                        html += addRencontre(rencontre);
                     });
-                    element.html(html);
+                    if(html != ""){
+                        element.html(html);
+                    }
                 }
         );
     }

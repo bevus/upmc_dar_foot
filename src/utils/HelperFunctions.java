@@ -85,6 +85,7 @@ public class HelperFunctions {
             day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
             day.put("humidity", node.get("humidity").asText());
             day.put("description", node.get("weather").get(0).get("description").asText());
+            day.put("code", Integer.parseInt(node.get("weather").get(0).get("id").asText())/100 );
             cal.add(Calendar.DATE, 1);
         }
         return response;
@@ -190,7 +191,7 @@ public class HelperFunctions {
                 "</head>\n" ).append(
                 "<body>");
             if(user == null){
-                html.append("<nav class=\"navbar navbar-default navbar-static-top\">\n" ).append(
+                html.append("<nav class=\"navbar navbar-default navbar-fixed-top\">\n" ).append(
                         "    <div class=\"container\">\n" ).append(
                         "        <a href=\"index.html\" class=\"navbar-brand\">Foot</a>\n" ).append(
                         "        <ul class=\"nav navbar-nav\">\n" ).append(
@@ -257,7 +258,7 @@ public class HelperFunctions {
             }else{
                 // connected
                 try {
-                    html.append( "<nav class=\"navbar navbar-default navbar-static-top\">\n" ).append(
+                    html.append( "<nav class=\"navbar navbar-default navbar-fixed-top\">\n" ).append(
                             "    <div class=\"container\">\n" ).append(
                             "        <a href=\"/index.html\" class=\"navbar-brand\">Foot</a>\n" ).append(
                             "        <ul class=\"nav navbar-nav\">\n" ).append(
@@ -269,6 +270,7 @@ public class HelperFunctions {
                             "                <img style=\"position: relative;top: 5px;\" src=\"/Ressources/images/" ).append( user.getImg() ).append( "\" width=\"40\" height=\"40\" class=\"dropdown-toggle img-thumbnail img-circle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" ).append(
                             "                <ul class=\"dropdown-menu\">\n" ).append(
                             "                    <li><a href=\"/updateProfile.html\"><span class=\"glyphicon glyphicon-cog\"></span> Mon profil</a></li>\n" ).append(
+                            "                    <li><a href=\"/mesMatchs.html\"><span class=\"glyphicon glyphicon-list\"></span> Men matches</a></li>\n" ).append(
                             "                    <li role=\"separator\" class=\"divider\"></li>\n" ).append(
                             "                    <li><a href=\"\" id=\"logout\"><span class=\"glyphicon glyphicon-log-out\"></span> D&eacute;connexion</a></li>\n" ).append(
                             "                </ul>\n" ).append(
@@ -314,5 +316,17 @@ public class HelperFunctions {
     public static void StartDailyTask(SessionFactory sessionFactory){
         Timer timer= new Timer();
         timer.schedule(new DailyTask(sessionFactory),1000,10000*6*60*24); // 24 heures
+    }
+
+    public static void fillRencontreObjectNode(ObjectNode jsonR, Rencontre r){
+        jsonR.put("organizerPic", r.getOrganizer().getImg());
+        jsonR.put("organizerFirstName", r.getOrganizer().getFirstName());
+        jsonR.put("organizerLastName", r.getOrganizer().getLastName());
+        jsonR.put("dateTime", r.getDateDebut().getTime());
+        jsonR.put("description", r.getDescription());
+        jsonR.put("maxPlayersCount", r.getNbJoueurs() * 2);
+        jsonR.put("playersCount", r.getPlayers().size());
+        jsonR.put("city", r.getStade().getCommune());
+        jsonR.put("id", r.getId());
     }
 }
