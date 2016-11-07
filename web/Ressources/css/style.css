@@ -10,6 +10,9 @@ body{
     margin-top: 60px;
     padding: 0;
 }
+p{
+    word-wrap: break-word;
+}
 .blackCard{
     background: rgba(255, 255, 255, 1);
     padding: 10px 20px;

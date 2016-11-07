@@ -53,9 +53,10 @@ public class ScheduleGameForm extends Form {
             rencontre.setPlayers(new ArrayList<>());
             rencontre.getPlayers().add(rencontreUser);
             try {
-                // todo à modiffier meteo rencontre
-                rencontre.setMeteo(HelperFunctions.filterMeteo(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(stade.getLatitude()+"",
-                        stade.getLongitude()+"", "16"), stade, rencontre),HelperFunctions.formatDate( rencontre.getDateDebut())));
+                rencontre.setMeteo(HelperFunctions.filterMeteo(HelperFunctions.getWeatherData(stade.getLatitude(), stade.getLongitude(), 16),
+                        HelperFunctions.formatDate( rencontre.getDateDebut())));
+                rencontre.getMeteo().setRencontre(rencontre);
+                rencontre.getMeteo().setStade(rencontre.getStade());
             } catch (Exception e) {
                 List<Meteo> meteos = new ArrayList<>();
                 Meteo m = new Meteo();
@@ -71,6 +72,7 @@ public class ScheduleGameForm extends Form {
             session.close();
             return rencontre;
         }else{
+            session.close();
             return null;
         }
     }

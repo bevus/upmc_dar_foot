@@ -32,6 +32,7 @@
 <script src="Ressources/js/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 <script>
     $(function(){
+        var listMatchElement = $(".listMatch");
         $(function () {
             $('#date').datetimepicker({
                 locale: 'fr',
@@ -41,12 +42,6 @@
                 $(this).trigger("keyup");
             });
         });
-        var listMatchElement = $(".listMatch");
-        $(".searchControl").keyup(function (e) {
-            e.preventDefault();
-            loadRencontres(listMatchElement, getSearchControlParams())
-        });
-        loadRencontres(listMatchElement, {});
         $('.searchPanel').affix({
             offset: {
                 top: $("nav").offset().top,
@@ -54,30 +49,25 @@
                     return (this.bottom = $('.footer').outerHeight(true));
                 }
             }
-        })
+        });
+        listRencontre("/list", getSearchControlParams(), listMatchElement, `<h3 class="text-center">Aucun résultat disponible</h3>`, 0);
+        $(".searchControl").keyup(function (e) {
+            e.preventDefault();
+            listRencontre("/list", getSearchControlParams(), listMatchElement, `<h3 class="text-center">Aucun résultat disponible</h3>`, 0);
+        });
     });
 
     function getSearchControlParams() {
+        var date = "";
+        var $date = $('#date');
+        if($date.data("DateTimePicker") != undefined && $date.data("DateTimePicker").date() != null){
+            date = $date.data("DateTimePicker").date().valueOf();
+        }
+
         return {
             'keyWord': $('#keyWord').val(),
-            'date': ($('#date').data("DateTimePicker").date() != null)? $('#date').data("DateTimePicker").date().valueOf() : "",
+            'date': date,
             'nbPlayers': $("#nbPlayers").val()
         }
-    }
-    function loadRencontres(element, params) {
-        element.html(`<h3 class="text-center">Aucun résultat disponible</h3>`);
-        $.get(
-                '/list',
-                params,
-                function (rencontres) {
-                    var html = "";
-                    $.each(rencontres, function(i, rencontre){
-                        html += addRencontre(rencontre);
-                    });
-                    if(html != ""){
-                        element.html(html);
-                    }
-                }
-        );
     }
 </script>

@@ -3,65 +3,66 @@
     <div class="blackCard">
         <div class="row">
             <form class="form-horizontal" id="schedulGameForm" action="/organise" method="post">
-                <fieldset>
-                    <legend>
-                        Sélectionez un stade où aura lieux la rencontre
-                    </legend>
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1 thumbnail">
-                            <div id="map" style="height: 600px; width: 100%;">
-                            </div>
+                <div class="col-md-12">
+                    <h3>Sélectionez le stade où aura lieux la rencontre</h3>
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1 thumbnail">
+                        <div id="map" style="height: 600px; width: 100%;">
                         </div>
                     </div>
-                    <br/>
-                    <div class="row">
-                        <div class="col-md-offset-1 col-md-10 text-center">
-                            <p id="stadeInfo" class="alert alert-danger">Aucun stade choisi, utilisez la carte ci-dessu pour séléctioner un stade</p>
-                            <div id="days" class="row">
-                            </div>
-                            <hr>
-                            <div id="comments" class="text-left">
-                            </div>
-                            <div class="col-md-12">
-                                <a href="" data-id="null" id="showComments" class="hidden">Afficher les commentaires pour ce stade</a>
-                            </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-10 text-center">
+                        <p id="stadeInfo" class="alert alert-danger">Aucun stade choisi, utilisez la carte ci-dessu pour séléctioner un stade</p>
+                        <div id="days" class="row">
+                        </div>
+                        <hr>
+                        <div id="comments" class="text-left">
+                        </div>
+                        <div class="col-md-12">
+                            <a href="" data-id="null" id="showComments" class="hidden">Afficher les commentaires pour ce stade</a>
                         </div>
                     </div>
-                    <input type="hidden" id="stadeId" name="stadeId">
-                </fieldset>
-                <fieldset>
-                    <legend id="matchDetails">Détail du match</legend>
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="nbJoueurs">Nombre de joueurs par équipe</label>
-                        <div class="col-md-4">
-                            <input id="nbJoueurs" name="nbJoueurs" type="text" placeholder="exemple 5, 11" class="form-control input-md" required="">
-                            <span class="help-block alert-danger"></span>
-                        </div>
-                    </div>
+                </div>
+                <input type="hidden" id="stadeId" name="stadeId">
+                <div class="col-md-12">
+                    <h3 id="matchDetails">Détail du match</h3>
+                    <hr>
+                </div>
 
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="gameDate">Date et heure du match</label>
-                        <div class="col-md-4">
-                            <input id="gameDate" name="gameDate" type='text' class="form-control" />
-                            <span class="help-block alert-danger"></span>
-                        </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="nbJoueurs">Nombre de joueurs par équipe</label>
+                    <div class="col-md-4">
+                        <input id="nbJoueurs" name="nbJoueurs" type="text" placeholder="exemple 5, 11" class="form-control input-md" required="">
+                        <span class="help-block alert-danger"></span>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="description">Information sur le match</label>
-                        <div class="col-md-4">
-                            <textarea id="description" name="description" placeholder="decrivez cette rencontre en quelques mots" class="form-control input-md" required="" ></textarea>
-                            <span class="help-block alert-danger"></span>
-                        </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="gameDate">Date et heure du match</label>
+                    <div class="col-md-4">
+                        <input id="gameDate" name="gameDate" type='text' class="form-control" />
+                        <span class="help-block alert-danger"></span>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label class="col-md-4 control-label" for="submit"></label>
-                        <div class="col-md-4">
-                            <button id="submit" name="submit" class="btn btn-primary">Organiser</button>
-                        </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="description">Information sur le match</label>
+                    <div class="col-md-4">
+                        <textarea id="description" name="description" placeholder="decrivez cette rencontre en quelques mots" class="form-control input-md" required="" ></textarea>
+                        <span class="help-block alert-danger"></span>
                     </div>
-                </fieldset>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="submit"></label>
+                    <div class="col-md-4">
+                        <button id="submit" name="submit" class="btn btn-primary">Organiser</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

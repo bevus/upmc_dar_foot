@@ -7,9 +7,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by khelifa on 08/10/2016.
- */
 @Entity
 public class Rencontre {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +24,16 @@ public class Rencontre {
     private List<RencontreUser> players;
     @OneToOne(cascade = CascadeType.ALL)
     private Meteo meteo;
+    private boolean cancled = false;
+
+    public boolean isCancled() {
+        return cancled;
+    }
+
+    public Rencontre setCancled(boolean cancled) {
+        this.cancled = cancled;
+        return this;
+    }
 
     public Meteo getMeteo() {
         return meteo;

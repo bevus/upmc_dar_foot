@@ -53,10 +53,6 @@
         <servlet-class>servlets.StadeCommentSubmit</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UserConnected</servlet-name>
-        <servlet-class>servlets.UserConnected</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Stades</servlet-name>
         <servlet-class>servlets.Stades</servlet-class>
     </servlet>
@@ -87,12 +83,16 @@
         <servlet-class>servlets.StadeComments</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AvailableLocalWeather</servlet-name>
-        <servlet-class>servlets.AvailableLocalWeather</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>CancelParticipation</servlet-name>
         <servlet-class>servlets.CancelParticipation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MesRencontre</servlet-name>
+        <servlet-class>servlets.MesRencontre</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CancelGame</servlet-name>
+        <servlet-class>servlets.CancelGame</servlet-class>
     </servlet>
 
 
@@ -100,11 +100,6 @@
         <servlet-name>Stades</servlet-name>
         <url-pattern>/stades</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UserConnected</servlet-name>
-        <url-pattern>/userConnected</url-pattern>
-    </servlet-mapping>
-
     <servlet-mapping>
         <servlet-name>OrganiserMatch</servlet-name>
         <url-pattern>/organise</url-pattern>
@@ -164,12 +159,16 @@
         <url-pattern>/getComments</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AvailableLocalWeather</servlet-name>
-        <url-pattern>/localWeather</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>CancelParticipation</servlet-name>
         <url-pattern>/cancelParticipation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MesRencontre</servlet-name>
+        <url-pattern>/myMatches</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CancelGame</servlet-name>
+        <url-pattern>/cancelGame</url-pattern>
     </servlet-mapping>
 
     <listener>

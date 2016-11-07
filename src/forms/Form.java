@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Hacene on 11/02/2016.
@@ -89,6 +90,7 @@ public abstract class Form {
     }
     public static User checkLogin(String email, String password, Session session){
         if(email == null || password == null){
+            session.close();
             return null;
         }else{
             User  user = (User)session.createQuery("from User where email = :email and  password = :password").
@@ -125,7 +127,6 @@ public abstract class Form {
             return rencontre;
         }
     }
-
     public static void checkIdStade(String id, Session session) throws Exception{
         if(id == null){
             throw new Exception("stade inconnu");
@@ -152,8 +153,12 @@ public abstract class Form {
             throw new Exception("rencontre invalide");
         }else if(user == null){
             throw new Exception("connectez vous pour pouvoir participer à une rencontre");
-        }else if (rencontre.getOrganizer().getId() == user.getId()){
+        }else if (rencontre.getOrganizer().getId() == user.getId()) {
             throw new Exception("Vous êtes déja enregistré comme participant à cette rencontre");
+        }else if(rencontre.isCancled()){
+            throw new Exception("cette rencontre à été annulée par son organisateur, vous ne pouvez plus y participer");
+        }else if(rencontre.getDateDebut().getTime() - Form.NEXT_GAME_MIN_TIME < System.currentTimeMillis()){
+                throw new Exception("cette rencotre s'est déja déroulée");
         }else{
             int teamACount = 0;
             int teamBCount = 0;

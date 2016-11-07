@@ -16,7 +16,7 @@ public class RencontreUser {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User player;
     private Date dateCreation;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JsonIgnore
     private Rencontre rencontre;
 

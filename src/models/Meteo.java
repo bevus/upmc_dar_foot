@@ -9,14 +9,20 @@ import java.util.Date;
  * Created by Hacene on 24/10/2016.
  */
 @Entity
-public class Meteo implements Comparable<Meteo> {
+public class Meteo implements Comparable<Meteo>, Cloneable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String dayName;
     private Date dayDate;
     private int dayT;
+    private int min;
+    private int max;
+    private int eve;
+    private int morn;
     private int nightT;
     private int humidity;
+    private int pressure;
+    private double speed;
     private int code;
     private String description;
     private String icon;
@@ -126,6 +132,60 @@ public class Meteo implements Comparable<Meteo> {
         return this;
     }
 
+    public int getMin() {
+        return min;
+    }
+
+    public Meteo setMin(int min) {
+        this.min = min;
+        return this;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public Meteo setMax(int max) {
+        this.max = max;
+        return this;
+    }
+
+    public int getEve() {
+        return eve;
+    }
+
+    public Meteo setEve(int eve) {
+        this.eve = eve;
+        return this;
+    }
+
+    public int getMorn() {
+        return morn;
+    }
+
+    public Meteo setMorn(int morn) {
+        this.morn = morn;
+        return this;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public Meteo setSpeed(double speed) {
+        this.speed = speed;
+        return this;
+    }
+
+    public int getPressure() {
+        return pressure;
+    }
+
+    public Meteo setPressure(int pressure) {
+        this.pressure = pressure;
+        return this;
+    }
+
     @Override
     public int compareTo(Meteo o) {
         return  this.getDayDate().compareTo(o.getDayDate());
@@ -148,19 +208,7 @@ public class Meteo implements Comparable<Meteo> {
     }
 
 
-    public Meteo clone()  {
-        Meteo m = new Meteo();
-        m.setCode(getCode());
-        m.setIcon(getIcon());
-        m.setStade(getStade());
-        m.setHumidity(getHumidity());
-        m.setDayT(getDayT());
-        m.setId(getId());
-        m.setRencontre(getRencontre());
-        m.setNightT(getNightT());
-        m.setDescription(getDescription());
-        m.setDayName(getDayName());
-        m.setDayDate(getDayDate());
-        return m;
+    public Meteo clone() throws CloneNotSupportedException {
+        return (Meteo) super.clone();
     }
 }

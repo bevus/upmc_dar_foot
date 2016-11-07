@@ -7,8 +7,11 @@ body{
     /*background: url("../images/bgs/3.jpg") center no-repeat fixed;*/
     background-size: 100%;
     height: 100%;
-    margin: 0;
+    margin-top: 60px;
     padding: 0;
+}
+p{
+    word-wrap: break-word;
 }
 .blackCard{
     background: rgba(255, 255, 255, 1);
@@ -32,13 +35,13 @@ body{
 }
 .searchPanel{
     box-shadow: 0 0 9px -4px;
-    height: 600px;
+    height: 400px;
     width: 270px;
     background: rgba(255, 255, 255, 0.9);
 }
 .affix{
     position: fixed;
-    top : 1px;
+    top : 60px;
 }
 .dayWeather {
     display: inline-block;

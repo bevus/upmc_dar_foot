@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,7 +28,6 @@ public class MesRencontre extends HttpServlet {
 
     private static final int GET_USER_UPCOMMING_MATCHS = 0;
     private static final int GET_ORGANIZED_MATCHS = 1;
-    private static final int GET_PREVIOUS_MATCHES = 2;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -47,16 +47,14 @@ public class MesRencontre extends HttpServlet {
             List<Rencontre> rencontres;
             switch (op){
                 case GET_USER_UPCOMMING_MATCHS:
-                    rencontres = session.createQuery("select r from RencontreUser as ru inner join ru.rencontre as r where ru.player.id = :id and r.dateDebut >= current_date order by r.dateDebut")
-                            .setParameter("id", user.getId()).list();
+                    rencontres = session.createQuery("select r from RencontreUser as ru inner join ru.rencontre as r where ru.player.id = :id and r.dateDebut >= :currentDate and r.cancled = false order by r.dateDebut")
+                            .setParameter("id", user.getId())
+                            .setParameter("currentDate", new Date()).list();
                     break;
                 case GET_ORGANIZED_MATCHS:
-                    rencontres = session.createQuery("from Rencontre where organizer.id = :id and dateDebut >= current_date")
-                            .setParameter("id", user.getId()).list();
-                    break;
-                case GET_PREVIOUS_MATCHES:
-                    rencontres = session.createQuery("from Rencontre where organizer.id = :id and dateDebut < current_date")
-                            .setParameter("id", user.getId()).list();
+                    rencontres = session.createQuery("from Rencontre where organizer.id = :id and dateDebut >= :currentDate and cancled = false ")
+                            .setParameter("id", user.getId())
+                            .setParameter("currentDate", new Date()).list();
                     break;
                 default:
                     throw new Exception("operation invalide");

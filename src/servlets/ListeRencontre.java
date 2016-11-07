@@ -50,7 +50,7 @@ public class ListeRencontre extends HttpServlet {
                         "or upper(stade.commune) like :keyWord or upper(organizer.firstName) like :keyWord " +
                         "or upper(organizer.lastName) like :keyWord ) and ") +
                 ((date == null) ? "" : " DATE_FORMAT(dateDebut, '%d/%m/%Y') = DATE_FORMAT(:searchDate, '%d/%m/%Y') and ") +
-                ((nbPlayers == null) ? "" : " nbJoueurs = :nbJouers and ") + " dateDebut >= :currentDate order by dateDebut asc ";
+                ((nbPlayers == null) ? "" : " nbJoueurs = :nbJouers and ") + " dateDebut >= :currentDate and cancled = false order by dateDebut asc ";
 
         SessionFactory factory = (SessionFactory)getServletContext().getAttribute(Init.ATT_SESSION_FACTORY);
         Session session = factory.openSession();

@@ -44,6 +44,7 @@ public class JoinGameForm extends Form {
             session.close();
             return rencontreUser;
         }else{
+            session.close();
             return null;
         }
     }

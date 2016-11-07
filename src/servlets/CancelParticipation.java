@@ -34,6 +34,10 @@ public class CancelParticipation extends HttpServlet {
                 int rencontreId = Integer.parseInt(Form.getField("rencontreId", request));
                 Rencontre rencontre = session.get(Rencontre.class, rencontreId);
                 if(rencontre != null){
+                    if(rencontre.isCancled())
+                        throw new Exception("cette rencontre à étée annulé par son organisateur");
+                    if(rencontre.getDateDebut().getTime() - Form.NEXT_GAME_MIN_TIME < System.currentTimeMillis())
+                        throw new Exception("cette rencotre s'est déja déroulée");
                     if(rencontre.getOrganizer().getId() != user.getId()){
                         RencontreUser rencontreUser = (RencontreUser)session.createQuery("from RencontreUser where rencontre.id = :renconteId and player.id = :playerId")
                                 .setParameter("renconteId", rencontreId)

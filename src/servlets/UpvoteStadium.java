@@ -40,7 +40,6 @@ public class UpvoteStadium extends HttpServlet {
                             session.beginTransaction();
                             session.update(stade);
                             session.getTransaction().commit();
-                            session.close();
                             jsonResponse.put("ok", true);
                             response.getWriter().print(jsonResponse.toString());
                             return;
@@ -49,6 +48,7 @@ public class UpvoteStadium extends HttpServlet {
                     }
                 }catch (NumberFormatException ignored){
                 }
+                session.close();
             }
         }
         jsonResponse.put("error", true);

@@ -118,6 +118,7 @@ public class UpdateUserForm extends Form {
             session.close();
             return user;
         }
+        session.close();
         return null;
     }
 }

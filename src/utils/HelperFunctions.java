@@ -11,15 +11,18 @@ import models.Meteo;
 import models.Rencontre;
 import models.Stade;
 import models.User;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.SessionFactory;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
@@ -32,7 +35,7 @@ import java.util.*;
  * Created by Hacene on 08/10/2016.
  */
 public class HelperFunctions {
-    public static final String[] daysOfWeek = {"DIM", "LUN","MAR", "MER", "JEU", "VEN", "SAM"};
+    public static final String[] daysOfWeek = {"Dimanche", "Lundi","Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"};
 
     public static String getSHA1(String s)  {
         if(s == null)
@@ -65,60 +68,44 @@ public class HelperFunctions {
         return d;
     }
 
-    public static ObjectNode getWeatherData(String lat, String lon, String nbDays) throws Exception{
+    public static List<Meteo> getWeatherData(double lat, double lon, int nbDays) throws Exception{
         final String API_KEY = "d651f5d56cfe0880876e540f4a805bdc";
         String url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" +
                 lat + "&lon=" + lon + "&cnt=" + nbDays + "&mode=json&units=metric&lang=fr&appid="+API_KEY;
         ObjectMapper mapper = new ObjectMapper();
         JsonNode root = getNode(url, mapper);
         JsonNode days = root.get("list");
-        ObjectNode response = mapper.createObjectNode();
-        ObjectNode city = response.putObject("city");
-        city.put("name", root.get("city").get("name").asText());
-        ArrayNode daysResponse = response.putArray("days");
+        List<Meteo> response = new ArrayList<>();
 
         Calendar cal = Calendar.getInstance();
         Date date = formatDate(new Date());
         cal.setTime(date);
         for (JsonNode node : days){
-            ObjectNode day = daysResponse.addObject();
-            day.put("name", daysOfWeek[cal.get(Calendar.DAY_OF_WEEK) - 1]);
-            day.put("date", cal.getTime().getTime());
-            day.put("dayT", (int)Double.parseDouble(node.get("temp").get("day").asText()));
-            day.put("nightT", (int)Double.parseDouble(node.get("temp").get("night").asText()));
-            day.put("icon", "http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
-            day.put("humidity", node.get("humidity").asText());
-            day.put("description", node.get("weather").get(0).get("description").asText());
-            day.put("code", Integer.parseInt(node.get("weather").get(0).get("id").asText())/100);
+            Meteo day = new Meteo();
+            day.setDayName(daysOfWeek[cal.get(Calendar.DAY_OF_WEEK) - 1]);
+            day.setDayDate(cal.getTime());
+            day.setDayT((int)node.get("temp").get("day").asDouble());
+            day.setMin((int)node.get("temp").get("min").asDouble());
+            day.setMax((int)node.get("temp").get("max").asDouble());
+            day.setNightT((int)node.get("temp").get("night").asDouble());
+            day.setEve((int)node.get("temp").get("eve").asDouble());
+            day.setMorn((int)node.get("temp").get("morn").asDouble());
+            day.setIcon("http://openweathermap.org/img/w/" + node.get("weather").get(0).get("icon").asText() + ".png");
+            day.setHumidity(node.get("humidity").asInt());
+            day.setPressure(node.get("pressure").asInt());
+            day.setSpeed(node.get("speed").asDouble());
+            day.setDescription(node.get("weather").get(0).get("description").asText());
+            day.setCode(node.get("weather").get(0).get("id").asInt()/100);
+            response.add(day);
             cal.add(Calendar.DATE, 1);
         }
         return response;
     }
 
-    public static ArrayList<Meteo> jsonToMeteo(ObjectNode node, Stade stade, Rencontre rencontre){
-        ArrayList<Meteo> meteos = new ArrayList<>();
-        for(JsonNode day : (ArrayNode)node.get("days")){
-            Meteo meteo = new Meteo();
-            meteo.setStade(stade);
-            meteo.setDayName(day.get("name").asText());
-            meteo.setDayT((int)Double.parseDouble(day.get("dayT").asText()));
-            meteo.setNightT((int)Double.parseDouble(day.get("nightT").asText()));
-            meteo.setHumidity(Integer.parseInt(day.get("humidity").asText()));
-            meteo.setDescription(day.get("description").asText());
-            meteo.setIcon(day.get("icon").asText());
-            meteo.setDayDate(new Date(Long.parseLong(day.get("date").asText())));
-            meteo.setCode(day.get("code").asInt());
-            meteo.setRencontre(rencontre);
-            meteos.add(meteo);
-        }
-        return meteos;
-    }
-
     public static Meteo filterMeteo(List<Meteo> meteoList, Date date){
         Collections.sort(meteoList);
-        Calendar calendar = Calendar.getInstance();
         for(Meteo m : meteoList){
-            if(m.getDayDate().compareTo(date) == 0){
+            if(DateUtils.isSameDay(m.getDayDate(), date)){
                 return  m;
             }
         }
@@ -158,7 +145,7 @@ public class HelperFunctions {
     public static JsonNode getNode(String query, ObjectMapper mapper) throws Exception{
         URL url = new URL(query);
         URLConnection connection = url.openConnection();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
         return mapper.readTree(bufferedReader);
     }
     public static String getPageTitle(String url){
@@ -190,6 +177,7 @@ public class HelperFunctions {
                         "    <link rel=\"stylesheet\" href=\"Ressources/css/style.css\">\n").append(
                         "    <script src=\"Ressources/js/bower_components/jquery/dist/jquery.min.js\"></script>\n").append(
                         "    <script src=\"Ressources/js/bower_components/bootstrap/dist/js/bootstrap.min.js\"></script>").append(
+                        "    <script src=\"Ressources/js/script.js\"></script>").append("<title>").append(title).append("</title>\n").append(
                         "    <script src=\"Ressources/js/functions.js\"></script>").append("<title>").append(title).append("</title>\n").append(
                 "\n" ).append(
                 "</head>\n" ).append(
@@ -199,10 +187,10 @@ public class HelperFunctions {
                         "    <div class=\"container\">\n" ).append(
                         "        <a href=\"index.html\" class=\"navbar-brand\">Foot</a>\n" ).append(
                         "        <ul class=\"nav navbar-nav\">\n" ).append(
-                        "            <li><a href=\"\" data-toggle=\"modal\" data-target=\"#loginModal\">organiser un match</a></li>\n" ).append(
+                        "            <li><a href=\"\" data-href=\"/organiserMatch.html\" data-toggle=\"modal\" class=\"loginLink\" data-target=\"#loginModal\">organiser un match</a></li>\n" ).append(
                         "            <li><a href=\"/liste.html\">trouver un match</a></li>\n" ).append(
                         "        </ul>\n" ).append(
-                        "        <a href=\"\" data-toggle=\"modal\" data-target=\"#loginModal\" class=\"btn btn-primary navbar-btn pull-right\">Se Connecter</a>\n" ).append(
+                        "        <a href=\"\" data-toggle=\"modal\" id=\"loginButton\" data-target=\"#loginModal\" class=\"btn loginLink btn-primary navbar-btn pull-right\">Se Connecter</a>\n" ).append(
                         "    </div>\n" ).append(
                         "</nav>");
                 html.append( "<div id=\"loginModal\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\">\n" ).append(
@@ -238,27 +226,7 @@ public class HelperFunctions {
                         "        </div>\n" ).append(
                         "    </div>\n" ).append(
                         "</div>");
-                html.append( "<script> user = undefined;").append(
-                        "       $(function(){" ).append(
-                        "           $('#login_form').submit(function(e){\n" ).append(
-                        "                e.preventDefault();\n" ).append(
-                        "                $('#login_submit').addClass('disabled');\n" ).append(
-                        "                $.post('/login', $(this).serialize(), function (response) {\n" ).append(
-                        "                    if(response.ok){\n" ).append(
-                                                 "var element = $(e.target);\n" ).append(
-                                "                if(element.attr(\"href\")){\n" ).append(
-                                "                    window.location.replace(element.attr(\"href\"));\n" ).append(
-                                "                }else{\n" ).append(
-                                "                    window.location.reload();\n" ).append(
-                                "                }" ).append(
-                        "                    }else{\n" ).append(
-                        "                        $('#login_submit').removeClass('disabled');\n" ).append(
-                        "                        $('#login_error').text(\"email ou mot de passe incorect\");\n" ).append(
-                        "                    }\n" ).append(
-                        "                } , 'json');\n" ).append(
-                        "            });" ).append(
-                        "       });").append(
-                        "</script>");
+                html.append("<script> user = undefined;").append("</script>");
             }else{
                 // connected
                 try {
@@ -282,18 +250,7 @@ public class HelperFunctions {
                             "        </ul>\n" ).append(
                             "    </div>\n" ).append(
                             "</nav>" ).append(
-                            "<script>\n").append("user = ").append(mapper.writeValueAsString(user)).append(";\n"
-                            ).append("$(function () {\n" ).append(
-                            "        $(\"#logout\").click(function (e) {\n" ).append(
-                            "            e.preventDefault();\n" ).append(
-                            "            $.post('/logout', {}, function (data) {\n" ).append(
-                            "                if(data.ok){\n" ).append(
-                            "                    window.location.href = \"/\";\n" ).append(
-                            "                }\n" ).append(
-                            "            }, 'json');\n" ).append(
-                            "        });\n" ).append(
-                            "    });").append(
-                            "</script>");
+                            "<script>").append("user = ").append(mapper.writeValueAsString(user)).append(";</script>");
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                 }
@@ -317,10 +274,10 @@ public class HelperFunctions {
         Files.copy(part.getInputStream(), Paths.get(fileName));
     }
 
-    public static void StartDailyTask(SessionFactory sessionFactory){
+    public static void StartDailyTask(SessionFactory sessionFactory, ServletContext servletContext){
         Timer timer= new Timer();
         DailyTask task = new DailyTask(sessionFactory);
-        task.addObserver(new NotifyUsers());
+        task.addObserver(new NotifyUsers(servletContext));
         timer.schedule(task,1000,10000*6*60*24); // 24 heures
 
     }
@@ -330,7 +287,6 @@ public class HelperFunctions {
         final String user="darfoot@hotmail.com";
         final String password="Khelifa2016";
 
-        String to=mailTo;
         //Get the session object
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");
@@ -344,21 +300,17 @@ public class HelperFunctions {
         Session session = Session.getDefaultInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(user,password);
+                        return new PasswordAuthentication(user, password);
                     }
                 });
 
-        //Compose the message
         try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(user));
-            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(mailTo));
             message.setSubject(subject);
-            message.setText(body);
-
-            //send the message
+            message.setContent(body, "text/html");
             Transport.send(message);
-
             System.out.println("message sent successfully...");
 
         } catch (MessagingException e) {e.printStackTrace();}

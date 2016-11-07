@@ -19,8 +19,7 @@ public class Init implements ServletContextListener {
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
         servletContext.setAttribute(ATT_SESSION_FACTORY, sessionFactory);
 
-        HelperFunctions.StartDailyTask(sessionFactory);
-
+        HelperFunctions.StartDailyTask(sessionFactory, sce.getServletContext());
     }
 
     @Override

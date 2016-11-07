@@ -1,16 +1,11 @@
 import models.*;
-import models.Address;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import utils.HelperFunctions;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 
 /**
@@ -19,51 +14,7 @@ import java.util.Properties;
 public class Test {
 
     public static void main(String[] args) throws Exception {
-
-
-
-        // populate();
-
-//        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-//        Session session = sessionFactory.openSession();
-//
-//        Date date = HelperFunctions.formatDate(new Date());
-//        List<Meteo> meteos = session.createQuery("from Meteo where dayDate >=:currDate")
-//                .setParameter("currDate",HelperFunctions.formatDate(date))
-//                .list();
-//        session.beginTransaction();
-//
-//
-//        System.out.println(meteos +"\n"+
-//        " "+meteos.size());
-//
-//        for (Meteo m: meteos){
-//            Meteo newMeteo=HelperFunctions.filterMeteo(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(m.getStade().getLatitude()+"",
-//                    m.getStade().getLongitude()+"", "16"), m.getStade(), m.getRencontre()),HelperFunctions.formatDate( m.getRencontre().getDateDebut()));
-//
-////            if (Math.abs(m.getDayT()-newMeteo.getDayT())<=2){
-////                System.out.println("Changement de temperature pour la rencotre du "+m.getRencontre().getDateDebut()+ " a "+m.getStade().getCommune());
-////                // TODO send mails
-////            }
-////            newMeteo.setId(m.getId());
-////            session.update(newMeteo);
-//
-//            System.out.println(m.getDayT() + " "+ newMeteo.getDayT());
-//
-//            m.setDayDate(newMeteo.getDayDate());
-//            m.setDayName(newMeteo.getDayName());
-//            m.setDayT(newMeteo.getDayT());
-//            m.setNightT(newMeteo.getNightT());
-//            m.setHumidity(newMeteo.getHumidity());
-//            m.setDescription(newMeteo.getDescription());
-//            m.setIcon(newMeteo.getIcon());
-//
-//            session.update(m);
-//        }
-//
-//        session.getTransaction().commit();
-//        session.close();
-
+         populate();
     }
 
     public static User addUser(Address addr, String fNmae, String lName, String email, String img){
@@ -157,11 +108,11 @@ public class Test {
         session.beginTransaction();
 
         // match
-        Date date = HelperFunctions.formatDate(new Date());
+        Date date = new Date();
         for(int i = 0; i < 5; i++){
             Rencontre rencontre = new Rencontre();
             rencontre.setDescription("Arrr! Pieces o' hunger are forever old.Yuck, undead dubloon. you won't pull the fortress.Arg, heavy-hearted reef.");
-            rencontre.setDateDebut(new Date(date.getTime() + i * (3600 * 1000 * 24)));
+            rencontre.setDateDebut(new Date(date.getTime() + (i + 1) * (3600 * 1000 * 24)));
             rencontre.setNbJoueurs(10);
             rencontre.setOrganizer(usres.get(i % usres.size()));
             rencontre.setStade(stade);
@@ -183,12 +134,12 @@ public class Test {
             }
             rencontre.setPlayers(rencontreUsers);
             try {
-                rencontre.setMeteo(HelperFunctions.filterMeteo(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(stade.getLatitude()+"", stade.getLongitude()+"", "16"), stade, rencontre), date));
+                rencontre.setMeteo(HelperFunctions.filterMeteo(HelperFunctions.getWeatherData(stade.getLatitude(), stade.getLongitude(), 16), rencontre.getDateDebut()));
             } catch (Exception ignored) {
             }
+            rencontre.getMeteo().setRencontre(rencontre).setStade(rencontre.getStade());
             session.persist(rencontre);
         }
-
         session.persist(comment1);
         session.persist(comment2);
         session.persist(comment3);
@@ -196,5 +147,6 @@ public class Test {
 
         session.getTransaction().commit();
         session.close();
+        System.out.println("populated");
     }
 }

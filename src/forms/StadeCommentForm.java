@@ -46,6 +46,7 @@ public class StadeCommentForm extends Form{
             session.close();
             return comment;
         }else{
+            session.close();
             return null;
         }
     }

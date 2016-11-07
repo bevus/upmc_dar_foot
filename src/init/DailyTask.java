@@ -1,15 +1,17 @@
 package init;
 
-import forms.Form;
+import javafx.util.Pair;
 import models.Meteo;
 import models.Rencontre;
-import models.Stade;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import utils.HelperFunctions;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimerTask;
 
 
 /**
@@ -24,62 +26,54 @@ public class DailyTask extends TimerTask implements Observable{
 
     @Override
     public void run() {
-
         try {
-            System.out.println(new Date()+ " Daily Task" );
-
+            System.out.println(new Date() + " Daily Task" );
             Session session = sessionFactory.openSession();
 
-            Date date = HelperFunctions.formatDate(new Date());
             List<Meteo> meteos = session.createQuery("from Meteo where dayDate >=:currDate")
-                    .setParameter("currDate",HelperFunctions.formatDate(date))
+                    .setParameter("currDate", new Date())
                     .list();
-
-
-
-//            System.out.println(meteos +"\n"+
-//                    " "+meteos.size());
-
             session.beginTransaction();
+            List<Pair<Meteo, Meteo>> oldNewMeteos = new ArrayList<>();
 
-            Map<Meteo,Meteo> meteoMeteoMap = new HashMap<>();
+            for (Meteo oldMeteo: meteos){
+                Meteo newMeteo = HelperFunctions.filterMeteo(HelperFunctions.getWeatherData(oldMeteo.getStade().getLatitude(), oldMeteo.getStade().getLongitude(), 16)
+                        , oldMeteo.getRencontre().getDateDebut());
+                oldNewMeteos.add(new Pair<>(oldMeteo.clone(), newMeteo));
+                oldMeteo.setDayDate(newMeteo.getDayDate())
+                        .setDayName(newMeteo.getDayName())
+                        .setDayT(newMeteo.getDayT())
+                        .setMin(newMeteo.getMin())
+                        .setMax(newMeteo.getMax())
+                        .setEve(newMeteo.getEve())
+                        .setMorn(newMeteo.getMorn())
+                        .setNightT(newMeteo.getNightT())
+                        .setHumidity(newMeteo.getHumidity())
+                        .setPressure(newMeteo.getPressure())
+                        .setSpeed(newMeteo.getSpeed())
+                        .setDescription(newMeteo.getDescription())
+                        .setIcon(newMeteo.getIcon())
+                        .setCode(newMeteo.getCode());
 
-            for (Meteo m: meteos){
-                Meteo newMeteo=HelperFunctions.filterMeteo(HelperFunctions.jsonToMeteo(HelperFunctions.getWeatherData(m.getStade().getLatitude()+"",
-                        m.getStade().getLongitude()+"", "16"), m.getStade(), m.getRencontre()),HelperFunctions.formatDate( m.getRencontre().getDateDebut()));
-
-                meteoMeteoMap.put(m.clone(),newMeteo);
-
-                System.out.println(m.getDayT() + " "+ newMeteo.getDayT()+ " newMeteo.code="+newMeteo.getCode() + " meteo.code="+m.getCode());
-
-                m.setDayDate(newMeteo.getDayDate());
-                m.setDayName(newMeteo.getDayName());
-                m.setDayT(newMeteo.getDayT());
-                m.setNightT(newMeteo.getNightT());
-                m.setHumidity(newMeteo.getHumidity());
-                m.setDescription(newMeteo.getDescription());
-                m.setIcon(newMeteo.getIcon());
-                m.setCode(newMeteo.getCode());
-
-                session.update(m);
+                session.update(oldMeteo);
             }
-
             session.getTransaction().commit();
 
+            for(Pair<Meteo, Meteo> pairOldNew : oldNewMeteos){
+                Meteo oldMeteo = pairOldNew.getKey();
+                Meteo newMeteo = pairOldNew.getValue();
+                Rencontre rencontre = oldMeteo.getRencontre();
 
-            for(Meteo m:meteoMeteoMap.keySet()){
-                Meteo newMeteo = meteoMeteoMap.get(m);
-
-                if(HelperFunctions.formatDate(newMeteo.getDayDate()).compareTo(HelperFunctions.formatDate(m.getRencontre().getDateDebut()))==0 &&
-                        HelperFunctions.formatDate(m.getDayDate()).compareTo(HelperFunctions.formatDate(newMeteo.getDayDate()))<0) {
-                    meteoAvailable(m.getRencontre(), m , newMeteo);
+                if(!DateUtils.isSameDay(oldMeteo.getDayDate(), rencontre.getDateDebut()) && DateUtils.isSameDay(newMeteo.getDayDate(), rencontre.getDateDebut())) {
+                    meteoAvailable(rencontre, oldMeteo , newMeteo);
+                    System.out.println("Weather available for Match id " + rencontre.getId());
                 }
-                System.out.println("m.code="+m.getCode()+" newM.code="+newMeteo.getCode());
-                if(m.getCode()!= newMeteo.getCode()){
-                    meteoChanged(m.getRencontre(), m , newMeteo);
+
+                if(oldMeteo.getCode()!= newMeteo.getCode()){
+                    meteoChanged(rencontre, oldMeteo , newMeteo);
+                    System.out.println("Weather changed for Match id " + rencontre.getId() + " Weather id " + oldMeteo.getId() + " old " + oldMeteo.getCode() + " new " + newMeteo.getCode());
                 }
             }
-
             session.close();
         } catch (Exception e) {
             e.printStackTrace();

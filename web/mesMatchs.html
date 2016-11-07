@@ -1,43 +1,19 @@
 <script src="Ressources/js/auth.js"></script>
 <section class="container">
-    <h3 class="page-header">Mes future matchs</h3>
-    <ul class="list-unstyled upcomingMatches">
-        <h4>Vous ne paticipez à aucun match pour le moment, <a href="/liste.html">trouvez un match</a></h4>
-    </ul>
-    <h3 class="page-header">Mes organizés</h3>
-    <ul class="list-unstyled organizedMatches">
-        <h4>Vous avez organizé aucun match pour le moment, <a href="/organiserMatch.html">organizer un match</a></h4>
-    </ul>
+    <div class="row blackCard">
+        <h3 class="blackCardHeader">Mes future matchs</h3>
+        <ul class="col-md-12 list-unstyled upcomingMatches">
+        </ul>
+    </div>
+    <div class="row blackCard">
+        <h3 class="blackCardHeader">Mes organizés</h3>
+        <ul class="col-md-12 list-unstyled organizedMatches">
+        </ul>
+    </div>
 </section>
 <script>
     $(function () {
-        $.get("/myMatches", {opId: 0}, function (data) {
-                    if(!data.error){
-                        if(data.length){
-                            var html = "";
-                            $.each(data, function (i, rencontre) {
-                                html += addRencontre(rencontre);
-                            });
-                            $(".upcomingMatches").html(html);
-                        }
-                    }
-                }, 'json'
-        );
-
-        $.get(
-                "/myMatches", {opId: 1}, function (data) {
-                    if(!data.error){
-                        if(data.length){
-                            var html = "";
-                            $.each(data, function (i, rencontre) {
-                                html += addRencontre(rencontre);
-                            });
-                            $(".organizedMatches").html(html);
-                        }
-                    }
-                }, 'json'
-        );
-
-
+        listRencontre("/myMatches", {opId: 0}, $(".upcomingMatches"), `<h4>Vous ne paticipez à aucun match pour le moment, <a href="/liste.html">trouvez un match</a></h4>`, 0);
+        listRencontre("/myMatches", {opId: 1}, $(".organizedMatches"), `<h4>Vous avez organizé aucun match pour le moment, <a href="/organiserMatch.html">organizer un match</a></h4>`, 0);
     })
 </script>
