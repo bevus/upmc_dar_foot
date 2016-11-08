@@ -6,37 +6,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5682b45b-a673-4f04-83ea-5d50c86c10fa" name="Default" comment="refactoring and minor changes">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/dataSources/47ebc041-79e4-4f3c-94d8-8377555047a4.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/forms/Form.class" afterPath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/forms/Form.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/init/Init.class" afterPath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/init/Init.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/models/Rencontre.class" afterPath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/models/Rencontre.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/servlets/Weather.class" afterPath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/servlets/Weather.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/utils/HelperFunctions.class" afterPath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/utils/HelperFunctions.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/forms/Form.class" afterPath="$PROJECT_DIR$/out/production/foot/forms/Form.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/init/Init.class" afterPath="$PROJECT_DIR$/out/production/foot/init/Init.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/models/Rencontre.class" afterPath="$PROJECT_DIR$/out/production/foot/models/Rencontre.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/servlets/Weather.class" afterPath="$PROJECT_DIR$/out/production/foot/servlets/Weather.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/utils/HelperFunctions.class" afterPath="$PROJECT_DIR$/out/production/foot/utils/HelperFunctions.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/foot_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/foot_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
+    <list default="true" id="5682b45b-a673-4f04-83ea-5d50c86c10fa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/foot.iml" afterPath="$PROJECT_DIR$/foot.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/classes/hibernate.cfg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/WEB-INF/web.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/rencontre.html" afterPath="$PROJECT_DIR$/out/artifacts/foot_war_exploded/rencontre.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/foot/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/out/production/foot/hibernate.cfg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/forms/UpdateUserForm.java" afterPath="$PROJECT_DIR$/src/forms/UpdateUserForm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/hibernate.cfg.xml" afterPath="$PROJECT_DIR$/src/hibernate.cfg.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/servlets/CancelGame.java" afterPath="$PROJECT_DIR$/src/servlets/CancelGame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/servlets/WrapHtml.java" afterPath="$PROJECT_DIR$/src/servlets/WrapHtml.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/Ressources/js/functions.js" afterPath="$PROJECT_DIR$/web/Ressources/js/functions.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/Ressources/js/rencontre.js" afterPath="$PROJECT_DIR$/web/Ressources/js/rencontre.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/Ressources/js/script.js" afterPath="$PROJECT_DIR$/web/Ressources/js/script.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/rencontre.html" afterPath="$PROJECT_DIR$/web/rencontre.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/updateProfile.html" afterPath="$PROJECT_DIR$/web/updateProfile.html" />
     </list>
     <ignored path="foot.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -119,8 +90,8 @@
       <file leaf-file-name="updateProfile.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/updateProfile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="145">
-              <caret line="138" column="38" selection-start-line="138" selection-start-column="38" selection-end-line="138" selection-end-column="38" />
+            <state relative-caret-position="264">
+              <caret line="145" column="26" selection-start-line="145" selection-start-column="26" selection-end-line="145" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -1213,7 +1184,7 @@
       <workItem from="1478188816651" duration="2026000" />
       <workItem from="1478270022755" duration="48328000" />
       <workItem from="1478479499310" duration="2448000" />
-      <workItem from="1478521998677" duration="15856000" />
+      <workItem from="1478521998677" duration="16063000" />
     </task>
     <task id="LOCAL-00001" summary="added git ignore&#10;main &#10;weather api">
       <created>1476304125053</created>
@@ -1306,11 +1277,18 @@
       <option name="project" value="LOCAL" />
       <updated>1478512925897</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fixed image upload">
+      <created>1478606439195</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1478606439195</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="475062000" />
+    <option name="totallyTimeSpent" value="475269000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1399,7 +1377,8 @@
     <MESSAGE value="mes rencontres" />
     <MESSAGE value="added javax.mail to lib" />
     <MESSAGE value="refactoring and minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring and minor changes" />
+    <MESSAGE value="fixed image upload" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed image upload" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2031,8 +2010,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/updateProfile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="138" column="38" selection-start-line="138" selection-start-column="38" selection-end-line="138" selection-end-column="38" />
+        <state relative-caret-position="264">
+          <caret line="145" column="26" selection-start-line="145" selection-start-column="26" selection-end-line="145" selection-end-column="26" />
           <folding />
         </state>
       </provider>
