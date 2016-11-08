@@ -1,5 +1,6 @@
 package servlets;
 
+import init.Consts;
 import models.User;
 import utils.HelperFunctions;
 
@@ -16,8 +17,8 @@ public class WrapHtml extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html; charset=utf-8");
         String fileName = request.getRequestURI();
         if(fileName.equals("/"))
             fileName = "/index.html";

@@ -34,5 +34,6 @@
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
     <orderEntry type="library" exported="" name="JQuery" level="application" />
     <orderEntry type="library" name="org.apache.commons:commons-lang3:3.5" level="project" />
+    <orderEntry type="library" name="javax.mail:mail:1.4" level="project" />
   </component>
 </module>

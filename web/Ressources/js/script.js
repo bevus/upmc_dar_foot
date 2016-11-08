@@ -26,7 +26,11 @@ $(function () {
                 if(href){
                     window.location.replace(href);
                 }else{
-                    window.location.reload();
+                    if(window.location.pathname == "/index.html" || window.location.pathname == "/"){
+                        window.location.replace("/liste.html");
+                    }else{
+                        window.location.reload();
+                    }
                 }
             }
         }

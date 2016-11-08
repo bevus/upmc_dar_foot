@@ -145,7 +145,7 @@ function addRencontre(rencontre) {
                                 <p><b> ${getDate(rencontre.dateTime)}</b></p>
                             </div>
                             <div class="col-md-3" style="text-align: right">
-                                <h3 class="${(rencontre.playersCount <= rencontre.maxPlayersCount) ? "text-success" : "text-danger"}">${rencontre.playersCount}/${rencontre.maxPlayersCount}</h3>
+                                <h3 class="${(rencontre.playersCount < rencontre.maxPlayersCount) ? "text-success" : "text-danger"}">${rencontre.playersCount}/${rencontre.maxPlayersCount}</h3>
                                 <b>à  ${rencontre.city}</b>
                             </div>
                         </div>

@@ -57,8 +57,10 @@ function playersCount(match, element) {
     `);
 }
 function initMap() {
-    if(stade !== null && google !== undefined){
+    if(stade !== null && google){
         $("#stadiumName").text(stade.nom + ' ' + stade.commune + ' ' + stade.codePostal);
+        if(user == null)
+            $("#commentForm").hide();
         // if(user !== undefined){
         //     var voted = false;
         //     $.each(stade.stadeUpvoters, function (i, v) {
@@ -309,13 +311,17 @@ function initEventsMatch() {
     // ajour d'un nouveau commentaire sur un stade
     $("#submitComment").click(function (e) {
         e.preventDefault();
-        if($("#textComment").val()){
-            $.post(
-                '/stadeCommentSubmit',
-                $("#commentForm").serialize(),
-                handleSubmitComment,
-                "json"
-            );
+        if(user != null){
+            if($("#textComment").val()){
+                $.post(
+                    '/stadeCommentSubmit',
+                    $("#commentForm").serialize(),
+                    handleSubmitComment,
+                    "json"
+                );
+            }
+        }else{
+            $('#loginModal').modal("show");
         }
     });
     //afficher commentaires

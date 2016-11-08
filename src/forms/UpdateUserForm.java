@@ -8,6 +8,9 @@ import org.hibernate.SessionFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
+import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -19,7 +22,7 @@ public class UpdateUserForm extends Form {
         super(factory);
     }
 
-    public User validate(HttpServletRequest request, User user, ServletContext context){
+    public User validate(HttpServletRequest request, User user, ServletContext context) {
         Session session = factory.openSession();
         String imgFileName = null;
         Part part = null;
@@ -96,17 +99,14 @@ public class UpdateUserForm extends Form {
 
             if(imgFileName != null){
                 imgFileName = user.getId() + "_" + imgFileName;
-                if(!user.getImg().equals(DEFAULT_USER_PIC)){
-                    try {
-                        part.write(IMG_PATH + imgFileName);
-                        //C:\Users\Hacene\.IntelliJIdea2016.2\system\tomcat\Unnamed_foot_5\work\Catalina\localhost\ROOT\
-                        Files.copy(part.getInputStream(), Paths.get(context.getRealPath(IMG_PATH + imgFileName)));
-                        System.out.print(context.getRealPath(IMG_PATH + imgFileName));
-                        user.setImg(imgFileName);
-                        Files.delete(Paths.get(context.getRealPath(IMG_PATH + user.getImg())));
-                    }catch (Exception e){
-                        e.printStackTrace();
+                String oldImg = user.getImg()+"";
+                try {
+                    part.write(context.getRealPath(IMG_PATH + imgFileName));
+                    user.setImg(imgFileName);
+                    if(!oldImg.equals(DEFAULT_USER_PIC)){
+                        Files.delete(Paths.get(context.getRealPath(IMG_PATH + oldImg)));
                     }
+                }catch (Exception ignored){
                 }
             }
             session.beginTransaction();

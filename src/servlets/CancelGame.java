@@ -44,8 +44,16 @@ public class CancelGame extends HttpServlet {
             session.update(rencontre);
             session.getTransaction().commit();
             jsonResponse.put("ok", true);
-            NotifyUsers notifyUsers = new NotifyUsers(getServletContext());
-            notifyUsers.gameCanceled(rencontre);
+            response.getWriter().print(jsonResponse.toString());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    NotifyUsers notifyUsers = new NotifyUsers(getServletContext());
+                    notifyUsers.gameCanceled(rencontre);
+                    session.close();
+                }
+            }).start();
+            return;
         }catch (NumberFormatException e){
            jsonResponse.put("error", "match incconu");
         }catch (Exception e){
