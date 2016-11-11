@@ -12,7 +12,7 @@ import models.Rencontre;
 import models.Stade;
 import models.User;
 import org.apache.commons.lang3.time.DateUtils;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -116,27 +116,32 @@ public class HelperFunctions {
     }
 
     /**
-     *
-     * @param query mot clé à rechercher par exemple début d'un code postal
      * @return  liste des communes de l'ile de france contenant ce mot clé
      * @throws Exception
      */
-    public static ArrayNode getVilles(String query) throws Exception{
-        // retourn un array de {codePostal, nom}
-        String urlString = "https://data.iledefrance.fr/api/records/1.0/search/?dataset=les-communes-dile-de-france-au-01-janvier-20-geofla-ign&q=" +query+"&rows=100&pretty_print=true";
+    public static Stade persistStade(org.hibernate.Session session) throws Exception{
+        String urlString = "http://data.iledefrance.fr/api/records/1.0/search/?dataset=ensemble-des-equipements-sportifs-dile-de-france&q=eqt_typ_id%3D2802&rows=3000&facet=ins_insee";
         ObjectMapper mapper = new ObjectMapper();
-        ObjectNode jsonResponse = mapper.createObjectNode();
+        System.out.println("Getting data from : " + urlString);
         JsonNode records = getNode(urlString, mapper).get("records");
-        ArrayNode elements = jsonResponse.putArray("elements");
-
+        System.out.println("Success");
+        session.beginTransaction();
+        Stade stade = new Stade();
+        int i = 0;
         for (JsonNode node : records){
             JsonNode fieds = node.get("fields");
-            ObjectNode element = mapper.createObjectNode();
-            element.put("codePostal", fieds.get("insee").asText());
-            element.put("nom", fieds.get("nomcom").asText());
-            elements.add(element);
+            stade = new Stade();
+            stade.setCodePostal((int)fieds.get("ins_insee").asDouble());
+            stade.setCommune(fieds.get("ins_com").asText());
+            stade.setLatitude(fieds.get("geo_shape").get("coordinates").get(1).asDouble());
+            stade.setLongitude(fieds.get("geo_shape").get("coordinates").get(0).asDouble());
+            stade.setNom(fieds.get("ins_nom").asText());
+            stade.setNote(0);
+            session.save(stade);
+            System.out.println("Saved successfully : " + (++i));
         }
-        return elements;
+        session.getTransaction().commit();
+        return stade;
     }
 
     /**

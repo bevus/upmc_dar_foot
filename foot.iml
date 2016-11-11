@@ -31,12 +31,10 @@
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="Hibernate 5.2.2-5.2.2" level="project" />
-    <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 9.0.0.M10" level="application_server_libraries" />
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.40-bin" level="project" />
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
-    <orderEntry type="library" exported="" name="JQuery" level="application" />
-    <orderEntry type="library" name="org.apache.commons:commons-lang3:3.5" level="project" />
-    <orderEntry type="library" name="com.sun.mail:javax.mail:1.4.4-rc1" level="project" />
-    <orderEntry type="library" name="com.google.apis:google-api-services-gmail:v1-rev1-1.15.0-rc" level="project" />
+    <orderEntry type="library" exported="" name="commons-lang3-3.5" level="project" />
+    <orderEntry type="library" exported="" name="mail-1.4" level="project" />
+    <orderEntry type="library" name="servlet-api" level="project" />
   </component>
 </module>

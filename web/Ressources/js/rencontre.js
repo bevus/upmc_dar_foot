@@ -2,6 +2,7 @@ var rencontre = null;
 var stade = null;
 var meteo = null;
 var id = urlArgs().id;
+var userComments = [];
 
 var map;
 var connectedPlayer = "connectedPlayer";
@@ -121,7 +122,7 @@ function handleSubmitComment(data) {
             errorString += val + "\n";
         })
     }else{
-        $('#comments').prepend(addComment(data));
+        $('#comments').prepend(addComment(data, 'userComment', user));
         $('#showComments').text("afficher plus de commentaires");
         $('html, body').animate({
             scrollTop: $("#comments").offset().top
@@ -330,10 +331,8 @@ function initEventsMatch() {
         if(stade != null) {
             var commentsCount = $(".comment").length;
             getComments(stade.id, commentsCount, 5, $('#comments'), "comment", user, function () {
+                $('.userComment').hide();
                 $('#showComments').text("afficher plus de commentaires");
-                $('html, body').animate({
-                    scrollTop: $("#showComments").offset().top
-                }, 500);
                 if(commentsCount == $(".comment").length){
                     $('#showComments').hide();
                 }

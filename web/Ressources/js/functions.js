@@ -16,7 +16,7 @@ function updateWeatherElement(data, element, reverse) {
         $.each(data, function(i, day){
             var date = new Date(day.dayDate);
             var dateString = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-            var html = `<div clas   s="dayWeather text-center">
+            var html = `<div class="dayWeather text-center">
                                 <p class="dayName">${day.dayName}</p>
                                 <p class="dayDate">${dateString}</p>
                                 <p class="dayTemp"><b>${day.dayT}°</b> <span class="text-muted">${day.nightT}°</span></p>
@@ -126,7 +126,7 @@ function getComments(stadeId, first, count, element, commentClass, user, callbac
                       element.append(addComment(c, commentClass, user) );
                   });
                   $('html, body').animate({
-                      scrollTop: element.offset().top
+                      scrollTop: $("." + commentClass + ":last-child").offset().top
                   }, 500);
                   callback();
               }

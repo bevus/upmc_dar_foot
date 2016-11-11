@@ -1,4 +1,5 @@
 import models.*;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import utils.HelperFunctions;
@@ -31,7 +32,7 @@ public class Test {
 
     public static void populate(){
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-        org.hibernate.Session session = sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         // addresses
         Address addressHacene = new Address();
         addressHacene.setCity("Villetaneuse");
@@ -59,14 +60,12 @@ public class Test {
         usres.add(addUser(addressHacene, "mineral", "mystery", "star.city@gmail.com", "1466356520.png"));
         usres.add(addUser(addressHacene, "energy", "Galactic", "energy.galactic@gmail.com", "1466356520.png"));
         // players
-
         Stade stade = new Stade();
-        stade.setCodePostal(78057);
-        stade.setCommune("Bennecourt");
-        stade.setLatitude(49.03841000092038);
-        stade.setLongitude(1.57235);
-        stade.setNom("STADE AURÉLIEN BAZIN");
-        stade.setNote(0);
+        try {
+            stade = HelperFunctions.persistStade(session);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //comments
         Comment comment1 = new Comment();
