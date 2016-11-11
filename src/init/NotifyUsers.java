@@ -51,7 +51,8 @@ public class NotifyUsers implements Observer {
             }catch (IOException ignored){
                 ignored.printStackTrace();
             }
-            HelperFunctions.sendMail(mailTo, subject, mailBody);
+            if(player.getPlayer().isReceiveMail())
+                HelperFunctions.sendMail(mailTo, subject, mailBody);
         }
     }
 
@@ -72,7 +73,8 @@ public class NotifyUsers implements Observer {
             }catch (IOException ignored){
                 ignored.printStackTrace();
             }
-            HelperFunctions.sendMail(mailTo, subject, mailBody);
+            if(player.getPlayer().isReceiveMail())
+                HelperFunctions.sendMail(mailTo, subject, mailBody);
         }
     }
     public void gameCanceled(Rencontre rencontre){

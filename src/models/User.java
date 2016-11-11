@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -36,6 +37,8 @@ public class User {
     @ManyToMany(mappedBy = "upvoters")
     @JsonIgnore
     private List<Comment> upvotedComments;
+    @Column(columnDefinition = "boolean default true")
+    private boolean receiveMail = true;
 
     public List<RencontreUser> getRencontreUsers() {
         return rencontreUsers;
@@ -140,5 +143,13 @@ public class User {
 
     public void setUpvotedStads(List<Stade> upvotedStads) {
         this.upvotedStads = upvotedStads;
+    }
+
+    public boolean isReceiveMail() {
+        return receiveMail;
+    }
+
+    public void setReceiveMail(boolean receiveMail) {
+        this.receiveMail = receiveMail;
     }
 }

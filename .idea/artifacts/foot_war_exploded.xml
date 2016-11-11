@@ -12,7 +12,8 @@
           <element id="library" level="project" name="mysql-connector-java-5.1.40-bin" />
           <element id="library" level="project" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" />
           <element id="library" level="project" name="org.apache.commons:commons-lang3:3.5" />
-          <element id="library" level="project" name="javax.mail:mail:1.4" />
+          <element id="library" level="project" name="com.sun.mail:javax.mail:1.4.4-rc1" />
+          <element id="library" level="project" name="com.google.apis:google-api-services-gmail:v1-rev1-1.15.0-rc" />
         </element>
       </element>
       <element id="directory" name="Ressources">

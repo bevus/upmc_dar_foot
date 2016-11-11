@@ -1,5 +1,6 @@
 package init;
 
+
 import javafx.util.Pair;
 import models.Meteo;
 import models.Rencontre;
@@ -37,6 +38,7 @@ public class DailyTask extends TimerTask implements Observable{
             List<Pair<Meteo, Meteo>> oldNewMeteos = new ArrayList<>();
 
             for (Meteo oldMeteo: meteos){
+                //System.out.println(oldMeteo);
                 Meteo newMeteo = HelperFunctions.filterMeteo(HelperFunctions.getWeatherData(oldMeteo.getStade().getLatitude(), oldMeteo.getStade().getLongitude(), 16)
                         , oldMeteo.getRencontre().getDateDebut());
                 oldNewMeteos.add(new Pair<>(oldMeteo.clone(), newMeteo));
@@ -65,13 +67,15 @@ public class DailyTask extends TimerTask implements Observable{
                 Rencontre rencontre = oldMeteo.getRencontre();
 
                 if(!DateUtils.isSameDay(oldMeteo.getDayDate(), rencontre.getDateDebut()) && DateUtils.isSameDay(newMeteo.getDayDate(), rencontre.getDateDebut())) {
-                    meteoAvailable(rencontre, oldMeteo , newMeteo);
                     System.out.println("Weather available for Match id " + rencontre.getId());
+                    System.out.println("sending mails to players");
+                    meteoAvailable(rencontre, oldMeteo , newMeteo);
                 }
 
                 if(oldMeteo.getCode()!= newMeteo.getCode()){
-                    meteoChanged(rencontre, oldMeteo , newMeteo);
                     System.out.println("Weather changed for Match id " + rencontre.getId() + " Weather id " + oldMeteo.getId() + " old " + oldMeteo.getCode() + " new " + newMeteo.getCode());
+                    System.out.println("sending mails to players");
+                    meteoChanged(rencontre, oldMeteo , newMeteo);
                 }
             }
             session.close();
@@ -79,6 +83,10 @@ public class DailyTask extends TimerTask implements Observable{
             e.printStackTrace();
         }
     }
+
+
+
+
 
     @Override
     public void meteoAvailable(Rencontre rencontre , Meteo meteo, Meteo newMeteo) {

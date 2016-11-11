@@ -31,6 +31,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static init.Init.sessionMail;
+import static init.Init.userMail;
+
 /**
  * Created by Hacene on 08/10/2016.
  */
@@ -242,7 +245,7 @@ public class HelperFunctions {
                             "                <img style=\"position: relative;top: 5px;\" src=\"/Ressources/images/" ).append( user.getImg() ).append( "\" width=\"40\" height=\"40\" class=\"dropdown-toggle img-thumbnail img-circle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">\n" ).append(
                             "                <ul class=\"dropdown-menu\">\n" ).append(
                             "                    <li><a href=\"/updateProfile.html\"><span class=\"glyphicon glyphicon-cog\"></span> Mon profil</a></li>\n" ).append(
-                            "                    <li><a href=\"/mesMatchs.html\"><span class=\"glyphicon glyphicon-list\"></span> Men matches</a></li>\n" ).append(
+                            "                    <li><a href=\"/mesMatchs.html\"><span class=\"glyphicon glyphicon-list\"></span> Mes matches</a></li>\n" ).append(
                             "                    <li role=\"separator\" class=\"divider\"></li>\n" ).append(
                             "                    <li><a href=\"\" id=\"logout\"><span class=\"glyphicon glyphicon-log-out\"></span> D&eacute;connexion</a></li>\n" ).append(
                             "                </ul>\n" ).append(
@@ -283,30 +286,10 @@ public class HelperFunctions {
     }
 
     public static void sendMail(String mailTo, String subject, String body){
-        String host="smtp.live.com";
-        final String user="darfoot@hotmail.com";
-        final String password="Khelifa2016";
-
-        //Get the session object
-        Properties props = new Properties();
-        props.setProperty("mail.transport.protocol", "smtp");
-        props.setProperty("mail.host", host);
-        props.put("mail.smtp.host",host);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.port", "587");
-
-
-        Session session = Session.getDefaultInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(user, password);
-                    }
-                });
 
         try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(user));
+            MimeMessage message = new MimeMessage(sessionMail);
+            message.setFrom(new InternetAddress(userMail));
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(mailTo));
             message.setSubject(subject);
             message.setContent(body, "text/html");

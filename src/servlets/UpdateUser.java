@@ -27,11 +27,13 @@ public class UpdateUser extends HttpServlet {
         UpdateUserForm form = new UpdateUserForm(factory);
         User user = (User)request.getSession().getAttribute("user");
         ObjectMapper mapper = new ObjectMapper();
+
         if(user != null){
             user = form.validate(request, user, getServletContext());
             if(user == null){
                 ObjectNode jsonRespons = mapper.createObjectNode();
                 jsonRespons.put("error", true);
+                System.out.println(form.error);
                 for(String key : form.error.keySet()){
                     jsonRespons.put(key, form.error.get(key));
                 }

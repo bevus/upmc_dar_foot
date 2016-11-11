@@ -8,8 +8,10 @@ import org.hibernate.SessionFactory;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.ExecutionException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hacene on 11/02/2016.
@@ -57,7 +59,18 @@ public abstract class Form {
         }
         return password;
     }
-
+    public static boolean checkReceiveMail(String value) throws Exception{
+        if(value == null){
+            return false;
+        }if(value != null && (value.equals("true") || value.equals("on") || value.equals("1")) ){
+            return true;
+        }if(value != null && (value.equals("false") || value.equals("off") || value.equals("0"))){
+            return false;
+        }
+        else{
+            throw new Exception("valeur invalde :"+value);
+        }
+    }
     public static String checkName(String name) throws Exception{
         if(name == null){
             throw new Exception("champs vide");

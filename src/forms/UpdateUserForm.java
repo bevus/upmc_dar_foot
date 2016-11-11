@@ -44,6 +44,11 @@ public class UpdateUserForm extends Form {
             error.put("firstName", e.getMessage());
         }
         try{
+            user.setReceiveMail(checkReceiveMail(getField("receiveMail", request)));
+        }catch (Exception e){
+            error.put("receiveMail", e.getMessage());
+        }
+        try{
             user.setLastName(checkName(getField("lastName", request)));
         }catch (Exception e){
             error.put("lastName", e.getMessage());
@@ -96,7 +101,6 @@ public class UpdateUserForm extends Form {
                 prevAddress = user.getAddress();
                 user.setAddress(addr);
             }
-
             if(imgFileName != null){
                 imgFileName = user.getId() + "_" + imgFileName;
                 String oldImg = user.getImg()+"";

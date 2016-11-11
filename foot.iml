@@ -6,7 +6,9 @@
         <datasource-map>
           <unit-entry name="hibernate.cfg.xml" />
         </datasource-map>
-        <naming-strategy-map />
+        <naming-strategy-map>
+          <unit-entry name="hibernate.cfg.xml" />
+        </naming-strategy-map>
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/hibernate.cfg.xml" />
       </configuration>
     </facet>
@@ -34,6 +36,7 @@
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
     <orderEntry type="library" exported="" name="JQuery" level="application" />
     <orderEntry type="library" name="org.apache.commons:commons-lang3:3.5" level="project" />
-    <orderEntry type="library" name="javax.mail:mail:1.4" level="project" />
+    <orderEntry type="library" name="com.sun.mail:javax.mail:1.4.4-rc1" level="project" />
+    <orderEntry type="library" name="com.google.apis:google-api-services-gmail:v1-rev1-1.15.0-rc" level="project" />
   </component>
 </module>

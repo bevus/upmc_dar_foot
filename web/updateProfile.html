@@ -71,6 +71,14 @@
 
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="receiveMail">Recevoir des notifications par mail</label>
+                    <div class="col-md-4">
+                        <label class="checkbox-inline" for="receiveMail">
+                            <input type="checkbox" name="receiveMail" id="receiveMail" value="">
+                        </label>
+                    </div>
+                </div>
                 <!-- Password input-->
                 <div class="col-md-12 text-center">
                     <a href="" class="" id="changePassword">Changer votre mot de passe</a>
@@ -118,6 +126,11 @@
             $.each(user, function (key, val) {
                 if(key != "img"){
                     $("#"+key).val(val);
+                }
+                if(key == "receiveMail"){
+                    if(val){
+                        $("#"+key).attr("checked", "checked");
+                    }
                 }
                 if(key == 'address'){
                     $.each(user.address, function (k, v) {

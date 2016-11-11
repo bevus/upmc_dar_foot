@@ -94,8 +94,15 @@
         <servlet-name>CancelGame</servlet-name>
         <servlet-class>servlets.CancelGame</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>TestEnvoiMail</servlet-name>
+        <servlet-class>servlets.TestEnvoiMail</servlet-class>
+    </servlet>
 
-
+    <servlet-mapping>
+        <servlet-name>TestEnvoiMail</servlet-name>
+        <url-pattern>/testEnvoiMail</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Stades</servlet-name>
         <url-pattern>/stades</url-pattern>
