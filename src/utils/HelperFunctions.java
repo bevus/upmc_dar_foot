@@ -286,8 +286,7 @@ public class HelperFunctions {
         Timer timer= new Timer();
         DailyTask task = new DailyTask(sessionFactory);
         task.addObserver(new NotifyUsers(servletContext));
-        timer.schedule(task,1000,10000*6*60*24); // 24 heures
-
+        timer.schedule(task, 1000, 1000 * 3600 * 12); // 12 heures
     }
 
     public static void sendMail(String mailTo, String subject, String body){

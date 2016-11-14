@@ -19,11 +19,13 @@ public class User {
     private String firstName;
     private String lastName;
     @Column(unique = true, nullable = false)
+    @JsonIgnore
     protected String email;
     @JsonIgnore
     protected String password;
     private String img;
     private Date creationDate;
+    @JsonIgnore
     private String phoneNumber;
     @OneToOne(cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.EXCEPTION)

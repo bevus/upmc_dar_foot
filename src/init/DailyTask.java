@@ -38,7 +38,6 @@ public class DailyTask extends TimerTask implements Observable{
             List<Pair<Meteo, Meteo>> oldNewMeteos = new ArrayList<>();
 
             for (Meteo oldMeteo: meteos){
-                //System.out.println(oldMeteo);
                 Meteo newMeteo = HelperFunctions.filterMeteo(HelperFunctions.getWeatherData(oldMeteo.getStade().getLatitude(), oldMeteo.getStade().getLongitude(), 16)
                         , oldMeteo.getRencontre().getDateDebut());
                 oldNewMeteos.add(new Pair<>(oldMeteo.clone(), newMeteo));
