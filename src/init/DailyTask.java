@@ -1,7 +1,5 @@
 package init;
 
-
-import javafx.util.Pair;
 import models.Meteo;
 import models.Rencontre;
 import org.apache.commons.lang3.time.DateUtils;
@@ -12,8 +10,6 @@ import utils.HelperFunctions;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimerTask;
-
 
 /**
  * Created by Zahir on 24/10/2016.
