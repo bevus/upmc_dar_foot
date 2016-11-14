@@ -3,7 +3,6 @@ package utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import init.DailyTask;
 import init.NotifyUsers;
@@ -12,14 +11,18 @@ import models.Rencontre;
 import models.Stade;
 import models.User;
 import org.apache.commons.lang3.time.DateUtils;
-import org.hibernate.*;
+import org.hibernate.SessionFactory;
 
-import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Part;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -30,6 +33,9 @@ import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static init.Init.sessionMail;
 import static init.Init.userMail;
@@ -283,10 +289,10 @@ public class HelperFunctions {
     }
 
     public static void StartDailyTask(SessionFactory sessionFactory, ServletContext servletContext){
-        Timer timer= new Timer();
         DailyTask task = new DailyTask(sessionFactory);
         task.addObserver(new NotifyUsers(servletContext));
-        timer.schedule(task, 1000, 1000 * 3600 * 12); // 12 heures
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(task, 0, 1, TimeUnit.DAYS);
     }
 
     public static void sendMail(String mailTo, String subject, String body){

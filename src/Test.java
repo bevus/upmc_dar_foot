@@ -8,14 +8,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * Created by Hacene on 08/10/2016.
  */
 public class Test {
 
-    public static void main(String[] args) throws Exception {
-         populate();
+    public static void main(String[] args) {
+
     }
 
     public static User addUser(Address addr, String fNmae, String lName, String email, String img){

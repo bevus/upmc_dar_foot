@@ -18,7 +18,7 @@ import java.util.TimerTask;
 /**
  * Created by Zahir on 24/10/2016.
  */
-public class DailyTask extends TimerTask implements Observable{
+public class DailyTask implements Observable, Runnable {
     private SessionFactory sessionFactory;
     private List<Observer> observers = new ArrayList<>();
     public DailyTask(SessionFactory sessionFactory) {

@@ -49,16 +49,8 @@ public class TestEnvoiMail extends HttpServlet {
         session.getTransaction().commit();
         session.close();
 
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DailyTask task = new DailyTask(sessionFactory);
-                task.addObserver(new NotifyUsers(getServletContext()));
-                task.run();
-            }
-        }).start();
-
-
+        DailyTask task = new DailyTask(sessionFactory);
+        task.addObserver(new NotifyUsers(getServletContext()));
+        new Thread(task).start();
     }
 }
