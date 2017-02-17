@@ -264,6 +264,7 @@ public class HelperFunctions {
                             "        </ul>\n" ).append(
                             "    </div>\n" ).append(
                             "</nav>" ).append(
+                            "<iframe src='http://vps374017.ovh.net:8080/Advertisement/advertisement.html' ></iframe>").append(
                             "<script>").append("user = ").append(mapper.writeValueAsString(user)).append(";</script>");
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
