@@ -16,6 +16,8 @@
           <element id="library" level="project" name="com.google.apis:google-api-services-gmail:v1-rev1-1.15.0-rc" />
           <element id="library" level="project" name="commons-lang3-3.5" />
           <element id="library" level="project" name="mail-1.4" />
+          <element id="library" level="project" name="org.apache.commons:commons-lang3:3.3.2" />
+          <element id="library" level="project" name="javax.mail:mail:1.4" />
         </element>
       </element>
       <element id="directory" name="Ressources">

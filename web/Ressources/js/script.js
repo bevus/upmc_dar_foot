@@ -25,9 +25,11 @@ $(function () {
             if(redirect){
                 if(href){
                     window.location.replace(href);
+                    $("body").append("<iframe src='http://vps374017.ovh.net:8080/Advertisement/advertisement.html' ></iframe>");
                 }else{
                     if(window.location.pathname == "/index.html" || window.location.pathname == "/"){
                         window.location.replace("/liste.html");
+                        $("body").append("<iframe src='http://vps374017.ovh.net:8080/Advertisement/advertisement.html' ></iframe>");
                     }else{
                         window.location.reload();
                     }
@@ -41,6 +43,8 @@ $(function () {
         $.post('/logout', {}, function (data) {
             if(data.ok){
                 window.location.href = "/";
+                var el = document.getElementsByTagName("iframe")[0];
+                el.parentNode.removeChild(el);
             }
         }, 'json');
     });

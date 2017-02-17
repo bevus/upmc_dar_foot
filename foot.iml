@@ -4,7 +4,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="hibernate.cfg.xml" />
+          <unit-entry name="hibernate.cfg.xml" value="4c6a0f12-826a-4524-ae37-cd698af7c3d9" />
         </datasource-map>
         <naming-strategy-map>
           <unit-entry name="hibernate.cfg.xml" />
@@ -22,6 +22,9 @@
         </webroots>
       </configuration>
     </facet>
+    <facet type="javaeeApplication" name="javaEEApplication">
+      <configuration />
+    </facet>
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
@@ -33,8 +36,9 @@
     <orderEntry type="library" exported="" name="Hibernate 5.2.2-5.2.2" level="project" />
     <orderEntry type="library" exported="" name="mysql-connector-java-5.1.40-bin" level="project" />
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
-    <orderEntry type="library" exported="" name="commons-lang3-3.5" level="project" />
-    <orderEntry type="library" exported="" name="mail-1.4" level="project" />
-    <orderEntry type="library" name="servlet-api" level="project" />
+    <orderEntry type="library" exported="" name="Java EE 6-Java EE 6" level="project" />
+    <orderEntry type="library" exported="" name="org.apache.commons:commons-lang3:3.3.2" level="project" />
+    <orderEntry type="library" exported="" name="javax.mail:mail:1.4" level="project" />
+    <orderEntry type="library" exported="" name="javax.servlet:javax.servlet-api:3.0.1" level="project" />
   </component>
 </module>

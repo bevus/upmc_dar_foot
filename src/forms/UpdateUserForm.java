@@ -8,9 +8,6 @@ import org.hibernate.SessionFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -28,13 +25,14 @@ public class UpdateUserForm extends Form {
         Part part = null;
         try {
             part = request.getPart("img");
-            if(part.getSubmittedFileName().length() > 0){
+            /*if(part.getSubmittedFileName().length() > 0){
                 try{
                     imgFileName = checkFile(part);
                 }catch (Exception e){
                     error.put("img", e.getMessage());
                 }
             }
+            */
         }catch (Exception ignored){
             ignored.printStackTrace();
         }
