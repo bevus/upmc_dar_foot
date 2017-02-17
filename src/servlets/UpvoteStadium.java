@@ -9,6 +9,7 @@ import models.Stade;
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.owasp.encoder.Encoders;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

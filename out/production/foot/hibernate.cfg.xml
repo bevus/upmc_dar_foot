@@ -4,13 +4,18 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
+        <!--<property name="connection.url">jdbc:mysql://eu-cdbr-azure-north-e.cloudapp.net:3306/darfoot</property>-->
         <property name="connection.url">jdbc:mysql://localhost:3306/darfoot</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!--<property name="connection.username">b10f1fc8d9b238</property>-->
+        <!--<property name="connection.password">68d9a13e</property>-->
         <property name="connection.username">root</property>
-        <property name="connection.password"></property>
+        <property name="connection.password">bevu$</property>
         <property name="connection.autoReconnect">true</property>
         <property name="connection.autoReconnectForPools">true</property>
         <property name="connection.is-connection-validation-required">true</property>
+        <!--<property name="c3p0.idle_test_period">14400</property>-->
+        <!--<property name="c3p0.preferredTestQuery">select 1;</property>-->
         <!--<property name="show_sql">true</property>-->
         <property name="hbm2ddl.auto">update</property>
         <mapping class="models.User"/>
@@ -21,5 +26,6 @@
         <mapping class="models.StadeImage"/>
         <mapping class="models.RencontreUser"/>
         <mapping class="models.Meteo"/>
+        <mapping class="models.TrackedObject"/>
     </session-factory>
 </hibernate-configuration>

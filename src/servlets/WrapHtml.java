@@ -19,6 +19,9 @@ public class WrapHtml extends HttpServlet {
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html; charset=utf-8");
+        response.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' localhost:8081");
+        response.setHeader("Content-Security-Policy", "script-src 'self' 'unsafe-inline' maps.googleapis.com");
+
         String fileName = request.getRequestURI();
         if(fileName.equals("/"))
             fileName = "/index.html";

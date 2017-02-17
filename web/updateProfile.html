@@ -153,6 +153,7 @@
                 }).done( function(response){
                     if(response.error){
                         delete response.error;
+			$(".help-block").text("");
                         $.each(response, function (key, value) {
                             $("#"+key).next().text(value);
                         });

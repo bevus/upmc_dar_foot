@@ -5,12 +5,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import init.DailyTask;
+import init.Init;
 import init.NotifyUsers;
-import models.Meteo;
-import models.Rencontre;
-import models.Stade;
-import models.User;
+import models.*;
 import org.apache.commons.lang3.time.DateUtils;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.mail.Message;
@@ -131,7 +130,6 @@ public class HelperFunctions {
         System.out.println("Getting data from : " + urlString);
         JsonNode records = getNode(urlString, mapper).get("records");
         System.out.println("Success");
-        session.beginTransaction();
         Stade stade = new Stade();
         int i = 0;
         for (JsonNode node : records){
@@ -142,8 +140,10 @@ public class HelperFunctions {
             stade.setLatitude(fieds.get("geo_shape").get("coordinates").get(1).asDouble());
             stade.setLongitude(fieds.get("geo_shape").get("coordinates").get(0).asDouble());
             stade.setNom(fieds.get("ins_nom").asText());
+            session.beginTransaction();
             stade.setNote(0);
             session.save(stade);
+            session.getTransaction().commit();
             System.out.println("Saved successfully : " + (++i));
         }
         session.getTransaction().commit();
@@ -293,7 +293,14 @@ public class HelperFunctions {
         DailyTask task = new DailyTask(sessionFactory);
         task.addObserver(new NotifyUsers(servletContext));
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(task, 0, 1, TimeUnit.DAYS);
+        Date date = new Date();
+        date = DateUtils.setHours(date, 0);
+        date = DateUtils.setMinutes(date, 0);
+        date = DateUtils.setSeconds(date, 0);
+        date = DateUtils.setMilliseconds(date, 0);
+        date = DateUtils.addDays(date, 1);
+
+        service.scheduleAtFixedRate(task, date.getTime() - System.currentTimeMillis(), 1000 * 3600 * 12, TimeUnit.MILLISECONDS);
     }
 
     public static void sendMail(String mailTo, String subject, String body){
@@ -320,5 +327,20 @@ public class HelperFunctions {
         jsonR.put("playersCount", r.getPlayers().size());
         jsonR.put("city", r.getStade().getCommune());
         jsonR.put("id", r.getId());
+    }
+    public static void saveTrace(ServletContext servletContext, String token, String url, String queryString){
+        SessionFactory factory =(SessionFactory)servletContext.getAttribute(Init.ATT_SESSION_FACTORY);
+
+        TrackedObject trackedObject = new TrackedObject();
+        trackedObject.setEtag(token);
+        trackedObject.setUrl(url);
+        trackedObject.setQueryString(queryString);
+        trackedObject.setDate(new Date());
+
+        Session session = factory.openSession();
+        session.beginTransaction();
+        session.save(trackedObject);
+        session.getTransaction().commit();
+        session.close();
     }
 }

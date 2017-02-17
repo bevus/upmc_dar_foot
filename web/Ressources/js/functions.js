@@ -125,9 +125,15 @@ function getComments(stadeId, first, count, element, commentClass, user, callbac
                   $.each(data, function (i, c) {
                       element.append(addComment(c, commentClass, user) );
                   });
-                  $('html, body').animate({
-                      scrollTop: $("." + commentClass + ":last-child").offset().top
-                  }, 500);
+		  if($("." + commentClass).length)
+                 	 $('html, body').animate({
+                      		scrollTop: $("." + commentClass + ":last-child").offset().top
+                 	 }, 500);
+		  if(!data.length)
+                      if($("." + commentClass).length)
+                          alert("plus de commentaire à afficher");
+                       else
+                          alert("pas de commentaires pour ce stade");	
                   callback();
               }
           }, 'json'

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.DoubleNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import forms.Form;
 import models.Meteo;
+import org.apache.commons.lang3.StringEscapeUtils;
 import utils.HelperFunctions;
 
 import javax.servlet.ServletException;
@@ -42,6 +43,6 @@ public class Weather extends HttpServlet {
             responseJson.put("error", "aucune latitude ou langitude");
         }
         response.setContentType("text/json; charset=utf-8");
-        response.getWriter().print(responseJson.toString());
+        response.getWriter().print(StringEscapeUtils.escapeHtml4(responseJson.toString()));
     }
 }

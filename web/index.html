@@ -78,6 +78,7 @@
                     window.location.replace("updateProfile.html")
                 }else{
                     $('#submitSignup').removeClass("disabled");
+		    $(".help-block").text("");
                     $.each(response.errors, function(i, v){
                         $('#'+i).next().text(v);
                     });

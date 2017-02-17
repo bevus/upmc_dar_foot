@@ -75,13 +75,9 @@ public class DailyTask implements Observable, Runnable {
             }
             session.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            run();
         }
     }
-
-
-
-
 
     @Override
     public void meteoAvailable(Rencontre rencontre , Meteo meteo, Meteo newMeteo) {

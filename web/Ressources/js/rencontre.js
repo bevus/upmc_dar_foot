@@ -116,11 +116,12 @@ function matchWeather(match, element) {
     }
 }
 function handleSubmitComment(data) {
-    if(data.error){
-        var errorString;
-        $.each(data.error, function (key, val) {
+    if(data.errors){
+        var errorString = "";
+        $.each(data.errors, function (key, val) {
             errorString += val + "\n";
-        })
+        });
+	alert(errorString);
     }else{
         $('#comments').prepend(addComment(data, 'userComment', user));
         $('#showComments').text("afficher plus de commentaires");

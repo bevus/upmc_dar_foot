@@ -42,9 +42,10 @@ public class Init implements ServletContextListener {
                     }
                 });
 
-
+        DailyTask task = new DailyTask(sessionFactory);
+        task.addObserver(new NotifyUsers(servletContext));
+        new Thread(task).start();
         HelperFunctions.StartDailyTask(sessionFactory, sce.getServletContext());
-
     }
 
     @Override
